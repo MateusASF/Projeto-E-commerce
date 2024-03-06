@@ -1,0 +1,138 @@
+<div class="cadastroCliente">
+  <div class="containerTitulo">
+    <hr>
+    <h1 class="tituloPagina">Cadastro de Cliente</h1>
+    <hr>
+  </div>
+  <div class="form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <h2>Dados Pessoais</h2>
+      <div class="blockForm">
+        <div class="form-group">
+          <label for="nome">Nome</label>
+          <input type="text" class="form-control" id="nome" formControlName="nome">
+        </div>
+        <div class="form-group">
+          <label for="nascimento">Nascimento</label>
+          <input type="date" class="form-control" id="nascimento" formControlName="nascimento">
+        </div>
+        <div class="form-group" formGroupName="generoForm">
+          <label for="genero">Genêro</label>
+          <div class="groupRadio">
+            <div class="inputRadio">
+              <input type="radio" formControlName="genero" value="masculino">
+              <label>Masculino</label>
+            </div>
+            <div class="inputRadio">
+              <input type="radio" formControlName="genero" value="feminino">
+              <label>Feminino</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="cpf">CPF</label>
+          <input type="text" class="form-control" id="cpf" formControlName="cpf">
+        </div>
+      </div>
+      <div class="blockForm">
+        <div class="form-group">
+          <label for="telefone">Telefone</label>
+          <input type="tel" class="form-control" id="telefone" formControlName="telefone">
+        </div>
+        <div class="form-group" formGroupName="tipoTelefoneForm">
+          <label for="genero">Tipo Telefone</label>
+          <div class="groupRadio">
+            <div class="inputRadio">
+              <input type="radio" formControlName="tipotelefone" value="fixo">
+              <label>Fixo</label>
+            </div>
+            <div class="inputRadio">
+              <input type="radio" formControlName="tipotelefone" value="celular">
+              <label>Celular</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="senha">Senha</label>
+          <input type="password" class="form-control" id="senha" formControlName="senha">
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" id="email" formControlName="email">
+        </div>
+      </div>
+
+      <h2>Dados De Endereço</h2>
+      <div class="blockForm">
+        <div class="form-group">
+          <label for="logradouro">Logradouro</label>
+          <input type="text" class="form-control" id="logradouro" formControlName="logradouro">
+        </div>
+        <div class="form-group" id="logradouroContainer" formGroupName="logradouroForm">
+          <label for="tipoLogradouro">Tipo Logradouro</label>
+          <div class="groupRadio">
+            <div class="inputRadio">
+              <input type="radio" formControlName="tipoLogradouro" value="avenida">
+              <label>Avenida</label>
+            </div>
+            <div class="inputRadio">
+              <input type="radio" formControlName="tipoLogradouro" value="rua">
+              <label>Rua</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group-td-10" id="numeroContainer">
+          <label for="numero">Número</label>
+          <input type="number" class="form-control" id="numero" formControlName="numero">
+        </div>
+        <div class="form-group-td-10">
+          <label for="bairro">Bairro</label>
+          <input type="text" class="form-control" id="bairro" formControlName="bairro">
+        </div>
+        <div class="form-group-td-10">
+          <label for="cidade">Cidade</label>
+          <input type="text" class="form-control" id="cidade" formControlName="cidade">
+        </div>
+        <div class="form-group-td-10">
+          <label for="estado">Estado</label>
+          <input type="text" class="form-control" id="estado" formControlName="estado">
+        </div>
+      </div>
+      <div class="blockForm">
+        <div class="form-group-td-10">
+          <label for="pais">País</label>
+          <input type="text" class="form-control" id="pais" formControlName="pais">
+        </div>
+        <div class="form-group-td-10">
+          <label for="CEP">CEP</label>
+          <input type="text" class="form-control" id="CEP" formControlName="cep">
+        </div>
+        <div class="form-group" id="residenciaContainer" formGroupName="residenciaForm">
+          <label for="tiporesidencia">Tipo Residência</label>
+          <div class="groupRadio">
+            <div class="inputRadio">
+              <input type="radio" formControlName="tipoResidencia" value="Casa">
+              <label>Casa</label>
+            </div>
+            <div class="inputRadio">
+              <input type="radio" formControlName="tipoResidencia" value="Apartamento">
+              <label>Apartamento</label>
+            </div>
+            <div class="inputRadio">
+              <input type="radio" formControlName="tipoResidencia" value="Condomínio">
+              <label>Condomínio</label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group-td-10">
+          <label for="observacoes">Oberservações</label>
+          <input type="text" class="form-control" id="observacoes" formControlName="observacoes">
+        </div>
+      </div>
+      <div class="containerButtons">
+        <button type="submit">Cadastrar</button>
+        <button [routerLink]="['/cliente/listar']">Listar Clientes</button>
+      </div>
+    </form>
+  </div>
+</div>

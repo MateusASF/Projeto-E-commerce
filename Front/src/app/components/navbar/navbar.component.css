@@ -1,0 +1,31 @@
+.navbar{
+  padding: 10px;
+}
+
+.navbar ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0;
+}
+
+.navbar ul li a {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-family: var(--font-primary);
+  font-size: 25px;
+  padding: 8px;
+}
+
+.navbar ul li .august {
+  font-family: var(--font-secondary);
+  font-size: 50px;
+}
+
+.navbar ul li a:hover, .navbar ul li .august:hover {
+  transition: 1s all;
+  color: var(--auxilary-color);
+}
+

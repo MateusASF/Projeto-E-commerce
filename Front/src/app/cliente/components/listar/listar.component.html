@@ -1,0 +1,34 @@
+<div class="listarCliente">
+  <div class="containerTitulo">
+    <hr>
+    <h1 class="tituloPagina">Lista de Clientes</h1>
+    <hr>
+  </div>
+
+  <div class="containerTabela">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Telefone</th>
+          <th>Email</th>
+          <th>Cpf</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cliente of clientes">
+          <td>{{cliente.nome}}</td>
+          <td>{{cliente.telefone}}</td>
+          <td>{{cliente.email}}</td>
+          <td>{{cliente.cpf}}</td>
+          <td class="acoes">
+            <a [routerLink]="['/cliente/editar', cliente.id]">Editar</a>
+            <a (click)="deletarCliente(cliente.id)">Deletar</a>
+            <a [routerLink]="['/cliente/detalhes', cliente.id]">Detalhes</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

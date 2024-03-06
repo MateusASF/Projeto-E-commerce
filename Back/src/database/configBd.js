@@ -1,0 +1,22 @@
+// db.js
+const oracledb = require("oracledb");
+
+let connection;
+
+module.exports.initialize = async function () {
+    try {
+        connection = await oracledb.getConnection({
+            user: "PROJRODRIGO",
+            password: "bancoRodrigo",
+            connectString: "localhost/XE",
+        });
+
+        console.log("Conexão com o banco de dados estabelecida com sucesso.");
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+module.exports.getConnection = function () {
+    return connection;
+};
