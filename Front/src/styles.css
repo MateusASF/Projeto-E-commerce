@@ -5,5 +5,6 @@
   --auxilary-color: rgb(255, 227, 124);
   --font-primary: 'Hubballi', sans-serif;
   --font-secondary: 'Hurricane', cursive;
+  --font-auxiliary: "PT Serif", serif;
   background-color: #000;
 }
