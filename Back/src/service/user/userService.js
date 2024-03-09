@@ -131,6 +131,17 @@ class UserService {
         }
     }
 
+    async alteraSenhaUser(id, senha) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+            const result = await connection.execute(`UPDATE usuarios SET senha = :senha WHERE id_usuario = :id`,{senha: senha, id: id},{autoCommit: true});
+            return result;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 }
 
 module.exports = UserService;

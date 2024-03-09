@@ -42,6 +42,13 @@ class UserController {
 
         return response.json(result);
     }
+
+    async handleAlteraSenhaUser(request, response) {
+        const fachada = new FachadaService();
+        const result = await fachada.validarTrocaDeSenha(request.body.id, request.body.senha);
+
+        return response.json(result);
+    }
 }
 
 module.exports = { UserController };

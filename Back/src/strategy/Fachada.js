@@ -22,6 +22,13 @@ class Fachada {
         user.senha = await this.criptografaSenha(user.senha);
         return ok ? await userService.criarUser(user) : "Erro ao validar entradas";
     }
+
+    async validarTrocaDeSenha (id, senha) {
+        var ok = false;
+        ok = await this.validaSenhaForte(senha);
+        senha = await this.criptografaSenha(senha);
+        return ok ? await userService.alteraSenhaUser(id, senha) : "Erro ao trocar de senha";
+    }
 }
 
 module.exports = Fachada;
