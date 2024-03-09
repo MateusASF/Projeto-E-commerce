@@ -49,6 +49,12 @@ class UserController {
 
         return response.json(result);
     }
+
+    async handleAlteraCliente(request, response){
+
+
+        return response.json("result");
+    }
 }
 
 module.exports = { UserController };

@@ -9,4 +9,5 @@ router.get('/listar', userController.handleListar);
 router.put('/inativar', userController.handleInativaUser);
 router.put('/ativar', userController.handleAtivaUser);
 router.put('/alterarSenha', userController.handleAlteraSenhaUser);
+router.put('/alterarCliente', userController.handleAlteraCliente);
 module.exports = { router };

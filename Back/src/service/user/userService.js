@@ -47,7 +47,7 @@ class UserService {
                     id_usuario: idUser,
                     numero_telefone: item.numeroTelefone,
                     tipo_telefone: item.tipoTelefone
-                }
+                },{autoCommit: true}
             )
         })
 
@@ -65,7 +65,7 @@ class UserService {
                     cep: item.cep,
                     tipo_residencia: item.tipoResidencia,
                     observacoes: item.observacoes
-                }
+                },{autoCommit: true}
             )
         })
 
@@ -78,34 +78,55 @@ class UserService {
             await db.initialize();
             const connection = db.getConnection();
     
-            const result = await connection.execute('SELECT * FROM usuario');
+            const result = await connection.execute('SELECT * FROM usuarios');
     
-            const usuarios = result.rows.map(row => ({
-                id: row[0],
-                nome: row[1],
-                dataNascimento: row[2],
-                genero: row[3],
-                cpf: row[4],
-                rg: row[5],
-                telefone: row[6],
-                senha: row[7],
-                email: row[8],
-                logradouro: row[9],
-                tipoLogradouro: row[10],
-                numero: row[11],
-                bairro: row[12],
-                cidade: row[13],
-                estado: row[14],
-                pais: row[15],
-                cep: row[16],
-                tipoResidencia: row[17],
-                observacoes: row[18]
+            const usuarios = await Promise.all(result.rows.map(async row => {
+                const id = row[0];
+    
+                const telefonesResult = await connection.execute('SELECT * FROM telefones WHERE id_usuario = :id', { id });
+                const telefones = telefonesResult.rows.map(row => ({
+                    numeroTelefone: row[2],
+                    tipoTelefone: row[3]
+                }));
+    
+                const enderecosResult = await connection.execute('SELECT * FROM enderecos WHERE id_usuario = :id', { id });
+                const enderecos = enderecosResult.rows.map(row => ({
+                    logradouro: row[2],
+                    tipoLogradouro: row[3],
+                    numero: row[4],
+                    bairro: row[5],
+                    cidade: row[6],
+                    estado: row[7],
+                    pais: row[8],
+                    cep: row[9],
+                    tipoResidencia: row[10],
+                    observacoes: row[11]
+                }));
+    
+                const cartoesResult = await connection.execute('SELECT * FROM cartoes WHERE id_usuario = :id', { id });
+                const cartoes = cartoesResult.rows.map(row => ({
+                    numeroCartao: row[2],
+                    nomeCliente: row[3],
+                    bandeira: row[4],
+                    cvv: row[5]
+                }));
+    
+                return {
+                    nome: row[2],
+                    nascimento: row[3],
+                    genero: row[4],
+                    cpf: row[5],
+                    telefones,
+                    senha: row[6],
+                    email: row[7],
+                    enderecos,
+                    cartoes
+                };
             }));
     
             return usuarios;
         } catch (error) {
             console.error(error);
-            //throw error;
         }
     }
 
