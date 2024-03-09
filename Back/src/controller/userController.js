@@ -38,7 +38,7 @@ class UserController {
 
     async handleAtivaUser(request, response) {
         const userService = new UserService();
-        const result = await userService.inativarUsuario(request.body.id);
+        const result = await userService.ativarUsuario(request.body.id);
 
         return response.json(result);
     }

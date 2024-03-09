@@ -112,6 +112,8 @@ class UserService {
                 }));
     
                 return {
+                    id : row[0],
+                    ativo: row[1],
                     nome: row[2],
                     nascimento: row[3],
                     genero: row[4],

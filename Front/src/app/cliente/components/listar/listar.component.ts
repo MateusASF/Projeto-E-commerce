@@ -28,11 +28,11 @@ export class ListarComponent {
     }
   }
 
-  deletarCliente(id: number) {
-    if (confirm('Tem certeza que deseja excluir este cliente?')) {
+  inativarCliente(id: number) {
+    if (confirm('Tem certeza que deseja inativar este usuário?')) {
       try {
-        fetch(`http://localhost:3009/deletar`, {
-          method: 'DELETE',
+        fetch(`http://localhost:3009/inativar`, {
+          method: 'PUT',
           headers: {
             'Content-Type': 'application/json'
           },
@@ -40,7 +40,29 @@ export class ListarComponent {
         })
         .then(response => response.json())
         .then(data => {
-          console.log('Cliente deleted:', data);
+          console.log('Cliente inativado:', data);
+          location.reload();
+        });
+      } catch (error) {
+        console.error('Error:', error);
+        // Handle the error here
+      }
+    }
+  }
+
+    ativarCliente(id: number) {
+    if (confirm('Tem certeza que deseja ativar este usuário?')) {
+      try {
+        fetch(`http://localhost:3009/ativar`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id: id })
+        })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Cliente ativado:', data);
           location.reload();
         });
       } catch (error) {

@@ -10,8 +10,6 @@ module.exports.initialize = async function () {
             password: "bancoRodrigo",
             connectString: "localhost/XE",
         });
-
-        console.log("Conexão com o banco de dados estabelecida com sucesso.");
     } catch (err) {
         console.error(err);
     }
