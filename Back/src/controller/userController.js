@@ -1,5 +1,6 @@
-const User = require('../models/User');
+const User = require('../models/UserModel');
 const UserService = require('../service/user/userService');
+const FachadaService = require('../strategy/fachada');
 
 class UserController {
     async handlePost(request, response) {
@@ -7,26 +8,16 @@ class UserController {
         const user = new User(
             request.body.nome,
             request.body.nascimento,
-            request.body.generoForm.genero,
+            request.body.genero,
             request.body.cpf,
-            request.body.telefone,
-            request.body.tipoTelefoneForm.tipotelefone,
+            request.body.telefones,
             request.body.senha,
             request.body.email,
-            request.body.logradouro,
-            request.body.logradouroForm.tipoLogradouro,
-            request.body.numero,
-            request.body.bairro,
-            request.body.cidade,
-            request.body.estado,
-            request.body.pais,
-            request.body.cep,
-            request.body.residenciaForm.tipoResidencia,
-            request.body.observacoes
+            request.body.enderecos,
+            request.body.cartoes,
         );
-
-        console.log(user);
-        const result = await userService.criarUser(user);
+        const fachada = new FachadaService();
+        const result = await fachada.validarEntradaUsuario(user);
 
         return response.json(result);
     }
@@ -38,10 +29,16 @@ class UserController {
         return response.json(result);
     }
 
-    async handleDelete(request, response) {
+    async handleInativaUser(request, response) {
         const userService = new UserService();
-        console.log(request.body.id);
-        const result = await userService.deletarUsuario(request.body.id);
+        const result = await userService.inativarUsuario(request.body.id);
+
+        return response.json(result);
+    }
+
+    async handleAtivaUser(request, response) {
+        const userService = new UserService();
+        const result = await userService.inativarUsuario(request.body.id);
 
         return response.json(result);
     }

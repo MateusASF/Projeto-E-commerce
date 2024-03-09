@@ -6,5 +6,6 @@ const userController = new UserController();
 
 router.post('/cadastro', userController.handlePost);
 router.get('/listar', userController.handleListar);
-router.delete('/deletar', userController.handleDelete);
+router.put('/inativar', userController.handleInativaUser);
+router.put('/ativar', userController.handleAtivaUser);
 module.exports = { router };

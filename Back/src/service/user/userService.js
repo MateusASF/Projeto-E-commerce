@@ -6,31 +6,71 @@ class UserService {
         await db.initialize();
         const connection = db.getConnection();
 
-        const result = await connection.execute(
-            `INSERT INTO usuario (nome, nascimento, genero, cpf, telefone, tipotelefone, senha, email, logradouro, tipoLogradouro, numero, bairro, cidade, estado, pais, cep, tipoResidencia, observacoes) VALUES (:nome, :nascimento, :genero, :cpf, :telefone, :tipotelefone, :senha, :email, :logradouro, :tipoLogradouro, :numero, :bairro, :cidade, :estado, :pais, :cep, :tipoResidencia, :observacoes)`,
+        console.log(user);
+
+        await connection.execute(
+            `INSERT INTO usuarios (ativo, nome, data_nascimento, genero, cpf, senha, email) VALUES (:ativo, :nome, :data_nascimento, :genero, :cpf, :senha, :email)`,
             {
+                ativo: 1,
                 nome: user.nome,
-                nascimento: user.nascimento,
+                data_nascimento: user.nascimento,
                 genero: user.genero,
                 cpf: user.cpf,
-                telefone: user.telefone,
-                tipotelefone: user.tipotelefone,
                 senha: user.senha,
                 email: user.email,
-                logradouro: user.logradouro,
-                tipoLogradouro: user.tipoLogradouro,
-                numero: user.numero,
-                bairro: user.bairro,
-                cidade: user.cidade,
-                estado: user.estado,
-                pais: user.pais,
-                cep: user.cep,
-                tipoResidencia: user.tipoResidencia,
-                observacoes: user.observacoes,
             },{autoCommit: true}
         );
+
+        const result = await connection.execute(
+            `SELECT id_usuario FROM usuarios WHERE cpf = :cpf`, {
+                cpf: user.cpf
+            }
+        );
+
+        const idUser = result.rows[0][0];
+
+        user.cartoes.forEach(item => {
+            connection.execute(
+                `INSERT INTO cartoes (id_usuario, numero_cartao, nome_cliente, bandeira, cvv) VALUES (:id_usuario, :numero_cartao, :nome_cliente, :bandeira, :cvv)`, {
+                    id_usuario: idUser,
+                    numero_cartao: item.numeroCartao,
+                    nome_cliente: item.nomeCliente,
+                    bandeira: item.bandeira,
+                    cvv: item.cvv
+                },{autoCommit: true}
+            );
+        });
+
+        user.telefones.forEach(item => {
+            connection.execute(
+                `INSERT INTO telefones (id_usuario, numero_telefone, tipo_telefone) values (:id_usuario, :numero_telefone, :tipo_telefone)`, {
+                    id_usuario: idUser,
+                    numero_telefone: item.numeroTelefone,
+                    tipo_telefone: item.tipoTelefone
+                }
+            )
+        })
+
+        user.enderecos.forEach(item => {
+            connection.execute(
+                `INSERT INTO enderecos (id_usuario, logradouro, tipo_logradouro, numero, bairro, cidade, estado, pais, cep, tipo_residencia, observacoes) VALUES (:id_usuario, :logradouro, :tipo_logradouro, :numero, :bairro, :cidade, :estado, :pais, :cep, :tipo_residencia, :observacoes)`,{
+                    id_usuario: idUser,
+                    logradouro: item.logradouro,
+                    tipo_logradouro: item.tipoLogradouro,
+                    numero: item.numero,
+                    bairro: item.bairro,
+                    cidade: item.cidade,
+                    estado: item.estado,
+                    pais: item.pais,
+                    cep: item.cep,
+                    tipo_residencia: item.tipoResidencia,
+                    observacoes: item.observacoes
+                }
+            )
+        })
+
         //await connection.close();
-        return result;
+        return "cadastrou";
     }
 
     async buscarUsuarios() {
@@ -69,13 +109,22 @@ class UserService {
         }
     }
 
-    async deletarUsuario(id) {
+    async inativarUsuario(id) {
         try {
             await db.initialize();
             const connection = db.getConnection();
-            console.log("id: " + id);
-            const result = await connection.execute(`DELETE FROM USUARIO WHERE USUARIO.id = :id`,{id: id},{autoCommit: true});
-            console.log(result);
+            const result = await connection.execute(`UPDATE usuarios SET ativo = 0 WHERE id_usuario = :id`,{id: id},{autoCommit: true});
+            return result;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async ativarUsuario(id) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+            const result = await connection.execute(`UPDATE usuarios SET ativo = 1 WHERE id_usuario = :id`,{id: id},{autoCommit: true});
             return result;
         } catch (error) {
             console.error(error);
