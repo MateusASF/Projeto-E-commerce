@@ -8,6 +8,9 @@ import { Component } from '@angular/core';
 export class ListarComponent {
 
   clientes: any[] = [];
+  cpf: string = '';
+  nome: string = '';
+  email: string = '';
 
   ngOnInit() {
     try {
@@ -70,5 +73,24 @@ export class ListarComponent {
         // Handle the error here
       }
     }
+  }
+
+  filtrarClientes() {
+    let filtro: any = {};
+
+    if (this.cpf.trim() !== '') {
+      filtro.cpf = this.cpf.trim();
+    }
+
+    if (this.nome.trim() !== '') {
+      filtro.nome = this.nome.trim();
+    }
+
+    if (this.email.trim() !== '') {
+      filtro.email = this.email.trim();
+    }
+
+    // Aqui você pode usar o filtro para fazer a busca
+    console.log('Filtro:', filtro);
   }
 }
