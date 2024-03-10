@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalSenhaComponent } from '../modais/modal-senha/modal-senha.component';
 
 
 @Component({
@@ -9,6 +11,7 @@ import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 })
 export class CadastroComponent {
   form!: FormGroup;
+  constructor(private dialog: MatDialog) {}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -27,11 +30,12 @@ export class CadastroComponent {
       enderecos: new FormArray([]),
       cartoes: new FormArray([])
     });
-
   }
 
   onSubmit() {
     if (this.form.valid) {
+
+      this.abrirModalSenha();
       const formData = this.form.value;
       formData.nascimento = this.formatDate(formData.nascimento);
       const json = JSON.stringify(formData);
@@ -56,6 +60,25 @@ export class CadastroComponent {
     } else {
       console.log('Formulário inválido');
     }
+  }
+
+    abrirModalSenha() {
+      const dialogRef = this.dialog.open(ModalSenhaComponent, {
+        width: '400px',
+        // Add any additional configuration options for the modal here
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        // Handle the result of the modal here if needed
+      });
+  }
+
+  fecharModalSenha() {
+    // Implement code to close the modal here
+  }
+
+  confirmarSenha() {
+    // Implement code to validate the password and proceed with the registration here
   }
 
   private formatDate(date: string): string {
