@@ -51,9 +51,15 @@ class UserController {
     }
 
     async handleAlteraCliente(request, response){
-
-
         return response.json("result");
+    }
+
+    async handleFiltrar(request, response){
+        const userService = new UserService();
+        const { cpf, email, nome } = request.body;
+        const result = await userService.buscarUsuariosPorFiltro(cpf, email, nome);
+
+        return response.json(result);
     }
 }
 

@@ -70,7 +70,6 @@ export class ListarComponent {
         });
       } catch (error) {
         console.error('Error:', error);
-        // Handle the error here
       }
     }
   }
@@ -90,7 +89,16 @@ export class ListarComponent {
       filtro.email = this.email.trim();
     }
 
-    // Aqui você pode usar o filtro para fazer a busca
-    console.log('Filtro:', filtro);
+    fetch('http://localhost:3009/filtrar', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(filtro)
+    })
+    .then(response => response.json())
+    .then(data => {
+      this.clientes = data;
+    });
   }
 }
