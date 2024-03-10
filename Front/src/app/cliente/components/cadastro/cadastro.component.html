@@ -16,8 +16,8 @@
           <label for="nascimento">Nascimento</label>
           <input type="date" class="form-control" id="nascimento" formControlName="nascimento">
         </div>
-        <div class="form-group" formGroupName="generoForm">
-          <label for="genero">Genêro</label>
+        <div class="form-group">
+          <label>Gênero</label>
           <div class="groupRadio">
             <div class="inputRadio">
               <input type="radio" formControlName="genero" value="masculino">
@@ -36,18 +36,18 @@
       </div>
       <div class="blockForm">
         <div class="form-group">
-          <label for="telefone">Telefone</label>
+          <label>Telefone</label>
           <input type="tel" class="form-control" id="telefone" formControlName="telefone">
         </div>
-        <div class="form-group" formGroupName="tipoTelefoneForm">
-          <label for="genero">Tipo Telefone</label>
+        <div class="form-group">
+          <label for="tipotelefone">Tipo Telefone</label>
           <div class="groupRadio">
             <div class="inputRadio">
-              <input type="radio" formControlName="tipotelefone" value="fixo">
+              <input type="radio" value="fixo">
               <label>Fixo</label>
             </div>
             <div class="inputRadio">
-              <input type="radio" formControlName="tipotelefone" value="celular">
+              <input type="radio" value="celular">
               <label>Celular</label>
             </div>
           </div>
@@ -63,73 +63,113 @@
       </div>
 
       <h2>Dados De Endereço</h2>
-      <div class="blockForm">
-        <div class="form-group">
-          <label for="logradouro">Logradouro</label>
-          <input type="text" class="form-control" id="logradouro" formControlName="logradouro">
-        </div>
-        <div class="form-group" id="logradouroContainer" formGroupName="logradouroForm">
-          <label for="tipoLogradouro">Tipo Logradouro</label>
-          <div class="groupRadio">
-            <div class="inputRadio">
-              <input type="radio" formControlName="tipoLogradouro" value="avenida">
-              <label>Avenida</label>
+      <div formArrayName="enderecos">
+        <div class="blockForm" *ngFor="let endereco of enderecosControls; let i = index" >
+          <div [formGroupName]="i">
+            <div style="display: flex;">
+              <div class="form-group">
+                <label for="logradouro">Logradouro</label>
+                <input type="text" class="form-control" id="logradouro" formControlName="logradouro">
+              </div>
+              <div class="form-group">
+                <label for="tipoLogradouro">Tipo Logradouro</label>
+                <div class="groupRadio">
+                  <div class="inputRadio">
+                    <input type="radio" formControlName="tipoLogradouro" value="avenida">
+                    <label>Avenida</label>
+                  </div>
+                  <div class="inputRadio">
+                    <input type="radio" formControlName="tipoLogradouro" value="rua">
+                    <label>Rua</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="numero">Número</label>
+                <input type="number" class="form-control" id="numero" formControlName="numero" style="width: 15vw !important;">
+              </div>
+              <div class="form-group">
+                <label for="bairro">Bairro</label>
+                <input type="text" class="form-control" id="bairro" formControlName="bairro" style="width: 15vw !important;">
+              </div>
             </div>
-            <div class="inputRadio">
-              <input type="radio" formControlName="tipoLogradouro" value="rua">
-              <label>Rua</label>
+            <div style="display: flex;">
+              <div class="form-group">
+                <label for="cidade">Cidade</label>
+                <input type="text" class="form-control" id="cidade" formControlName="cidade" style="width: 15vw !important;">
+              </div>
+              <div class="form-group">
+                <label for="estado">Estado</label>
+                <input type="text" class="form-control" id="estado" formControlName="estado" style="width: 15vw !important;">
+              </div>
+              <div class="form-group">
+                <label for="pais">País</label>
+                <input type="text" class="form-control" id="pais" formControlName="pais" style="width: 15vw !important;">
+              </div>
+              <div class="form-group">
+                <label for="cep">CEP</label>
+                <input type="text" class="form-control" id="cep" formControlName="cep">
+              </div>
+            </div>
+            <div style="display: flex;">
+              <div class="form-group">
+                <label for="observacoes">Observações</label>
+                <input type="text" class="form-control" id="observacoes" formControlName="observacoes">
+              </div>
+              <div class="form-group">
+                <label for="tipoResidencia">Tipo Residência</label>
+                <div class="groupRadio">
+                  <div class="inputRadio">
+                    <input type="radio" formControlName="tipoResidencia" value="Casa">
+                    <label>Casa</label>
+                  </div>
+                  <div class="inputRadio">
+                    <input type="radio" formControlName="tipoResidencia" value="Apartamento">
+                    <label>Apartamento</label>
+                  </div>
+                  <div class="inputRadio">
+                    <input type="radio" formControlName="tipoResidencia" value="Condomínio">
+                    <label>Condomínio</label>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
-        </div>
-        <div class="form-group-td-10" id="numeroContainer">
-          <label for="numero">Número</label>
-          <input type="number" class="form-control" id="numero" formControlName="numero">
-        </div>
-        <div class="form-group-td-10">
-          <label for="bairro">Bairro</label>
-          <input type="text" class="form-control" id="bairro" formControlName="bairro">
-        </div>
-        <div class="form-group-td-10">
-          <label for="cidade">Cidade</label>
-          <input type="text" class="form-control" id="cidade" formControlName="cidade">
-        </div>
-        <div class="form-group-td-10">
-          <label for="estado">Estado</label>
-          <input type="text" class="form-control" id="estado" formControlName="estado">
-        </div>
-      </div>
-      <div class="blockForm">
-        <div class="form-group-td-10">
-          <label for="pais">País</label>
-          <input type="text" class="form-control" id="pais" formControlName="pais">
-        </div>
-        <div class="form-group-td-10">
-          <label for="CEP">CEP</label>
-          <input type="text" class="form-control" id="CEP" formControlName="cep">
-        </div>
-        <div class="form-group" id="residenciaContainer" formGroupName="residenciaForm">
-          <label for="tiporesidencia">Tipo Residência</label>
-          <div class="groupRadio">
-            <div class="inputRadio">
-              <input type="radio" formControlName="tipoResidencia" value="Casa">
-              <label>Casa</label>
-            </div>
-            <div class="inputRadio">
-              <input type="radio" formControlName="tipoResidencia" value="Apartamento">
-              <label>Apartamento</label>
-            </div>
-            <div class="inputRadio">
-              <input type="radio" formControlName="tipoResidencia" value="Condomínio">
-              <label>Condomínio</label>
-            </div>
-          </div>
-        </div>
-        <div class="form-group-td-10">
-          <label for="observacoes">Oberservações</label>
-          <input type="text" class="form-control" id="observacoes" formControlName="observacoes">
         </div>
       </div>
       <div class="containerButtons">
+        <button type="button" (click)="adicionarEndereco()">Adicionar Endereço</button>
+      </div>
+
+      <h2>Cartões</h2>
+      <div formArrayName="cartoes">
+        <div *ngFor="let cartao of cartoesControls; let i = index" class="blockForm">
+          <div [formGroupName]="i" style="display: flex;">
+            <div class="form-group">
+              <label for="numeroCartao">Número</label>
+              <input type="text"  id="numeroCartao" formControlName="numeroCartao">
+            </div>
+            <div class="form-group">
+              <label for="nomeCartao">Nome</label>
+              <input type="text"  id="nomeCartao" formControlName="nomeCliente">
+            </div>
+            <div class="form-group">
+              <label for="bandeira">Bandeira</label>
+              <input type="text"  id="bandeira" formControlName="bandeira">
+            </div>
+            <div class="form-group">
+              <label for="cvv">CVV</label>
+              <input type="text"  id="cvv" formControlName="cvv">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="containerButtons">
+        <button type="button" (click)="adicionarCartao()">Adicionar Cartão</button>
+      </div>
+
+      <div class="containerButtons" style="margin-top: 50px;">
         <button type="submit">Cadastrar</button>
         <button [routerLink]="['/cliente/listar']">Listar Clientes</button>
       </div>
