@@ -8,6 +8,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListarComponent } from './components/listar/listar.component';
 import { TrocarSenhaComponent } from './components/trocar-senha/trocar-senha.component';
 import { DetalheComponent } from './components/detalhe/detalhe.component';
+import { AlterarEnderecoComponent } from './components/alterar-endereco/alterar-endereco.component';
+import { AlterarCartaoComponent } from './components/alterar-cartao/alterar-cartao.component';
+import { AlterarUsuarioComponent } from './components/alterar-usuario/alterar-usuario.component';
 
 // import { MatDialogModule } from '@angular/material/dialog';
 
@@ -17,7 +20,10 @@ import { DetalheComponent } from './components/detalhe/detalhe.component';
     CadastroComponent,
     ListarComponent,
     TrocarSenhaComponent,
-    DetalheComponent
+    DetalheComponent,
+    AlterarEnderecoComponent,
+    AlterarCartaoComponent,
+    AlterarUsuarioComponent
   ],
   imports: [
     CommonModule,

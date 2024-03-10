@@ -1,1 +1,86 @@
-<p>detalhe works!</p>
+<div class="containerDetalhes">
+  <div class="containerTitulo">
+    <hr>
+    <h1 class="tituloPagina">Detalhe do Cliente</h1>
+    <hr>
+  </div>
+
+  <h2>Dados Pessoais</h2>
+  <div class="dados">
+    <div class="dadosPessoais">
+      <p>Nome: <span id="nome">{{cliente.nome}}</span></p>
+      <p>Data de Nascimento: <span id="nascimento">{{cliente.nascimento | date:"dd/MM/YYYY"}}</span></p>
+      <p>Gênero: <span id="genero"></span>{{cliente.genero}}</p>
+      <p>CPF: <span id="cpf"></span>{{cliente.cpf}}</p>
+      <p>E-mail: <span id="email"></span>{{cliente.email}}</p>
+      <p>Telefone: <span id="telefone"></span>{{cliente.telefones[0].numeroTelefone}}</p>
+    </div>
+    <button onclick="editarDadosPessoais()" class="btEditar">Editar Dados Pessoais</button>
+  </div>
+
+  <h2>Endereços</h2>
+  <div class="containerTabela">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Logradouro</th>
+          <th>Tipo Logradouro</th>
+          <th>Numero</th>
+          <th>Bairro</th>
+          <th>Cidade</th>
+          <th>Estado</th>
+          <th>Pais</th>
+          <th>CEP</th>
+          <th>Tipo Residencia</th>
+          <th>Observações</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let endereco of enderecos">
+          <td>{{endereco.logradouro}}</td>
+          <td>{{endereco.tipoLogradouro}}</td>
+          <td>{{endereco.numero}}</td>
+          <td>{{endereco.bairro}}</td>
+          <td>{{endereco.cidade}}</td>
+          <td>{{endereco.estado}}</td>
+          <td>{{endereco.pais}}</td>
+          <td>{{endereco.cep}}</td>
+          <td>{{endereco.tipoResidencia}}</td>
+          <td>{{endereco.observacoes}}</td>
+          <td class="acoes">
+            <a (click)="editarEndereco(endereco, cliente.id)">Editar Endereço</a>
+            <a>Excluir Endereço</a>
+          </td>
+        </tr>
+      </tbody>
+      <button class="btEditar" style="position: relative;left: 39vw;">Adicionar Endereço</button>
+    </table>
+
+  <h2>Cartões</h2>
+  <div class="containerTabela" >
+    <table class="table" id="cartoes">
+      <thead>
+        <tr>
+          <th>Numero</th>
+          <th>Nome</th>
+          <th>Bandeira</th>
+          <th>Cvv</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cartao of cartoes">
+          <td>{{cartao.numeroCartao}}</td>
+          <td>{{cartao.nomeCliente}}</td>
+          <td>{{cartao.bandeira}}</td>
+          <td>{{cartao.cvv}}</td>
+          <td class="acoes">
+            <a (click)="editarCartao(cartao, cliente.id)">Editar Cartão</a>
+            <a>Excluir Cartão</a>
+          </td>
+        </tr>
+      </tbody>
+      <button class="btEditar" style="position: relative;left: 23vw;">Adicionar Cartão</button>
+    </table>
+</div>

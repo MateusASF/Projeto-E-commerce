@@ -1,0 +1,79 @@
+<div class="containerEndereco">
+  <div class="containerTitulo">
+    <hr>
+    <h1 class="tituloPagina">Editar Endereço</h1>
+    <hr>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column; align-items: center;">
+    <div style="display: flex;">
+      <div class="form-group">
+        <label for="logradouro">Logradouro</label>
+        <input type="text" class="form-control" id="logradouro" formControlName="logradouro" [value]="endereco.logradouro">
+      </div>
+      <div class="form-group">
+        <label for="tipoLogradouro">Tipo Logradouro</label>
+        <div class="groupRadio">
+          <div class="inputRadio">
+            <input type="radio" formControlName="tipoLogradouro" value="avenida">
+            <label>Avenida</label>
+          </div>
+          <div class="inputRadio">
+            <input type="radio" formControlName="tipoLogradouro" value="rua">
+            <label>Rua</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="numero">Número</label>
+        <input type="number" class="form-control" id="numero" formControlName="numero" style="width: 15vw !important;" [value]="endereco.numero">
+      </div>
+      <div class="form-group">
+        <label for="bairro">Bairro</label>
+        <input type="text" class="form-control" id="bairro" formControlName="bairro" style="width: 15vw !important;" [value]="endereco.bairro">
+      </div>
+    </div>
+    <div style="display: flex;">
+      <div class="form-group">
+        <label for="cidade">Cidade</label>
+        <input type="text" class="form-control" id="cidade" formControlName="cidade" style="width: 15vw !important;" [value]="endereco.cidade">
+      </div>
+      <div class="form-group">
+        <label for="estado">Estado</label>
+        <input type="text" class="form-control" id="estado" formControlName="estado" style="width: 15vw !important;" [value]="endereco.estado">
+      </div>
+      <div class="form-group">
+        <label for="pais">País</label>
+        <input type="text" class="form-control" id="pais" formControlName="pais" style="width: 15vw !important;" [value]="endereco.pais">
+      </div>
+      <div class="form-group">
+        <label for="cep">CEP</label>
+        <input type="text" class="form-control" id="cep" formControlName="cep" [value]="endereco.cep">
+      </div>
+    </div>
+    <div style="display: flex;">
+      <div class="form-group">
+        <label for="observacoes">Observações</label>
+        <input type="text" class="form-control" id="observacoes" formControlName="observacao" [value]="endereco.observacoes">
+      </div>
+      <div class="form-group">
+        <label for="tipoResidencia">Tipo Residência</label>
+        <div class="groupRadio">
+          <div class="inputRadio">
+            <input type="radio" formControlName="tipoResidencia" value="Casa">
+            <label>Casa</label>
+          </div>
+          <div class="inputRadio">
+            <input type="radio" formControlName="tipoResidencia" value="Apartamento">
+            <label>Apartamento</label>
+          </div>
+          <div class="inputRadio">
+            <input type="radio" formControlName="tipoResidencia" value="Condomínio">
+            <label>Condomínio</label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit">Salvar</button>
+  </form>
+</div>

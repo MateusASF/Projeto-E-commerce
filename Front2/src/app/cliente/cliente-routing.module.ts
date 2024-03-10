@@ -7,6 +7,9 @@ import { CadastroComponent } from './components/cadastro/cadastro.component';
 import { ListarComponent } from './components/listar/listar.component';
 import { TrocarSenhaComponent } from './components/trocar-senha/trocar-senha.component';
 import { DetalheComponent } from './components/detalhe/detalhe.component';
+import { AlterarEnderecoComponent } from './components/alterar-endereco/alterar-endereco.component';
+import { AlterarUsuarioComponent } from './components/alterar-usuario/alterar-usuario.component';
+import { AlterarCartaoComponent } from './components/alterar-cartao/alterar-cartao.component';
 
 const routes: Routes = [
   { path: '', component: ClienteComponent,
@@ -26,6 +29,18 @@ const routes: Routes = [
       {
         path: 'detalhe',
         component: DetalheComponent
+      },
+      {
+        path: 'alterarEndereco',
+        component: AlterarEnderecoComponent
+      },
+      {
+        path: 'alterarUsuario',
+        component: AlterarUsuarioComponent
+      },
+      {
+        path: 'alterarCartao',
+        component: AlterarCartaoComponent
       }
     ]
   }

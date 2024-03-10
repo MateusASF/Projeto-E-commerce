@@ -11,4 +11,6 @@ router.put('/ativar', userController.handleAtivaUser);
 router.put('/alterarSenha', userController.handleAlteraSenhaUser);
 router.put('/alterarCliente', userController.handleAlteraCliente);
 router.post('/filtrar', userController.handleFiltrar);
+router.put('/alterarCartao', userController.handleAlteraCartao);
+router.put('/alterarEndereco', userController.handleAlterarEndereco);
 module.exports = { router };

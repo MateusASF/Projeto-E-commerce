@@ -61,6 +61,18 @@ class UserController {
 
         return response.json(result);
     }
+
+    async handleAlteraCartao(request, response){
+        const userService = new UserService();
+        const result = await userService.alterarCartao(request.body);
+        return response.json(result);
+    }
+
+    async handleAlterarEndereco(request, response){
+        const userService = new UserService();
+        const result = await userService.alterarEndereco(request.body);
+        return response.json(result);
+    }
 }
 
 module.exports = { UserController };

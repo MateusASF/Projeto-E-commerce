@@ -91,6 +91,7 @@ class UserService {
     
                 const enderecosResult = await connection.execute('SELECT * FROM enderecos WHERE id_usuario = :id', { id });
                 const enderecos = enderecosResult.rows.map(row => ({
+                    idEndereco: row[0],
                     logradouro: row[2],
                     tipoLogradouro: row[3],
                     numero: row[4],
@@ -105,6 +106,7 @@ class UserService {
     
                 const cartoesResult = await connection.execute('SELECT * FROM cartoes WHERE id_usuario = :id', { id });
                 const cartoes = cartoesResult.rows.map(row => ({
+                    idCartao: row[0],
                     numeroCartao: row[2],
                     nomeCliente: row[3],
                     bandeira: row[4],
@@ -217,6 +219,28 @@ class UserService {
             }));
     
             return usuarios;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async alterarCartao(data) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+            const result = await connection.execute(`UPDATE cartoes SET numero_cartao = :numero_cartao, nome_cliente = :nome_cliente, bandeira = :bandeira, cvv = :cvv WHERE id_usuario = :id_usuario AND id_cartao = :id_cartao`,{numero_cartao: data.numeroCartao, nome_cliente: data.nomeCliente, bandeira: data.bandeira, cvv: data.cvv, id_usuario: data.idCliente, id_cartao: data.idCartao},{autoCommit: true});
+            return result;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async alterarEndereco(data) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+            const result = await connection.execute(`UPDATE enderecos SET logradouro = :logradouro, tipo_logradouro = :tipo_logradouro, numero = :numero, bairro = :bairro, cidade = :cidade, estado = :estado, pais = :pais, cep = :cep, tipo_residencia = :tipo_residencia, observacoes = :observacoes WHERE id_usuario = :id_usuario AND id_endereco = :id_endereco`,{logradouro: data.logradouro, tipo_logradouro: data.tipoLogradouro, numero: data.numero, bairro: data.bairro, cidade: data.cidade, estado: data.estado, pais: data.pais, cep: data.cep, tipo_residencia: data.tipoResidencia, observacoes: data.observacao, id_usuario: data.idCliente, id_endereco: data.idEndereco},{autoCommit: true});
+            return result;
         } catch (error) {
             console.error(error);
         }
