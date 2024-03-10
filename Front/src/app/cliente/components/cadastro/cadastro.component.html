@@ -37,17 +37,17 @@
       <div class="blockForm">
         <div class="form-group">
           <label>Telefone</label>
-          <input type="tel" class="form-control" id="telefone" formControlName="telefone">
+          <input type="tel" class="form-control" id="telefone" formControlName="numeroTelefone" >
         </div>
         <div class="form-group">
           <label for="tipotelefone">Tipo Telefone</label>
           <div class="groupRadio">
             <div class="inputRadio">
-              <input type="radio" value="fixo">
+              <input type="radio" value="fixo" formControlName="tipoTelefone">
               <label>Fixo</label>
             </div>
             <div class="inputRadio">
-              <input type="radio" value="celular">
+              <input type="radio" value="celular" formControlName="tipoTelefone">
               <label>Celular</label>
             </div>
           </div>
@@ -140,6 +140,7 @@
       </div>
       <div class="containerButtons">
         <button type="button" (click)="adicionarEndereco()">Adicionar Endereço</button>
+        <button type="button" (click)="removerEndereco()" *ngIf="enderecoLength > 1">Remover Endereço</button>
       </div>
 
       <h2>Cartões</h2>
@@ -167,6 +168,7 @@
       </div>
       <div class="containerButtons">
         <button type="button" (click)="adicionarCartao()">Adicionar Cartão</button>
+        <button type="button" (click)="removerCartao()" *ngIf="cartaoLength > 1">Remover Cartão</button>
       </div>
 
       <div class="containerButtons" style="margin-top: 50px;">

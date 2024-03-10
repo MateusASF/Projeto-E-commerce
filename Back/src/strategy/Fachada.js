@@ -17,10 +17,16 @@ class Fachada {
     }
 
     async validarEntradaUsuario (user) {
-        var ok = false;
-        ok = await this.validaSenhaForte(user.senha);
-        user.senha = await this.criptografaSenha(user.senha);
-        return ok ? await userService.criarUser(user) : "Erro ao validar entradas";
+        try {
+            var ok = false;
+            ok = await this.validaSenhaForte(user.senha);
+            user.senha = await this.criptografaSenha(user.senha);
+            return ok ? await userService.criarUser(user) : "Erro ao validar entradas";
+        } catch (error) {
+            // Handle the error here
+            console.error(error);
+            return "Erro ao validar entradas";
+        }
     }
 
     async validarTrocaDeSenha (id, senha) {
