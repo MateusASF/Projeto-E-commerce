@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
-// import { MatDialog } from '@angular/material/dialog';
-import { ModalSenhaComponent } from '../modais/modal-senha/modal-senha.component';
-
 
 @Component({
   selector: 'app-cadastro',
@@ -11,7 +8,6 @@ import { ModalSenhaComponent } from '../modais/modal-senha/modal-senha.component
 })
 export class CadastroComponent {
   form!: FormGroup;
-  // constructor(private dialog: MatDialog) {}
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -62,15 +58,7 @@ export class CadastroComponent {
     }
   }
 
-    abrirModalSenha() {
-      // const dialogRef = this.dialog.open(ModalSenhaComponent, {
-      //   width: '400px',
-      //   // Add any additional configuration options for the modal here
-      // });
-
-      // dialogRef.afterClosed().subscribe(result => {
-      //   // Handle the result of the modal here if needed
-      // });
+  abrirModalSenha() {
   }
 
   fecharModalSenha() {

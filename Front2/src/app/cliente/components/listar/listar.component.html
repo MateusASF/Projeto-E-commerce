@@ -36,10 +36,10 @@
             <td>{{cliente.nascimento | date:'dd/MM/yyyy'}}</td>
           <td>{{cliente.cpf}}</td>
           <td class="acoes">
-            <a [routerLink]="['/cliente/editar', cliente.id]">Editar</a>
-            <a (click)="inativarCliente(cliente.id)" *ngIf="cliente.ativo == '1'">Inativar</a>
+            <a (click)="trocarSenha(cliente.id, cliente.senha)">Trocar Senha</a>
+            <a (click)="inativarCliente(cliente.id)" *ngIf="cliente.ativo == '1'">| Inativar | </a>
             <a (click)="ativarCliente(cliente.id)" *ngIf="cliente.ativo == '0'">Ativar</a>
-            <a [routerLink]="['/cliente/detalhes', cliente.id]">Detalhes</a>
+            <a (click)="detalheCliente(cliente)">Detalhes</a>
           </td>
         </tr>
       </tbody>

@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { ClienteComponent } from './cliente.component';
 import { CadastroComponent } from './components/cadastro/cadastro.component';
 import { ListarComponent } from './components/listar/listar.component';
+import { TrocarSenhaComponent } from './components/trocar-senha/trocar-senha.component';
+import { DetalheComponent } from './components/detalhe/detalhe.component';
 
 const routes: Routes = [
   { path: '', component: ClienteComponent,
@@ -16,6 +18,14 @@ const routes: Routes = [
       {
         path: 'listar',
         component: ListarComponent
+      },
+      {
+        path: 'trocar-senha',
+        component: TrocarSenhaComponent
+      },
+      {
+        path: 'detalhe',
+        component: DetalheComponent
       }
     ]
   }

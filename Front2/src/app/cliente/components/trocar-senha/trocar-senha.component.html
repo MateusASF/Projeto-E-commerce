@@ -1,0 +1,18 @@
+<div class="containerTrocaSenha">
+  <div class="campoSenha">
+    <label for="senhaAtual">Senha Atual:</label>
+    <input type="password" id="senhaAtual" name="senhaAtual" [(ngModel)]="senhaAtual">
+  </div>
+
+  <div class="campoSenha">
+    <label for="novaSenha">Nova Senha:</label>
+    <input type="password" id="novaSenha" name="novaSenha"  [(ngModel)]="novaSenha">
+  </div>
+
+  <div class="campoSenha">
+    <label for="confirmarNovaSenha">Confirmar Nova Senha:</label>
+    <input type="password" id="confirmarNovaSenha" name="confirmarNovaSenha"  [(ngModel)]="confirmaNovaSenha">
+  </div>
+
+  <button (click)="trocarSenha()">Trocar Senha</button>
+</div>

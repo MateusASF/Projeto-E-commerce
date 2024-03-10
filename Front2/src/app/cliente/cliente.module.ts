@@ -6,7 +6,8 @@ import { ClienteRoutingModule } from './cliente-routing.module';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ListarComponent } from './components/listar/listar.component';
-import { ModalSenhaComponent } from './components/modais/modal-senha/modal-senha.component';
+import { TrocarSenhaComponent } from './components/trocar-senha/trocar-senha.component';
+import { DetalheComponent } from './components/detalhe/detalhe.component';
 
 // import { MatDialogModule } from '@angular/material/dialog';
 
@@ -15,7 +16,8 @@ import { ModalSenhaComponent } from './components/modais/modal-senha/modal-senha
   declarations: [
     CadastroComponent,
     ListarComponent,
-    ModalSenhaComponent
+    TrocarSenhaComponent,
+    DetalheComponent
   ],
   imports: [
     CommonModule,

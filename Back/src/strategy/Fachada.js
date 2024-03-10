@@ -30,10 +30,15 @@ class Fachada {
     }
 
     async validarTrocaDeSenha (id, senha) {
-        var ok = false;
-        ok = await this.validaSenhaForte(senha);
-        senha = await this.criptografaSenha(senha);
-        return ok ? await userService.alteraSenhaUser(id, senha) : "Erro ao trocar de senha";
+        try {
+            var ok = false;
+            ok = await this.validaSenhaForte(senha);
+            senha = await this.criptografaSenha(senha);
+            return ok ? await userService.alteraSenhaUser(id, senha) : "Erro ao trocar de senha";
+        } catch (error) {
+            console.error(error);
+            return "Erro ao trocar de senha";
+        }
     }
 }
 

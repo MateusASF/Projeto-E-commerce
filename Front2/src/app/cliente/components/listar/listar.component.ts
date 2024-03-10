@@ -101,4 +101,14 @@ export class ListarComponent {
       this.clientes = data;
     });
   }
+
+  detalheCliente (cliente: any) {
+    localStorage.setItem('cliente', JSON.stringify(cliente));
+    location.href = '/cliente/detalhe';
+  }
+
+  trocarSenha (id: number, senha: any) {
+    sessionStorage.setItem('cliente', JSON.stringify({ id: id, senha: senha }));
+    location.href = '/cliente/trocar-senha';
+  }
 }
