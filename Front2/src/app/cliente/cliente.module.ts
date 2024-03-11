@@ -11,8 +11,8 @@ import { DetalheComponent } from './components/detalhe/detalhe.component';
 import { AlterarEnderecoComponent } from './components/alterar-endereco/alterar-endereco.component';
 import { AlterarCartaoComponent } from './components/alterar-cartao/alterar-cartao.component';
 import { AlterarUsuarioComponent } from './components/alterar-usuario/alterar-usuario.component';
-
-// import { MatDialogModule } from '@angular/material/dialog';
+import { AdicionarCartaoComponent } from './components/adicionar-cartao/adicionar-cartao.component';
+import { AlterarDadosPessoaisComponent } from './components/alterar-dados-pessoais/alterar-dados-pessoais.component';
 
 
 @NgModule({
@@ -23,7 +23,9 @@ import { AlterarUsuarioComponent } from './components/alterar-usuario/alterar-us
     DetalheComponent,
     AlterarEnderecoComponent,
     AlterarCartaoComponent,
-    AlterarUsuarioComponent
+    AlterarUsuarioComponent,
+    AdicionarCartaoComponent,
+    AlterarDadosPessoaisComponent
   ],
   imports: [
     CommonModule,

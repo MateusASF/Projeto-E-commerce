@@ -228,7 +228,8 @@ class UserService {
         try {
             await db.initialize();
             const connection = db.getConnection();
-            const result = await connection.execute(`UPDATE cartoes SET numero_cartao = :numero_cartao, nome_cliente = :nome_cliente, bandeira = :bandeira, cvv = :cvv WHERE id_usuario = :id_usuario AND id_cartao = :id_cartao`,{numero_cartao: data.numeroCartao, nome_cliente: data.nomeCliente, bandeira: data.bandeira, cvv: data.cvv, id_usuario: data.idCliente, id_cartao: data.idCartao},{autoCommit: true});
+            const result = await connection.execute(`UPDATE cartoes SET numero_cartao = :numero_cartao, nome_cliente = :nome_cliente, bandeira = :bandeira, cvv = :cvv WHERE id_usuario = :id_usuario AND id_cartao = :id_cartao`,
+            {numero_cartao: data.numeroCartao, nome_cliente: data.nomeCliente, bandeira: data.bandeira, cvv: data.cvv, id_usuario: data.idCliente, id_cartao: data.idCartao},{autoCommit: true});
             return result;
         } catch (error) {
             console.error(error);
@@ -239,8 +240,112 @@ class UserService {
         try {
             await db.initialize();
             const connection = db.getConnection();
-            const result = await connection.execute(`UPDATE enderecos SET logradouro = :logradouro, tipo_logradouro = :tipo_logradouro, numero = :numero, bairro = :bairro, cidade = :cidade, estado = :estado, pais = :pais, cep = :cep, tipo_residencia = :tipo_residencia, observacoes = :observacoes WHERE id_usuario = :id_usuario AND id_endereco = :id_endereco`,{logradouro: data.logradouro, tipo_logradouro: data.tipoLogradouro, numero: data.numero, bairro: data.bairro, cidade: data.cidade, estado: data.estado, pais: data.pais, cep: data.cep, tipo_residencia: data.tipoResidencia, observacoes: data.observacao, id_usuario: data.idCliente, id_endereco: data.idEndereco},{autoCommit: true});
+            const result = await connection.execute(`UPDATE enderecos SET logradouro = :logradouro, tipo_logradouro = :tipo_logradouro, numero = :numero, bairro = :bairro, cidade = :cidade, estado = :estado, pais = :pais, cep = :cep, tipo_residencia = :tipo_residencia, observacoes = :observacoes WHERE id_usuario = :id_usuario AND id_endereco = :id_endereco`,
+            {logradouro: data.logradouro, tipo_logradouro: data.tipoLogradouro, numero: data.numero, bairro: data.bairro, cidade: data.cidade, estado: data.estado, pais: data.pais, cep: data.cep, tipo_residencia: data.tipoResidencia, observacoes: data.observacao, id_usuario: data.idCliente, id_endereco: data.idEndereco},{autoCommit: true});
             return result;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async adicionarEndereco(data) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+            const result = await connection.execute(`INSERT INTO enderecos (id_usuario, logradouro, tipo_logradouro, numero, bairro, cidade, estado, pais, cep, tipo_residencia, observacoes) VALUES (:id_usuario, :logradouro, :tipo_logradouro, :numero, :bairro, :cidade, :estado, :pais, :cep, :tipo_residencia, :observacoes)`,
+            {id_usuario: data.idCliente, logradouro: data.logradouro, tipo_logradouro: data.tipoLogradouro, numero: data.numero, bairro: data.bairro, cidade: data.cidade, estado: data.estado, pais: data.pais, cep: data.cep, tipo_residencia: data.tipoResidencia, observacoes: data.observacao},{autoCommit: true});
+            return result;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async adicionarCartao(data) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+            const result = await connection.execute(`INSERT INTO cartoes (id_usuario, numero_cartao, nome_cliente, bandeira, cvv) VALUES (:id_usuario, :numero_cartao, :nome_cliente, :bandeira, :cvv)`,
+            {id_usuario: data.idCliente, numero_cartao: data.numeroCartao, nome_cliente: data.nomeCliente, bandeira: data.bandeira, cvv: data.cvv},{autoCommit: true});
+            return result;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async deletarEndereco(idEndereco) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+            const result = await connection.execute(`DELETE FROM enderecos WHERE id_endereco = :id_endereco`,{id_endereco: idEndereco.id},{autoCommit: true});
+            return result;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async deletarCartao(idCartao) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+            const result = await connection.execute(`DELETE FROM cartoes WHERE id_cartao = :id_cartao`,{id_cartao: idCartao.id},{autoCommit: true});
+            return result;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async buscarUsuario(id) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+            const result = await connection.execute(`SELECT * FROM usuarios WHERE id_usuario = :id`,{id});
+            const usuarios = await Promise.all(result.rows.map(async row => {
+                const id = row[0];
+    
+                const telefonesResult = await connection.execute('SELECT * FROM telefones WHERE id_usuario = :id', { id });
+                const telefones = telefonesResult.rows.map(row => ({
+                    numeroTelefone: row[2],
+                    tipoTelefone: row[3]
+                }));
+    
+                const enderecosResult = await connection.execute('SELECT * FROM enderecos WHERE id_usuario = :id', { id });
+                const enderecos = enderecosResult.rows.map(row => ({
+                    logradouro: row[2],
+                    tipoLogradouro: row[3],
+                    numero: row[4],
+                    bairro: row[5],
+                    cidade: row[6],
+                    estado: row[7],
+                    pais: row[8],
+                    cep: row[9],
+                    tipoResidencia: row[10],
+                    observacoes: row[11]
+                }));
+    
+                const cartoesResult = await connection.execute('SELECT * FROM cartoes WHERE id_usuario = :id', { id });
+                const cartoes = cartoesResult.rows.map(row => ({
+                    numeroCartao: row[2],
+                    nomeCliente: row[3],
+                    bandeira: row[4],
+                    cvv: row[5]
+                }));
+    
+                return {
+                    id : row[0],
+                    ativo: row[1],
+                    nome: row[2],
+                    nascimento: row[3],
+                    genero: row[4],
+                    cpf: row[5],
+                    telefones,
+                    senha: row[6],
+                    email: row[7],
+                    enderecos,
+                    cartoes
+                };
+            }));
+    
+            return usuarios;
         } catch (error) {
             console.error(error);
         }

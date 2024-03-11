@@ -73,6 +73,36 @@ class UserController {
         const result = await userService.alterarEndereco(request.body);
         return response.json(result);
     }
+
+    async handleAdicionarEndereco(request, response){
+        const userService = new UserService();
+        const result = await userService.adicionarEndereco(request.body);
+        return response.json(result);
+    }
+
+    async handleAdicionarCartao(request, response){
+        const userService = new UserService();
+        const result = await userService.adicionarCartao(request.body);
+        return response.json(result);
+    }
+
+    async handleDeletarEndereco(request, response){
+        const userService = new UserService();
+        const result = await userService.deletarEndereco(request.body);
+        return response.json(result);
+    }
+
+    async handleDeletarCartao(request, response){
+        const userService = new UserService();
+        const result = await userService.deletarCartao(request.body);
+        return response.json(result);
+    }
+
+    async handleBuscarUsuario(request, response){
+        const userService = new UserService();
+        const result = await userService.buscarUsuario(request.body.id);
+        return response.json(result);
+    }
 }
 
 module.exports = { UserController };

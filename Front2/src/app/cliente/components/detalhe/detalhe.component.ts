@@ -25,4 +25,46 @@ export class DetalheComponent {
     localStorage.setItem('cartao', JSON.stringify({cartao, id}));
     location.href = 'cliente/alterarCartao';
   }
+
+  excluirEndereco(id: any) {
+    fetch('http://localhost:3009/excluirEndereco', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id})
+    })
+    .then(data => {
+      console.log('Response:', data);
+      location.href = 'cliente/listar';
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+
+  excluirCartao(id: any) {
+    fetch('http://localhost:3009/excluirCartao', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({id})
+    })
+    .then(data => {
+      console.log('Response:', data);
+      location.href = 'cliente/listar';
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+
+  adicionarEndereco() {
+    location.href = 'cliente/adicionarEndereco';
+  }
+
+  adicionarCartao() {
+    location.href = 'cliente/adicionarCartao';
+  }
 }

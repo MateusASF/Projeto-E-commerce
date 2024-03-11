@@ -10,6 +10,8 @@ import { DetalheComponent } from './components/detalhe/detalhe.component';
 import { AlterarEnderecoComponent } from './components/alterar-endereco/alterar-endereco.component';
 import { AlterarUsuarioComponent } from './components/alterar-usuario/alterar-usuario.component';
 import { AlterarCartaoComponent } from './components/alterar-cartao/alterar-cartao.component';
+import { AdicionarCartaoComponent } from './components/adicionar-cartao/adicionar-cartao.component';
+import { AdicionarEnderecoComponent } from './components/adicionar-endereco/adicionar-endereco.component';
 
 const routes: Routes = [
   { path: '', component: ClienteComponent,
@@ -41,6 +43,14 @@ const routes: Routes = [
       {
         path: 'alterarCartao',
         component: AlterarCartaoComponent
+      },
+      {
+        path: 'adicionarEndereco',
+        component: AdicionarEnderecoComponent
+      },
+      {
+        path: 'adicionarCartao',
+        component: AdicionarCartaoComponent
       }
     ]
   }

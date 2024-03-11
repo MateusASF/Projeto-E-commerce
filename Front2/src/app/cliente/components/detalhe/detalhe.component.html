@@ -50,11 +50,11 @@
           <td>{{endereco.observacoes}}</td>
           <td class="acoes">
             <a (click)="editarEndereco(endereco, cliente.id)">Editar Endereço</a>
-            <a>Excluir Endereço</a>
+            <a (click)="excluirEndereco(endereco.idEndereco)">Excluir Endereço</a>
           </td>
         </tr>
       </tbody>
-      <button class="btEditar" style="position: relative;left: 39vw;">Adicionar Endereço</button>
+      <button class="btEditar" style="position: relative;left: 39vw;" (click)="adicionarEndereco()">Adicionar Endereço</button>
     </table>
 
   <h2>Cartões</h2>
@@ -77,10 +77,10 @@
           <td>{{cartao.cvv}}</td>
           <td class="acoes">
             <a (click)="editarCartao(cartao, cliente.id)">Editar Cartão</a>
-            <a>Excluir Cartão</a>
+            <a (click)="excluirCartao(cartao.idCartao)">Excluir Cartão</a>
           </td>
         </tr>
       </tbody>
-      <button class="btEditar" style="position: relative;left: 23vw;">Adicionar Cartão</button>
+      <button class="btEditar" style="position: relative;left: 23vw;" (click)="adicionarCartao()">Adicionar Cartão</button>
     </table>
 </div>

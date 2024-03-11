@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-
 @Component({
   selector: 'app-alterar-endereco',
   templateUrl: './alterar-endereco.component.html',
