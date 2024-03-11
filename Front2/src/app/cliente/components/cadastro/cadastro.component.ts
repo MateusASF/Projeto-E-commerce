@@ -16,17 +16,13 @@ export class CadastroComponent {
       nascimento: new FormControl(''),
       genero: new FormControl(''),
       cpf: new FormControl(''),
-      telefones: new FormArray([
-        new FormGroup({
-          numeroTelefone: new FormControl(''),
-          tipoTelefone: new FormControl('')
-        })
-      ]),
+      numeroTelefone: new FormControl(''),
+      tipoTelefone: new FormControl(''),
       senha: new FormControl(''),
       confirmarSenha: new FormControl(''),
       email: new FormControl('', []),
       enderecos: new FormArray([]),
-      cartoes: new FormArray([])
+      cartoes: new FormArray([]),
     });
   }
 
@@ -41,6 +37,10 @@ export class CadastroComponent {
       this.form.removeControl('confirmarSenha');
       const formData = this.form.value;
       formData.nascimento = this.formatDate(formData.nascimento);
+      formData.telefones = [{
+        tipoTelefone: formData.tipoTelefone,
+        numeroTelefone: formData.numeroTelefone
+      }];
       const json = JSON.stringify(formData);
 
       console.log(json);
@@ -53,7 +53,8 @@ export class CadastroComponent {
       })
       .then(response => response.json())
       .then(data => {
-        console.log('Response:', data);
+        alert('Cadastro realizado com sucesso!');
+        location.href = '/cliente/listar';
         // Handle the response data here
       })
       .catch(error => {
