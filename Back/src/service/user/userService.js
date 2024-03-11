@@ -53,7 +53,7 @@ class UserService {
 
         user.enderecos.forEach(item => {
             connection.execute(
-                `INSERT INTO enderecos (id_usuario, logradouro, tipo_logradouro, numero, bairro, cidade, estado, pais, cep, tipo_residencia, observacoes) VALUES (:id_usuario, :logradouro, :tipo_logradouro, :numero, :bairro, :cidade, :estado, :pais, :cep, :tipo_residencia, :observacoes)`,{
+                `INSERT INTO enderecos (id_usuario, logradouro, tipo_logradouro, numero, bairro, cidade, estado, pais, cep, tipo_residencia, observacoes, identificacao) VALUES (:id_usuario, :logradouro, :tipo_logradouro, :numero, :bairro, :cidade, :estado, :pais, :cep, :tipo_residencia, :observacoes, :identificacao)`,{
                     id_usuario: idUser,
                     logradouro: item.logradouro,
                     tipo_logradouro: item.tipoLogradouro,
@@ -64,7 +64,8 @@ class UserService {
                     pais: item.pais,
                     cep: item.cep,
                     tipo_residencia: item.tipoResidencia,
-                    observacoes: item.observacoes
+                    observacoes: item.observacoes,
+                    identificacao: item.identificacao
                 },{autoCommit: true}
             )
         })
@@ -102,7 +103,8 @@ class UserService {
                     pais: row[8],
                     cep: row[9],
                     tipoResidencia: row[10],
-                    observacoes: row[11]
+                    observacoes: row[11],
+                    identificacao: row[12]
                 }));
     
                 const cartoesResult = await connection.execute('SELECT * FROM cartoes WHERE id_usuario = :id', { id });
@@ -194,7 +196,8 @@ class UserService {
                     pais: row[8],
                     cep: row[9],
                     tipoResidencia: row[10],
-                    observacoes: row[11]
+                    observacoes: row[11],
+                    identificacao: row[12]
                 }));
     
                 const cartoesResult = await connection.execute('SELECT * FROM cartoes WHERE id_usuario = :id', { id });
@@ -242,8 +245,8 @@ class UserService {
         try {
             await db.initialize();
             const connection = db.getConnection();
-            const result = await connection.execute(`UPDATE enderecos SET logradouro = :logradouro, tipo_logradouro = :tipo_logradouro, numero = :numero, bairro = :bairro, cidade = :cidade, estado = :estado, pais = :pais, cep = :cep, tipo_residencia = :tipo_residencia, observacoes = :observacoes WHERE id_usuario = :id_usuario AND id_endereco = :id_endereco`,
-            {logradouro: data.logradouro, tipo_logradouro: data.tipoLogradouro, numero: data.numero, bairro: data.bairro, cidade: data.cidade, estado: data.estado, pais: data.pais, cep: data.cep, tipo_residencia: data.tipoResidencia, observacoes: data.observacao, id_usuario: data.idCliente, id_endereco: data.idEndereco},{autoCommit: true});
+            const result = await connection.execute(`UPDATE enderecos SET logradouro = :logradouro, tipo_logradouro = :tipo_logradouro, numero = :numero, bairro = :bairro, cidade = :cidade, estado = :estado, pais = :pais, cep = :cep, tipo_residencia = :tipo_residencia, observacoes = :observacoes, identificacao = :identificacao WHERE id_usuario = :id_usuario AND id_endereco = :id_endereco`,
+            {logradouro: data.logradouro, tipo_logradouro: data.tipoLogradouro, numero: data.numero, bairro: data.bairro, cidade: data.cidade, estado: data.estado, pais: data.pais, cep: data.cep, tipo_residencia: data.tipoResidencia, observacoes: data.observacao, identificacao: data.identificacao, id_usuario: data.idCliente, id_endereco: data.idEndereco},{autoCommit: true});
             return result;
         } catch (error) {
             console.error(error);
@@ -254,8 +257,8 @@ class UserService {
         try {
             await db.initialize();
             const connection = db.getConnection();
-            const result = await connection.execute(`INSERT INTO enderecos (id_usuario, logradouro, tipo_logradouro, numero, bairro, cidade, estado, pais, cep, tipo_residencia, observacoes) VALUES (:id_usuario, :logradouro, :tipo_logradouro, :numero, :bairro, :cidade, :estado, :pais, :cep, :tipo_residencia, :observacoes)`,
-            {id_usuario: data.idCliente, logradouro: data.logradouro, tipo_logradouro: data.tipoLogradouro, numero: data.numero, bairro: data.bairro, cidade: data.cidade, estado: data.estado, pais: data.pais, cep: data.cep, tipo_residencia: data.tipoResidencia, observacoes: data.observacao},{autoCommit: true});
+            const result = await connection.execute(`INSERT INTO enderecos (id_usuario, logradouro, tipo_logradouro, numero, bairro, cidade, estado, pais, cep, tipo_residencia, observacoes) VALUES (:id_usuario, :logradouro, :tipo_logradouro, :numero, :bairro, :cidade, :estado, :pais, :cep, :tipo_residencia, :observacoes, identificacao = :identificacao)`,
+            {id_usuario: data.idCliente, logradouro: data.logradouro, tipo_logradouro: data.tipoLogradouro, numero: data.numero, bairro: data.bairro, cidade: data.cidade, estado: data.estado, pais: data.pais, cep: data.cep, tipo_residencia: data.tipoResidencia, observacoes: data.observacao, identificacao: data.identificacao},{autoCommit: true});
             return result;
         } catch (error) {
             console.error(error);
@@ -322,7 +325,8 @@ class UserService {
                     pais: row[8],
                     cep: row[9],
                     tipoResidencia: row[10],
-                    observacoes: row[11]
+                    observacoes: row[11],
+                    identificacao: row[12]
                 }));
     
                 const cartoesResult = await connection.execute('SELECT * FROM cartoes WHERE id_usuario = :id', { id });

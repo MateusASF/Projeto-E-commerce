@@ -21,7 +21,8 @@ export class AlterarEnderecoComponent {
       observacao: new FormControl(this.endereco.observacoes),
       pais: new FormControl(this.endereco.pais),
       tipoLogradouro: new FormControl(this.endereco.tipoLogradouro),
-      tipoResidencia: new FormControl(this.endereco.tipoResidencia)
+      tipoResidencia: new FormControl(this.endereco.tipoResidencia),
+      identificacao: new FormControl(this.endereco.identificacao)
     });
   }
 

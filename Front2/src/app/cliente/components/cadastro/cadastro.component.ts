@@ -84,7 +84,8 @@ export class CadastroComponent {
       pais: new FormControl(''),
       cep: new FormControl(''),
       tipoResidencia: new FormControl(''),
-      observacoes: new FormControl('')
+      observacoes: new FormControl(''),
+      identificacao: new FormControl('')
     });
 
     (this.form.get('enderecos') as FormArray).push(enderecoFormGroup);

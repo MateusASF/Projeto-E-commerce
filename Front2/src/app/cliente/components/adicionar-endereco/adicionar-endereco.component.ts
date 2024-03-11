@@ -22,7 +22,8 @@ export class AdicionarEnderecoComponent {
       observacao: new FormControl(''),
       pais: new FormControl(''),
       tipoLogradouro: new FormControl(''),
-      tipoResidencia: new FormControl('')
+      tipoResidencia: new FormControl(''),
+      identificacao: new FormControl(''),
     });
   }
 

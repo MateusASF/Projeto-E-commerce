@@ -11,6 +11,7 @@ class EnderecoModel {
         this.cep = objeto.cep;
         this.tipoResidencia = objeto.tipoResidencia;
         this.observacoes = objeto.observacoes;
+        this.identificacao = objeto.identificacao;
     }
 }
 

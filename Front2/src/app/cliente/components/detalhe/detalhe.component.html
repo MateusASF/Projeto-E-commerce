@@ -32,7 +32,7 @@
           <th>Pais</th>
           <th>CEP</th>
           <th>Tipo Residencia</th>
-          <th>Observações</th>
+          <th>Identificação</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -47,7 +47,7 @@
           <td>{{endereco.pais}}</td>
           <td>{{endereco.cep}}</td>
           <td>{{endereco.tipoResidencia}}</td>
-          <td>{{endereco.observacoes}}</td>
+          <td>{{endereco.identificacao}}</td>
           <td class="acoes">
             <a (click)="editarEndereco(endereco, cliente.id)">Editar Endereço</a>
             <a (click)="excluirEndereco(endereco.idEndereco)">Excluir Endereço</a>
