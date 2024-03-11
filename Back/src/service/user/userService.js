@@ -85,6 +85,7 @@ class UserService {
     
                 const telefonesResult = await connection.execute('SELECT * FROM telefones WHERE id_usuario = :id', { id });
                 const telefones = telefonesResult.rows.map(row => ({
+                    idTelefone: row[0],
                     numeroTelefone: row[2],
                     tipoTelefone: row[3]
                 }));
@@ -177,6 +178,7 @@ class UserService {
     
                 const telefonesResult = await connection.execute('SELECT * FROM telefones WHERE id_usuario = :id', { id });
                 const telefones = telefonesResult.rows.map(row => ({
+                    idTelefone: row[0],
                     numeroTelefone: row[2],
                     tipoTelefone: row[3]
                 }));
@@ -304,6 +306,7 @@ class UserService {
     
                 const telefonesResult = await connection.execute('SELECT * FROM telefones WHERE id_usuario = :id', { id });
                 const telefones = telefonesResult.rows.map(row => ({
+                    idTelefone: row[0],
                     numeroTelefone: row[2],
                     tipoTelefone: row[3]
                 }));
@@ -346,6 +349,20 @@ class UserService {
             }));
     
             return usuarios;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    async alterarCliente(data) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+            let result = await connection.execute(`UPDATE usuarios SET nome = :nome, data_nascimento = :data_nascimento, genero = :genero, cpf = :cpf, email = :email WHERE id_usuario = :id_usuario`,
+            {nome: data.nome, data_nascimento: data.nascimento, genero: data.genero, cpf: data.cpf,  email: data.email, id_usuario: data.idCliente},{autoCommit: true});
+            result = await connection.execute('UPDATE telefones SET numero_telefone = :numero_telefone, tipo_telefone = :tipo_telefone WHERE id_usuario = :id_usuario AND id_telefone = :id_telefone',
+            {numero_telefone: data.numeroTelefone, tipo_telefone: data.tipoTelefone, id_usuario: data.idCliente, id_telefone: data.idTelefone },{autoCommit: true});
+            return result;
         } catch (error) {
             console.error(error);
         }

@@ -1,1 +1,60 @@
-<p>alterar-usuario works!</p>
+<div class="containerAlterarUsuario">
+  <div class="containerTitulo">
+    <hr>
+    <h1 class="tituloPagina">Editar Dados Pessoais</h1>
+    <hr>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" style="display: flex; flex-direction: column; align-items: center;">
+    <div class="blockForm">
+      <div class="form-group">
+        <label for="nome">Nome</label>
+        <input type="text" class="form-control" id="nome" formControlName="nome" [value]="cliente.nome">
+      </div>
+      <div class="form-group">
+        <label for="nascimento">Nascimento</label>
+        <input type="date" class="form-control" id="nascimento" formControlName="nascimento" [value]="cliente.nascimento">
+      </div>
+      <div class="form-group">
+        <label>Gênero</label>
+        <div class="groupRadio">
+          <div class="inputRadio">
+            <input type="radio" formControlName="genero" value="masculino">
+            <label>Masculino</label>
+          </div>
+          <div class="inputRadio">
+            <input type="radio" formControlName="genero" value="feminino">
+            <label>Feminino</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="cpf">CPF</label>
+        <input type="text" class="form-control" id="cpf" formControlName="cpf" [value]="cliente.cpf">
+      </div>
+    </div>
+    <div class="blockForm">
+      <div class="form-group">
+        <label>Telefone</label>
+        <input type="tel" class="form-control" id="telefone" formControlName="numeroTelefone" [value]="cliente.telefones[0].numeroTelefone">
+      </div>
+      <div class="form-group">
+        <label for="tipotelefone">Tipo Telefone</label>
+        <div class="groupRadio">
+          <div class="inputRadio">
+            <input type="radio" value="fixo" formControlName="tipoTelefone">
+            <label>Fixo</label>
+          </div>
+          <div class="inputRadio">
+            <input type="radio" value="celular" formControlName="tipoTelefone">
+            <label>Celular</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" class="form-control" id="email" formControlName="email" [value]="cliente.email">
+      </div>
+    </div>
+    <button type="submit">Salvar</button>
+  </form>
+</div>

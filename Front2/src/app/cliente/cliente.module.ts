@@ -12,7 +12,6 @@ import { AlterarEnderecoComponent } from './components/alterar-endereco/alterar-
 import { AlterarCartaoComponent } from './components/alterar-cartao/alterar-cartao.component';
 import { AlterarUsuarioComponent } from './components/alterar-usuario/alterar-usuario.component';
 import { AdicionarCartaoComponent } from './components/adicionar-cartao/adicionar-cartao.component';
-import { AlterarDadosPessoaisComponent } from './components/alterar-dados-pessoais/alterar-dados-pessoais.component';
 
 
 @NgModule({
@@ -24,8 +23,7 @@ import { AlterarDadosPessoaisComponent } from './components/alterar-dados-pessoa
     AlterarEnderecoComponent,
     AlterarCartaoComponent,
     AlterarUsuarioComponent,
-    AdicionarCartaoComponent,
-    AlterarDadosPessoaisComponent
+    AdicionarCartaoComponent
   ],
   imports: [
     CommonModule,

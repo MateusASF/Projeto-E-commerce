@@ -67,4 +67,8 @@ export class DetalheComponent {
   adicionarCartao() {
     location.href = 'cliente/adicionarCartao';
   }
+
+  editarDadosPessoais(){
+    location.href = 'cliente/alterarUsuario';
+  }
 }

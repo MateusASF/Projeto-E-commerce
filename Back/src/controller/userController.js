@@ -51,7 +51,9 @@ class UserController {
     }
 
     async handleAlteraCliente(request, response){
-        return response.json("result");
+        const userService = new UserService();
+        const result = await userService.alterarCliente(request.body);
+        return response.json(result);
     }
 
     async handleFiltrar(request, response){

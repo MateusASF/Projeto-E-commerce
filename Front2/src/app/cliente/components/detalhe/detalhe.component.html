@@ -15,7 +15,7 @@
       <p>E-mail: <span id="email"></span>{{cliente.email}}</p>
       <p>Telefone: <span id="telefone"></span>{{cliente.telefones[0].numeroTelefone}}</p>
     </div>
-    <button onclick="editarDadosPessoais()" class="btEditar">Editar Dados Pessoais</button>
+    <button (click)="editarDadosPessoais()" class="btEditar">Editar Dados Pessoais</button>
   </div>
 
   <h2>Endereços</h2>
