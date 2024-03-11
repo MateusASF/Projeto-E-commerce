@@ -44,22 +44,22 @@ export class CadastroComponent {
       const json = JSON.stringify(formData);
 
       console.log(json);
-      // fetch('http://localhost:3009/cadastro', {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: json
-      // })
-      // .then(response => response.json())
-      // .then(data => {
-      //   console.log('Response:', data);
-      //   // Handle the response data here
-      // })
-      // .catch(error => {
-      //   console.error('Error:', error);
-      //   // Handle any errors here
-      // });
+      fetch('http://localhost:3009/cadastro', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: json
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Response:', data);
+        // Handle the response data here
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Handle any errors here
+      });
     } else {
       console.log('Formulário inválido');
     }
