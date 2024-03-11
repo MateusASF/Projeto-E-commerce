@@ -1,6 +1,6 @@
 const User = require('../models/UserModel');
 const UserService = require('../service/user/userService');
-const FachadaService = require('../strategy/fachada');
+const Validacoes = require('../strategy/Validacoes');
 
 class UserController {
     async handlePost(request, response) {
@@ -16,8 +16,8 @@ class UserController {
             request.body.enderecos,
             request.body.cartoes,
         );
-        const fachada = new FachadaService();
-        const result = await fachada.validarEntradaUsuario(user);
+        const valida = new Validacoes();
+        const result = await valida.validarEntradaUsuario(user);
 
         return response.json(result);
     }
@@ -44,8 +44,8 @@ class UserController {
     }
 
     async handleAlteraSenhaUser(request, response) {
-        const fachada = new FachadaService();
-        const result = await fachada.validarTrocaDeSenha(request.body.id, request.body.senha);
+        const valida = new Validacoes();
+        const result = await valida.validarTrocaDeSenha(request.body.id, request.body.senha);
 
         return response.json(result);
     }

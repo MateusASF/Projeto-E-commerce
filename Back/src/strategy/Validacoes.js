@@ -1,7 +1,7 @@
 const UserService = require("../service/user/userService")
 var userService = new UserService();
 
-class Fachada {
+class Validacoes {
 
     async validaSenhaForte (senhaUser) {
         const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
@@ -42,4 +42,4 @@ class Fachada {
     }
 }
 
-module.exports = Fachada;
+module.exports = Validacoes;
