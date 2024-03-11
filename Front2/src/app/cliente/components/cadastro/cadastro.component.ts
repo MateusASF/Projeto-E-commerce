@@ -8,6 +8,7 @@ import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 })
 export class CadastroComponent {
   form!: FormGroup;
+  confirmaSenha: string = '';
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -22,6 +23,7 @@ export class CadastroComponent {
         })
       ]),
       senha: new FormControl(''),
+      confirmarSenha: new FormControl(''),
       email: new FormControl('', []),
       enderecos: new FormArray([]),
       cartoes: new FormArray([])
@@ -30,43 +32,37 @@ export class CadastroComponent {
 
   onSubmit() {
     if (this.form.valid) {
-
-      this.abrirModalSenha();
+      if(this.form.value.senha !== this.form.value.confirmarSenha) {
+        console.log(this.form.value.senha);
+        console.log(this.form.value.confirmarSenha);
+        alert('Senhas não conferem');
+        return;
+      }
+      this.form.removeControl('confirmarSenha');
       const formData = this.form.value;
       formData.nascimento = this.formatDate(formData.nascimento);
       const json = JSON.stringify(formData);
 
       console.log(json);
-      fetch('http://localhost:3009/cadastro', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: json
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Response:', data);
-        // Handle the response data here
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        // Handle any errors here
-      });
+      // fetch('http://localhost:3009/cadastro', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json'
+      //   },
+      //   body: json
+      // })
+      // .then(response => response.json())
+      // .then(data => {
+      //   console.log('Response:', data);
+      //   // Handle the response data here
+      // })
+      // .catch(error => {
+      //   console.error('Error:', error);
+      //   // Handle any errors here
+      // });
     } else {
       console.log('Formulário inválido');
     }
-  }
-
-  abrirModalSenha() {
-  }
-
-  fecharModalSenha() {
-    // Implement code to close the modal here
-  }
-
-  confirmarSenha() {
-    // Implement code to validate the password and proceed with the registration here
   }
 
   private formatDate(date: string): string {
