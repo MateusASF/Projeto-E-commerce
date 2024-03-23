@@ -1,0 +1,34 @@
+<div class="containerCarrinho">
+  <div class="containerTitulo">
+    <hr>
+    <h1 class="tituloPagina">Carrinho</h1>
+    <hr>
+  </div>
+
+  <div>
+    <div class="containerProdutos">
+      <div *ngFor="let produto of produtosCarrinho" class="produtoCarrinho">
+        <div class="containerImagem">
+          <img [src]="produto.product.imagens[0]" alt="Imagem do produto" class="imagemProduto">
+        </div>
+        <div class="containerInformacoes">
+          <h2 class="tituloProduto">{{produto.product.marca}} - {{produto.product.modelo}} - {{produto.product.nome}}</h2>
+          <p class="precoProduto">R$ {{produto.product.preco | currency}}</p>
+          <div class="containerQuantidade">
+            <button (click)="diminuirQuantidade(produto)" class="botaoQuantidade">-</button>
+            <p class="quantidade">{{produto.quantity}}</p>
+            <button (click)="aumentarQuantidade(produto)" class="botaoQuantidade">+</button>
+          </div>
+          <button (click)="removerProduto(produto)" class="botaoRemover">Remover</button>
+        </div>
+      </div>
+      <div>
+        <p *ngIf="produtosCarrinho.length === 0" class="mensagemCarrinhoVazio">Seu carrinho está vazio</p>
+      </div>
+      <div class="finalizarCompra">
+        <p class="totalCarrinho">Total: R$ {{total | currency}}</p>
+        <button *ngIf="produtosCarrinho.length > 0" (click)="finalizarCompra()" class="botaoFinalizarCompra">Finalizar Compra</button>
+      </div>
+    </div>
+  </div>
+</div>

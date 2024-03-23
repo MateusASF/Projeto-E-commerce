@@ -17,7 +17,6 @@
   height: 0px;
   border: 2px solid var(--secondary-color);
   margin: 0 20px;
-
 }
 
 .tituloPagina{
@@ -25,7 +24,6 @@
   font-family: var(--font-secondary);
   font-size: 50px;
   font-weight: 400;
-
 }
 
 .form {

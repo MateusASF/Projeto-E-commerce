@@ -1,0 +1,25 @@
+<div class="containerListagem">
+  <div class="pesquisa">
+    <div class="acoes">
+      <button>Cadastrar Relógio</button>
+      <button>Editar Relógio</button>
+    </div>
+
+    <hr>
+    <p id="buscar">Buscar</p>
+    <input type="text" id="searchInput" placeholder="Buscar produto">
+    <button onclick="search()">Buscar</button>
+  </div>
+
+  <div id="productList">
+    <div class="card" *ngFor="let product of products.relogios">
+      <div (click)="infoProduto(product)">
+        <img src="../../../../assets/modeloRelogio.png" alt="Product 1">
+        <h3>{{product.marca}}</h3>
+        <p>{{product.nome}} - {{product.modelo}}</p>
+        <p>{{product.preco | currency}}</p>
+      </div>
+    </div>
+  </div>
+
+</div>
