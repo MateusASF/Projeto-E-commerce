@@ -7,6 +7,7 @@ import { ListarProdutosComponent } from './Produtos/listar-produtos/listar-produ
 import { EditarProdutoComponent } from './Produtos/editar-produto/editar-produto.component';
 import { InfoProdutoComponent } from './Produtos/info-produto/info-produto.component';
 import { CarrinhoComponent } from './carrinho/carrinho.component';
+import { FinalizarCompraComponent } from './finalizar-compra/finalizar-compra.component';
 
 
 const routes: Routes = [
@@ -31,6 +32,10 @@ const routes: Routes = [
       {
         path: 'carrinho',
         component: CarrinhoComponent
+      },
+      {
+        path: 'finalizar-compra',
+        component: FinalizarCompraComponent
       }
     ]
   }

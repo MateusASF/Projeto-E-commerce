@@ -1,10 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 :root {
-  --primary-color: #000;
-  --secondary-color: #fff;
-  --auxilary-color: rgb(255, 227, 124);
+  --primary-color: #fff;
+  --secondary-color: #000;
+  --auxilary-color: rgb(184, 144, 0);
   --font-primary: 'Hubballi', sans-serif;
   --font-secondary: 'Hurricane', cursive;
   --font-auxiliary: "PT Serif", serif;
-  background-color: #000;
+  background-color: #fff;
 }

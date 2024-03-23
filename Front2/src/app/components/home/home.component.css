@@ -9,15 +9,16 @@
   z-index: -1;
   position: absolute;
   top: 0;
-  filter: brightness(30%); /* Add this line to make the image darker */
+  filter: brightness(50%) grayscale(200%);
 }
 
 .mensagemHome {
   width: 70%;
-  color: var(--secondary-color);
+  color: var(--primary-color);
   font-family: var(--font-auxiliary);
   font-size: 50px;
   position: relative;
   margin-top: 150px;
   text-align: center;
+  text-shadow: 2px 2px 2px #000;
 }

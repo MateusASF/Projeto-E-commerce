@@ -1,0 +1,31 @@
+.containerFinalizarCompra {
+  color: var(--secondary-color);
+}
+
+.containerCarrinho{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.containerTitulo{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+}
+
+.containerTitulo hr {
+  width: 23.2vw;
+  height: 0px;
+  border: 2px solid var(--secondary-color);
+  margin: 0 20px;
+}
+
+.tituloPagina{
+  color: var(--secondary-color);
+  font-family: var(--font-secondary);
+  font-size: 50px;
+  font-weight: 400;
+}

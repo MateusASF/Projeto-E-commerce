@@ -45,8 +45,6 @@ export class CarrinhoComponent {
   }
 
   finalizarCompra(): void {
-    // this.produtosCarrinho = [];
-    // localStorage.setItem('cart', JSON.stringify(this.produtosCarrinho));
-    // this.calculateTotal();
+    location.href = '/produtos/finalizar-compra';
   }
 }
