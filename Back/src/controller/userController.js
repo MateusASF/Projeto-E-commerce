@@ -105,6 +105,15 @@ class UserController {
         const result = await userService.buscarUsuario(request.body.id);
         return response.json(result);
     }
+
+    async handleLogin(request, response){
+        const userService = new UserService();
+        const valida = new Validacoes();
+        let senha = '';
+        senha = await valida.criptografaSenha(request.body.senha);
+        const result = await userService.login(request.body.email, senha);
+        return response.json(result);
+    }
 }
 
 module.exports = { UserController };

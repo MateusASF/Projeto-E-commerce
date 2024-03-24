@@ -1,0 +1,18 @@
+<div class="containerLogin">
+  <div class="containerTitulo">
+    <hr>
+    <h1 class="tituloPagina">Finalizar Compra</h1>
+    <hr>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="logar()">
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" formControlName="email">
+    </div>
+    <div class="form-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" formControlName="password">
+    </div>
+    <button type="submit">Login</button>
+  </form>
+</div>

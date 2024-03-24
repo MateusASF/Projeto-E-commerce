@@ -372,6 +372,64 @@ class UserService {
         }
     }
 
+    async login (email, senha) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+            const result = await connection.execute(`SELECT * FROM usuarios WHERE email = :email AND senha = :senha`,{email, senha});
+            const usuario = await Promise.all(result.rows.map(async row => {
+                const id = row[0];
+    
+                const telefonesResult = await connection.execute('SELECT * FROM telefones WHERE id_usuario = :id', { id });
+                const telefones = telefonesResult.rows.map(row => ({
+                    idTelefone: row[0],
+                    numeroTelefone: row[2],
+                    tipoTelefone: row[3]
+                }));
+    
+                const enderecosResult = await connection.execute('SELECT * FROM enderecos WHERE id_usuario = :id', { id });
+                const enderecos = enderecosResult.rows.map(row => ({
+                    logradouro: row[2],
+                    tipoLogradouro: row[3],
+                    numero: row[4],
+                    bairro: row[5],
+                    cidade: row[6],
+                    estado: row[7],
+                    pais: row[8],
+                    cep: row[9],
+                    tipoResidencia: row[10],
+                    observacoes: row[11],
+                    identificacao: row[12]
+                }));
+    
+                const cartoesResult = await connection.execute('SELECT * FROM cartoes WHERE id_usuario = :id', { id });
+                const cartoes = cartoesResult.rows.map(row => ({
+                    numeroCartao: row[2],
+                    nomeCliente: row[3],
+                    bandeira: row[4],
+                    cvv: row[5]
+                }));
+    
+                return {
+                    id : row[0],
+                    ativo: row[1],
+                    nome: row[2],
+                    nascimento: row[3],
+                    genero: row[4],
+                    cpf: row[5],
+                    telefones,
+                    senha: row[6],
+                    email: row[7],
+                    enderecos,
+                    cartoes
+                };
+            }));
+            return usuario;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
 }
 
 module.exports = UserService;

@@ -1,0 +1,67 @@
+.containerLogin {
+  color: var(--secondary-color);
+}
+
+.containerCarrinho{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.containerTitulo{
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+}
+
+.containerTitulo hr {
+  width: 23.2vw;
+  height: 0px;
+  border: 2px solid var(--secondary-color);
+  margin: 0 20px;
+}
+
+.tituloPagina{
+  color: var(--secondary-color);
+  font-family: var(--font-secondary);
+  font-size: 50px;
+  font-weight: 400;
+}
+
+.containerLogin form {
+  font-family: var(--font-primary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.containerLogin form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.containerLogin form .form-group input {
+  border: none;
+  border-bottom: 2px solid var(--secondary-color);
+  padding: 5px;
+  text-align: center;
+  font-family: var(--font-primary);
+}
+
+.containerLogin form button {
+  background-color: transparent;
+  color: var(--secondary-color);
+  border: 2px solid var(--secondary-color);
+  padding: 5px 10px;
+  font-family: var(--font-primary);
+  font-size: 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}

@@ -45,6 +45,6 @@ export class CarrinhoComponent {
   }
 
   finalizarCompra(): void {
-    location.href = '/produtos/finalizar-compra';
+    location.href = '/login';
   }
 }

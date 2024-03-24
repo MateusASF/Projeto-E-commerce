@@ -18,4 +18,5 @@ router.post('/adicionarCartao', userController.handleAdicionarCartao);
 router.post('/excluirEndereco', userController.handleDeletarEndereco);
 router.post('/excluirCartao', userController.handleDeletarCartao);
 router.post('/buscarUsuario', userController.handleBuscarUsuario);
+router.post('/login', userController.handleLogin);
 module.exports = { router };

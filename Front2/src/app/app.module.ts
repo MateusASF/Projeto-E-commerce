@@ -10,6 +10,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AdicionarEnderecoComponent } from './cliente/components/adicionar-endereco/adicionar-endereco.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     HomeComponent,
     NavbarComponent,
     FooterComponent,
-    AdicionarEnderecoComponent
+    AdicionarEnderecoComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
