@@ -5,47 +5,58 @@
     <hr>
   </div>
 
+  <div class="infoUser">
+    <h3>Informações do Usuário</h3>
+    <div>
+      <label for="nomeUsuario">Nome: {{cliente.nome}}</label>
+      <label for="emailUsuario">Email: {{cliente.email}}</label>
+      <label for="telefoneUsuario">Telefone: {{cliente.telefones[0].numeroTelefone}}</label>
+    </div>
+  </div>
+
   <div class="infoPagamento">
     <h3>Informações de Pagamento</h3>
+    <p>Cartão de crédito</p>
     <select>
-      <div>Selecionar Cartão</div>
+        <option *ngFor="let cartao of cliente.cartoes" value="cartao.numeroCartao">{{cartao.numeroCartao}}</option>
     </select>
   </div>
 
   <div class="enderecoCobranca">
     <h3>Endereço de Cobrança</h3>
     <select>
-      <div>Selecionar Endereço de cobrança</div>
+      <!-- <option *ngFor="let endereco of cliente.enderecoCobranca" value="endereco.enderecoCobranca">{{endereco.enderecoCobranca}}</option> -->
     </select>
   </div>
 
   <div class="enderecoEntrega">
     <h3>Endereço de Entrega</h3>
     <select>
-      <div>Selecionar Endereço de cobrança</div>
+      <!-- <option *ngFor="let endereco of cliente.enderecoCobranca" value="endereco.enderecoCobranca">{{endereco.enderecoCobranca}}</option> -->
     </select>
   </div>
 
-  <h3>Informações do Usuário</h3>
-  <form>
-    <label for="nomeUsuario">Nome:</label>
-    <input type="text" id="nomeUsuario" name="nomeUsuario" required>
 
-    <label for="emailUsuario">Email:</label>
-    <input type="email" id="emailUsuario" name="emailUsuario" required>
 
-    <label for="telefoneUsuario">Telefone:</label>
-    <input type="text" id="telefoneUsuario" name="telefoneUsuario" required>
-  </form>
-
-  <h3>Resumo do Carrinho de Compras</h3>
   <div class="resumoCarrinho">
-    <!-- Aqui você pode exibir o resumo do carrinho de compras -->
+    <h3>Resumo do Carrinho de Compras</h3>
+    <div class="resumoCarrinho">
+      <div *ngFor="let item of carrinho">
+          <p>{{item.product.marca}} - {{item.product.nome}} - {{item.product.modelo}}</p>
+          <p>{{item.product.descricao}}</p>
+          <p>Quantidade: {{item.quantity}}</p>
+          <p>Preço: R$ {{item.product.preco}}</p>
+      </div>
+    </div>
   </div>
 
-  <h3>Inserir Cupom</h3>
-  <form>
-    <input type="text" id="cupom" name="cupom">
-    <button type="submit">Aplicar Cupom</button>
-  </form>
+  <div class="cupomContainer">
+    <h3>Inserir Cupom</h3>
+    <form>
+      <input type="text" id="cupom" name="cupom">
+      <button type="submit">Aplicar Cupom</button>
+    </form>
+  </div>
+
+  <h3>Valor Total: R$ {{total}}</h3>
 </div>

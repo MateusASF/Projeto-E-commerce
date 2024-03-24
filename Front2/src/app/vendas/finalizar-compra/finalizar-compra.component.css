@@ -29,3 +29,20 @@
   font-size: 50px;
   font-weight: 400;
 }
+
+.infoPagamento, .enderecoCobranca, .enderecoEntrega, .infoUser, .resumoCarrinho, .cupomContainer{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  font-family: var(--font-primary);
+}
+
+.infoUser div {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}

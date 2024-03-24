@@ -4,7 +4,7 @@ const db = require('../../database/configBd');
 class UserService {
     async criarUser(user) {
         await db.initialize();
-        const connection = db.getConnection();
+        const connection = db.getConnection(); 
 
         console.log(user);
 
@@ -53,7 +53,7 @@ class UserService {
 
         user.enderecos.forEach(item => {
             connection.execute(
-                `INSERT INTO enderecos (id_usuario, logradouro, tipo_logradouro, numero, bairro, cidade, estado, pais, cep, tipo_residencia, observacoes, identificacao) VALUES (:id_usuario, :logradouro, :tipo_logradouro, :numero, :bairro, :cidade, :estado, :pais, :cep, :tipo_residencia, :observacoes, :identificacao)`,{
+                `INSERT INTO enderecos (id_usuario, logradouro, tipo_logradouro, numero, bairro, cidade, estado, pais, cep, tipo_residencia, observacoes, identificacao, tipo_endereco) VALUES (:id_usuario, :logradouro, :tipo_logradouro, :numero, :bairro, :cidade, :estado, :pais, :cep, :tipo_residencia, :observacoes, :identificacao, :tipo_endereco)`,{
                     id_usuario: idUser,
                     logradouro: item.logradouro,
                     tipo_logradouro: item.tipoLogradouro,
@@ -65,12 +65,12 @@ class UserService {
                     cep: item.cep,
                     tipo_residencia: item.tipoResidencia,
                     observacoes: item.observacoes,
-                    identificacao: item.identificacao
+                    identificacao: item.identificacao,
+                    tipo_endereco: item.tipoEndereco
                 },{autoCommit: true}
             )
         })
 
-        //await connection.close();
         return "cadastrou";
     }
 
@@ -104,7 +104,8 @@ class UserService {
                     cep: row[9],
                     tipoResidencia: row[10],
                     observacoes: row[11],
-                    identificacao: row[12]
+                    identificacao: row[12],
+                    tipoEndereco: row[13]
                 }));
     
                 const cartoesResult = await connection.execute('SELECT * FROM cartoes WHERE id_usuario = :id', { id });
@@ -197,7 +198,8 @@ class UserService {
                     cep: row[9],
                     tipoResidencia: row[10],
                     observacoes: row[11],
-                    identificacao: row[12]
+                    identificacao: row[12],
+                    tipoEndereco: row[13]
                 }));
     
                 const cartoesResult = await connection.execute('SELECT * FROM cartoes WHERE id_usuario = :id', { id });
@@ -245,8 +247,8 @@ class UserService {
         try {
             await db.initialize();
             const connection = db.getConnection();
-            const result = await connection.execute(`UPDATE enderecos SET logradouro = :logradouro, tipo_logradouro = :tipo_logradouro, numero = :numero, bairro = :bairro, cidade = :cidade, estado = :estado, pais = :pais, cep = :cep, tipo_residencia = :tipo_residencia, observacoes = :observacoes, identificacao = :identificacao WHERE id_usuario = :id_usuario AND id_endereco = :id_endereco`,
-            {logradouro: data.logradouro, tipo_logradouro: data.tipoLogradouro, numero: data.numero, bairro: data.bairro, cidade: data.cidade, estado: data.estado, pais: data.pais, cep: data.cep, tipo_residencia: data.tipoResidencia, observacoes: data.observacao, identificacao: data.identificacao, id_usuario: data.idCliente, id_endereco: data.idEndereco},{autoCommit: true});
+            const result = await connection.execute(`UPDATE enderecos SET logradouro = :logradouro, tipo_logradouro = :tipo_logradouro, numero = :numero, bairro = :bairro, cidade = :cidade, estado = :estado, pais = :pais, cep = :cep, tipo_residencia = :tipo_residencia, observacoes = :observacoes, tipo_endereco = :tipo_endereco, identificacao = :identificacao WHERE id_usuario = :id_usuario AND id_endereco = :id_endereco`,
+            {logradouro: data.logradouro, tipo_logradouro: data.tipoLogradouro, numero: data.numero, bairro: data.bairro, cidade: data.cidade, estado: data.estado, pais: data.pais, cep: data.cep, tipo_residencia: data.tipoResidencia, observacoes: data.observacao, identificacao: data.identificacao, tipo_endereco: data.tipoEndereco, id_usuario: data.idCliente, id_endereco: data.idEndereco},{autoCommit: true});
             return result;
         } catch (error) {
             console.error(error);
@@ -257,8 +259,8 @@ class UserService {
         try {
             await db.initialize();
             const connection = db.getConnection();
-            const result = await connection.execute(`INSERT INTO enderecos (id_usuario, logradouro, tipo_logradouro, numero, bairro, cidade, estado, pais, cep, tipo_residencia, observacoes) VALUES (:id_usuario, :logradouro, :tipo_logradouro, :numero, :bairro, :cidade, :estado, :pais, :cep, :tipo_residencia, :observacoes, identificacao = :identificacao)`,
-            {id_usuario: data.idCliente, logradouro: data.logradouro, tipo_logradouro: data.tipoLogradouro, numero: data.numero, bairro: data.bairro, cidade: data.cidade, estado: data.estado, pais: data.pais, cep: data.cep, tipo_residencia: data.tipoResidencia, observacoes: data.observacao, identificacao: data.identificacao},{autoCommit: true});
+            const result = await connection.execute(`INSERT INTO enderecos (id_usuario, logradouro, tipo_logradouro, numero, bairro, cidade, estado, pais, cep, tipo_residencia, observacoes) VALUES (:id_usuario, :logradouro, :tipo_logradouro, :numero, :bairro, :cidade, :estado, :pais, :cep, :tipo_residencia, :observacoes, identificacao = :identificacao, tipo_endereco = :tipo_endereco)`,
+            {id_usuario: data.idCliente, logradouro: data.logradouro, tipo_logradouro: data.tipoLogradouro, numero: data.numero, bairro: data.bairro, cidade: data.cidade, estado: data.estado, pais: data.pais, cep: data.cep, tipo_residencia: data.tipoResidencia, observacoes: data.observacao, identificacao: data.identificacao, tipo_endereco: data.tipoEndereco},{autoCommit: true});
             return result;
         } catch (error) {
             console.error(error);
@@ -326,7 +328,8 @@ class UserService {
                     cep: row[9],
                     tipoResidencia: row[10],
                     observacoes: row[11],
-                    identificacao: row[12]
+                    identificacao: row[12],
+                    tipoEndereco: row[13]
                 }));
     
                 const cartoesResult = await connection.execute('SELECT * FROM cartoes WHERE id_usuario = :id', { id });
@@ -399,7 +402,8 @@ class UserService {
                     cep: row[9],
                     tipoResidencia: row[10],
                     observacoes: row[11],
-                    identificacao: row[12]
+                    identificacao: row[12],
+                    tipoEndereco: row[13]
                 }));
     
                 const cartoesResult = await connection.execute('SELECT * FROM cartoes WHERE id_usuario = :id', { id });
