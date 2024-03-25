@@ -1,1 +1,44 @@
-<p>editar-produto works!</p>
+<div class="listarProdutos">
+  <div class="containerTitulo">
+    <hr>
+    <h1 class="tituloPagina">Lista de Produtos</h1>
+    <hr>
+  </div>
+
+  <div class="containerTabela">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Marca</th>
+          <th>Ano</th>
+          <th>Nome</th>
+          <th>Modelo</th>
+          <th>Código</th>
+          <th>Genero</th>
+          <th>Tamanho</th>
+          <th>Preco</th>
+          <th>Categoria</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let produto of produtos.relogios">
+          <td>{{produto.marca}}</td>
+          <td>{{produto.ano}}</td>
+          <td>{{produto.nome}}</td>
+          <td>{{produto.modelo}}</td>
+          <td>{{produto.codRelogio}}</td>
+          <td>{{produto.genero}}</td>
+          <td>{{produto.tamanho}}</td>
+          <td>{{produto.preco}}</td>
+          <td>{{produto.categoria}}</td>
+          <td class="acoes">
+            <a (click)="inativarProduto(produto)" *ngIf="produto.ativo == '1'"> | Inativar | </a>
+            <a (click)="ativarProduto(produto)" *ngIf="produto.ativo == '0'"> | Ativar | </a>
+            <a (click)="editarProduto(produto)">Detalhes</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

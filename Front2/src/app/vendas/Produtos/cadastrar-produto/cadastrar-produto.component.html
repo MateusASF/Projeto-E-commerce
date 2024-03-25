@@ -1,1 +1,94 @@
-<p>cadastrar-produto works!</p>
+<div class="containerCadastro">
+  <div class="containerTitulo">
+    <hr>
+    <h1 class="tituloPagina">Cadastro de Produto</h1>
+    <hr>
+  </div>
+  <div class="form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="blockForm">
+        <div class="form-group">
+          <label for="marca">Marca:</label>
+          <input type="text" id="marca" name="marca" formControlName="marca">
+        </div>
+        <div class="form-group">
+          <label for="ano">Ano:</label>
+          <input type="number" id="ano" name="ano" formControlName="ano">
+        </div>
+        <div class="form-group">
+          <label for="nome">Nome:</label>
+          <input type="text" id="nome" name="nome" formControlName="nome">
+        </div>
+
+        <div class="form-group">
+          <label for="modelo">Modelo:</label>
+          <input type="text" id="modelo" name="modelo" formControlName="modelo">
+        </div>
+      </div>
+      <div class="blockForm">
+        <div class="form-group">
+          <label for="codRelogio">Código do Relógio:</label>
+          <input type="number" id="codRelogio" name="codRelogio" formControlName="codRelogio">
+        </div>
+        <div class="form-group-td">
+          <label for="preco">Categoria:</label>
+          <select id="genero" name="genero" formControlName="genero">
+            <option value="slim">Slim</option>
+            <option value="robusto">Robusto</option>
+            <option value="esportivo">Esportivo</option>
+            <option value="classico">Clássico</option>
+            <option value="slim_robusto">Slim + Robusto</option>
+            <option value="slim_esportivo">Slim + Esportivo</option>
+            <option value="slim_classico">Slim + Clássico</option>
+            <option value="robusto_esportivo">Robusto + Esportivo</option>
+            <option value="robusto_classico">Robusto + Clássico</option>
+            <option value="esportivo_classico">Esportivo + Clássico</option>
+            <option value="slim_robusto_esportivo">Slim + Robusto + Esportivo</option>
+            <option value="slim_robusto_classico">Slim + Robusto + Clássico</option>
+            <option value="slim_esportivo_classico">Slim + Esportivo + Clássico</option>
+            <option value="robusto_esportivo_classico">Robusto + Esportivo + Clássico</option>
+            <option value="slim_robusto_esportivo_classico">Slim + Robusto + Esportivo + Clássico</option>
+          </select>
+        </div>
+
+        <div class="form-group-tr">
+          <label for="tamanho">Tamanho:</label>
+          <input type="text" id="tamanho" name="tamanho" formControlName="tamanho">
+        </div>
+        <div class="form-group">
+          <label for="preco">Preço:</label>
+          <input type="number" id="preco" name="preco" formControlName="preco">
+        </div>
+        <div class="form-group-td" style="width: 7vw;">
+          <label for="genero">Gênero:</label>
+          <select id="genero" name="genero" formControlName="genero">
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+          </select>
+        </div>
+      </div>
+      <!-- <div>
+        <label for="ativo">Ativo:</label>
+        <input type="checkbox" id="ativo" name="ativo" checked>
+      </div> -->
+      <div class="blockFormImg">
+        <div class="form-group-img">
+          <label for="imagens">Imagens:</label>
+          <input type="file" id="imagensAdicionais" name="imagensAdicionais"
+            (change)="handleAdditionalFileInput($event)">
+        </div>
+        <div class="form-group-img">
+          <label for="imagens">Imagens selecionadas:</label>
+          <div class="containerImagens">
+            <div *ngFor="let image of selectedImages; let i = index" class="img">
+              <img src="{{image}}" alt="Imagem do produto" class="imagemSelecionada">
+              <button (click)="removeImage(i)">Remover</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="submit">Cadastrar</button>
+
+    </form>
+  </div>
+</div>

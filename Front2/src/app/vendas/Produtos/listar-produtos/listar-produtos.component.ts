@@ -81,4 +81,12 @@ export class ListarProdutosComponent {
     sessionStorage.setItem('product', JSON.stringify(product));
     location.href = '/produtos/info';
   }
+
+  cadastrarProduto(): void {
+    location.href = '/produtos/cadastrar';
+  }
+
+  editarProduto(): void {
+    location.href = '/produtos/editar';
+  }
 }

@@ -37,8 +37,8 @@
           <td>{{cliente.cpf}}</td>
           <td class="acoes">
             <a (click)="trocarSenha(cliente.id, cliente.senha)">Trocar Senha</a>
-            <a (click)="inativarCliente(cliente.id)" *ngIf="cliente.ativo == '1'">| Inativar | </a>
-            <a (click)="ativarCliente(cliente.id)" *ngIf="cliente.ativo == '0'">Ativar</a>
+            <a (click)="inativarCliente(cliente.id)" *ngIf="cliente.ativo == '1'"> | Inativar | </a>
+            <a (click)="ativarCliente(cliente.id)" *ngIf="cliente.ativo == '0'"> | Ativar | </a>
             <a (click)="detalheCliente(cliente)">Detalhes</a>
           </td>
         </tr>

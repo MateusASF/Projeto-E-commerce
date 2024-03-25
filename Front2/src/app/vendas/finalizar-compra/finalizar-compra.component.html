@@ -25,14 +25,14 @@
   <div class="enderecoCobranca">
     <h3>Endereço de Cobrança</h3>
     <select>
-      <!-- <option *ngFor="let endereco of cliente.enderecoCobranca" value="endereco.enderecoCobranca">{{endereco.enderecoCobranca}}</option> -->
+      <option *ngFor="let endereco of enderecosCobranca" value="endereco.identificacao">{{endereco.identificacao}}</option>
     </select>
   </div>
 
   <div class="enderecoEntrega">
     <h3>Endereço de Entrega</h3>
     <select>
-      <!-- <option *ngFor="let endereco of cliente.enderecoCobranca" value="endereco.enderecoCobranca">{{endereco.enderecoCobranca}}</option> -->
+      <option *ngFor="let endereco of enderecosEntrega" value="endereco.identificacao">{{endereco.identificacao}}</option>
     </select>
   </div>
 
@@ -58,5 +58,6 @@
     </form>
   </div>
 
+  <h3>Valor Frete: R$ {{frete}}</h3>
   <h3>Valor Total: R$ {{total}}</h3>
 </div>
