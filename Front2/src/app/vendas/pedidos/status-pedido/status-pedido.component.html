@@ -1,0 +1,17 @@
+<div class="containerStatusPedido">
+  <div class="containerTitulo">
+    <hr>
+    <h1 class="tituloPagina">Status Pedido</h1>
+    <hr>
+  </div>
+
+  <div class="form">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="codPedido">Código do Pedido</label>
+        <input type="text" class="form-control" id="codPedido" placeholder="Código do Pedido" formControlName="codPedido">
+      </div>
+      <button type="submit" class="btForm">Buscar</button>
+    </form>
+  </div>
+</div>

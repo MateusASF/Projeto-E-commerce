@@ -1,0 +1,36 @@
+<div class="containerListarVendas">
+  <div class="containerTitulo">
+    <hr>
+    <h1 class="tituloPagina">Listar Vendas</h1>
+    <hr>
+  </div>
+
+  <div class="containerTabela">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Valor</th>
+          <th>Quantidade de Itens</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let venda of vendas">
+          <td>{{venda.cliente}}</td>
+          <td>{{venda.valor}}</td>
+          <td>{{venda.qtdItens}}</td>
+          <td>{{venda.status}}</td>
+          <td class="acoes">
+            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'APROVADA'"> | Iniciar Entrega | </a>
+            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'EM TRÂNSITO'"> | Finalizar Entrega | </a>
+            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'EM TROCA'"> | Autorizar Troca | </a>
+            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'TROCA AUTORIZADA'"> | Pedido Recebido | </a>
+            <a (click)="detalhesVenda(venda)">Detalhes</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

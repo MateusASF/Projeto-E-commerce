@@ -1,14 +1,23 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CadastrarProdutoComponent } from './Produtos/cadastrar-produto/cadastrar-produto.component';
-import { VendasRoutingModule } from './vendas-routing.module';
-import { VendasComponent } from './vendas.component';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ListarProdutosComponent } from './Produtos/listar-produtos/listar-produtos.component';
+import { CadastrarProdutoComponent } from './Produtos/cadastrar-produto/cadastrar-produto.component';
 import { EditarProdutoComponent } from './Produtos/editar-produto/editar-produto.component';
 import { InfoProdutoComponent } from './Produtos/info-produto/info-produto.component';
+import { ListarProdutosComponent } from './Produtos/listar-produtos/listar-produtos.component';
+import { AcompanharVendasComponent } from './acompanhar-vendas/acompanhar-vendas.component';
 import { CarrinhoComponent } from './carrinho/carrinho.component';
+import { GerarCupomComponent } from './cupons/gerar-cupom/gerar-cupom.component';
+import { ListarCuponsComponent } from './cupons/listar-cupons/listar-cupons.component';
 import { FinalizarCompraComponent } from './finalizar-compra/finalizar-compra.component';
+import { GraficoVendasComponent } from './grafico-vendas/grafico-vendas.component';
+import { AcompanharPedidosComponent } from './pedidos/acompanhar-pedidos/acompanhar-pedidos.component';
+import { DevolucaoComponent } from './pedidos/devolucao/devolucao.component';
+import { TrocaComponent } from './pedidos/troca/troca.component';
+import { VendasRoutingModule } from './vendas-routing.module';
+import { VendasComponent } from './vendas.component';
+import { StatusPedidoComponent } from './pedidos/status-pedido/status-pedido.component';
+import { ListarVendasComponent } from './listar-vendas/listar-vendas.component';
 
 
 
@@ -20,7 +29,16 @@ import { FinalizarCompraComponent } from './finalizar-compra/finalizar-compra.co
     EditarProdutoComponent,
     InfoProdutoComponent,
     CarrinhoComponent,
-    FinalizarCompraComponent
+    FinalizarCompraComponent,
+    DevolucaoComponent,
+    TrocaComponent,
+    GerarCupomComponent,
+    AcompanharVendasComponent,
+    AcompanharPedidosComponent,
+    ListarCuponsComponent,
+    GraficoVendasComponent,
+    StatusPedidoComponent,
+    ListarVendasComponent
   ],
   imports: [
     CommonModule,

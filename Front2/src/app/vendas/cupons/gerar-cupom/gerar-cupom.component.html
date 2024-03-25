@@ -1,0 +1,23 @@
+<div class="containerGerarCupom">
+  <div class="containerTitulo">
+    <hr>
+    <h1 class="tituloPagina">Gerar Cupom</h1>
+    <hr>
+  </div>
+
+  <div>
+    <div class="form">
+      <form [formGroup]="formGerarCupom" (ngSubmit)="gerarCupom()">
+        <div class="form-group">
+          <label for="codigoCupom">Código do Cupom</label>
+          <input type="text" class="form-control" id="codigoCupom" formControlName="codigoCupom">
+        </div>
+        <div class="form-group">
+          <label for="valorCupom">Valor do Cupom</label>
+          <input type="text" class="form-control" id="valorCupom" formControlName="valorCupom">
+        </div>
+        <button type="submit" class="btForm">Gerar Cupom</button>
+      </form>
+    </div>
+  </div>
+</div>
