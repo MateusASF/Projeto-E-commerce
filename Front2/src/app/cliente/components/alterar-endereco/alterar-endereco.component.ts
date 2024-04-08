@@ -44,7 +44,7 @@ export class AlterarEnderecoComponent {
       })
       .then(data => {
         console.log('Response:', data);
-        // Handle the response data here
+        location.href = '/cliente/listar';
       })
       .catch(error => {
         console.error('Error:', error);

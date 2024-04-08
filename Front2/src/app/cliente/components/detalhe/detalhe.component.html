@@ -15,7 +15,7 @@
       <p>E-mail: <span id="email"></span>{{cliente.email}}</p>
       <p>Telefone: <span id="telefone"></span>{{cliente.telefones[0].numeroTelefone}}</p>
     </div>
-    <button (click)="editarDadosPessoais()" class="btEditar">Editar Dados Pessoais</button>
+    <button (click)="editarDadosPessoais()" class="btEditar" id="dadosPessoais">Editar Dados Pessoais</button>
   </div>
 
   <h2>Endereços</h2>
@@ -37,7 +37,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let endereco of enderecos">
+        <tr *ngFor="let endereco of enderecos" id="enderecoId">
           <td>{{endereco.logradouro}}</td>
           <td>{{endereco.tipoLogradouro}}</td>
           <td>{{endereco.numero}}</td>
@@ -54,7 +54,7 @@
           </td>
         </tr>
       </tbody>
-      <button class="btEditar" style="position: relative;left: 39vw;" (click)="adicionarEndereco()">Adicionar Endereço</button>
+      <button class="btEditar" style="position: relative;left: 39vw;" (click)="adicionarEndereco()" id="dadosEndereco">Adicionar Endereço</button>
     </table>
 
   <h2>Cartões</h2>
@@ -70,7 +70,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let cartao of cartoes">
+        <tr *ngFor="let cartao of cartoes" id="cartaoId">
           <td>{{cartao.numeroCartao}}</td>
           <td>{{cartao.nomeCliente}}</td>
           <td>{{cartao.bandeira}}</td>
@@ -81,6 +81,6 @@
           </td>
         </tr>
       </tbody>
-      <button class="btEditar" style="position: relative;left: 23vw;" (click)="adicionarCartao()">Adicionar Cartão</button>
+      <button class="btEditar" style="position: relative;left: 23vw;" (click)="adicionarCartao()" id="dadosCartao">Adicionar Cartão</button>
     </table>
 </div>

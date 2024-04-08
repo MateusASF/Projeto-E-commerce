@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./info-produto.component.css']
 })
 export class InfoProdutoComponent implements OnInit{
-  productImages = ["../../../../../assets/modeloRelogio.png", "../../../../../assets/modeloRelogio2.png", "../../../../../assets/modeloRelogio6.png"];
+  productImages = ["../../../../../assets/modeloRelogio.png", "../../../../../assets/modeloRelogio2.png"];
   product: any;
   quantity = 1;
   currentImageIndex = 0;

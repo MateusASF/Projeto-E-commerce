@@ -5,59 +5,74 @@
     <hr>
   </div>
 
-  <div class="infoUser">
-    <h3>Informações do Usuário</h3>
-    <div>
-      <label for="nomeUsuario">Nome: {{cliente.nome}}</label>
-      <label for="emailUsuario">Email: {{cliente.email}}</label>
-      <label for="telefoneUsuario">Telefone: {{cliente.telefones[0].numeroTelefone}}</label>
-    </div>
-  </div>
-
-  <div class="infoPagamento">
-    <h3>Informações de Pagamento</h3>
-    <p>Cartão de crédito</p>
-    <select>
-        <option *ngFor="let cartao of cliente.cartoes" value="cartao.numeroCartao">{{cartao.numeroCartao}}</option>
-    </select>
-  </div>
-
-  <div class="enderecoCobranca">
-    <h3>Endereço de Cobrança</h3>
-    <select>
-      <option *ngFor="let endereco of enderecosCobranca" value="endereco.identificacao">{{endereco.identificacao}}</option>
-    </select>
-  </div>
-
-  <div class="enderecoEntrega">
-    <h3>Endereço de Entrega</h3>
-    <select>
-      <option *ngFor="let endereco of enderecosEntrega" value="endereco.identificacao">{{endereco.identificacao}}</option>
-    </select>
-  </div>
-
-
-
-  <div class="resumoCarrinho">
-    <h3>Resumo do Carrinho de Compras</h3>
-    <div class="resumoCarrinho">
-      <div *ngFor="let item of carrinho">
-          <p>{{item.product.marca}} - {{item.product.nome}} - {{item.product.modelo}}</p>
-          <p>{{item.product.descricao}}</p>
-          <p>Quantidade: {{item.quantity}}</p>
-          <p>Preço: R$ {{item.product.preco}}</p>
+  <div class="containerCheckout">
+    <div class="infos">
+      <div class="cartaoUser">
+        <div class="infoUser">
+          <h3>Informações do Usuário</h3>
+          <div>
+            <label for="nomeUsuario">Nome: {{cliente.nome}}</label>
+            <label for="emailUsuario">Email: {{cliente.email}}</label>
+            <label for="telefoneUsuario">Telefone: {{cliente.telefones[0].numeroTelefone}}</label>
+          </div>
+        </div>
+        <div class="infoPagamento" id="cartao-container">
+          <h3>Informações de Pagamento</h3>
+          <div class="cartoesPagamento">
+            <p>Cartão de crédito</p>
+            <select>
+              <option *ngFor="let cartao of cliente.cartoes" value="cartao.numeroCartao">{{cartao.numeroCartao}}</option>
+            </select>
+            <button (click)="adicionarCartao()">Adicionar Cartão</button>
+            <label>Pagar com um cartão</label>
+            <input type="radio" name="opcaoCartao" value="umCartao" checked (click)="pagarComDoisCartoes(false)">
+            <label>Pagar com dois cartão</label>
+            <input type="radio" name="opcaoCartao" value="doisCartoes" (click)="pagarComDoisCartoes(true)">
+          </div>
+        </div>
+      </div>
+      <div class="containerEnderecos">
+        <div class="enderecoCobranca" id="enderecoCobranca-container">
+          <h3>Endereço de Cobrança</h3>
+          <select>
+            <option *ngFor="let endereco of enderecosCobranca" value="endereco.identificacao">{{endereco.identificacao}}
+            </option>
+          </select>
+          <button (click)="adcionarEndereco('entrega')">Adicionar Endereço</button>
+        </div>
+        <div class="enderecoEntrega" id="enderecoEntrega-container">
+          <h3>Endereço de Entrega</h3>
+          <select>
+            <option *ngFor="let endereco of enderecosEntrega" value="endereco.identificacao">{{endereco.identificacao}}
+            </option>
+          </select>
+          <button (click)="adcionarEndereco('cobranca')">Adicionar Endereço</button>
+        </div>
       </div>
     </div>
+    <div class="compra">
+      <div class="resumoCarrinho">
+        <h3>Resumo do Carrinho de Compras</h3>
+        <div class="resumoCarrinho">
+          <div *ngFor="let item of carrinho">
+            <p>{{item.product.marca}} - {{item.product.nome}} - {{item.product.modelo}}</p>
+            <p>{{item.product.descricao}}</p>
+            <p>Quantidade: {{item.quantity}}</p>
+            <p>Preço: R$ {{item.product.preco}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="cupomContainer">
+        <h3>Inserir Cupom</h3>
+        <form (ngSubmit)="inserirCupom()" [formGroup]="formCupom">
+          <input type="text" id="cupom" formControlName="cupom" >
+          <button type="submit">Aplicar Cupom</button>
+          <button (click)="limparCupom()">Limpar Cupom</button>
+        </form>
+      </div>
+      <h3>Valor Frete: R$ {{frete}}</h3>
+      <h3>Valor Total: R$ {{total | currency}}</h3>
+      <button (click)="finalizarCompra()">Finalizar Compra</button>
+    </div>
   </div>
-
-  <div class="cupomContainer">
-    <h3>Inserir Cupom</h3>
-    <form>
-      <input type="text" id="cupom" name="cupom">
-      <button type="submit">Aplicar Cupom</button>
-    </form>
-  </div>
-
-  <h3>Valor Frete: R$ {{frete}}</h3>
-  <h3>Valor Total: R$ {{total}}</h3>
 </div>

@@ -1,5 +1,9 @@
 .containerFinalizarCompra {
   color: var(--secondary-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .containerCarrinho{
@@ -39,10 +43,55 @@
   font-family: var(--font-primary);
 }
 
+.compra {
+  padding: 10px;
+  border-radius: 5px;
+  background-color: antiquewhite;
+  max-height: fit-content;
+  height: fit-content;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  font-family: var(--font-primary);
+}
+
+.compra button {
+  font-family: var(--font-primary);
+}
+
+.cupomContainer form {
+  display: flex;
+  flex-direction: column;
+}
+
 .infoUser div {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   align-content: center;
+}
+
+.containerCheckout {
+  display: flex;
+  justify-content: space-evenly;
+
+}
+
+.cartaoUser {
+  display: flex;
+  align-items: start;
+}
+
+.infoUser, .infoPagamento {
+  margin: 0px 40px;
+}
+
+.cartoesPagamento {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
 }

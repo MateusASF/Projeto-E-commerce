@@ -14,7 +14,7 @@ export class AlterarUsuarioComponent {
     console.log(this.cliente);
     this.form = new FormGroup({
       nome: new FormControl(this.cliente.nome),
-      nascimento: new FormControl(this.cliente.nascimento),
+      nascimento: new FormControl(this.cliente.nascimento.toString().split('T')[0]),
       genero: new FormControl(this.cliente.genero),
       cpf: new FormControl(this.cliente.cpf),
       numeroTelefone: new FormControl(this.cliente.telefones[0].numeroTelefone),

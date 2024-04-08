@@ -12,10 +12,12 @@
     </div>
   </div>
   <div class="infoProduct">
-    <h1>{{ product.marca }}</h1>
+    <h1>Marca: {{ product.marca }}</h1>
     <p>R$ {{ product.preco | currency}}</p>
-    <p>{{ product.nome }} - {{product.modelo}}</p>
-    <p>{{ product.ano }} - {{product.genero}}</p>
+    <p>Nome: {{ product.nome }} - Modelo:{{product.modelo}}</p>
+    <p>Ano: {{ product.ano }} - Genêro:{{product.genero}}</p>
+    <p>Tamanho do Relógio: {{ product.tamanho}}</p>
+    <p id="descricao">{{ product.descricao}}</p>
     <div class="quantity-selector">
       <button (click)="decreaseQuantity()" type="button">-</button>
       <input [(ngModel)]="quantity" type="number" min="1">

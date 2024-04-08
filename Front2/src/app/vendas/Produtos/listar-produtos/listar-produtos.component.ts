@@ -27,6 +27,7 @@ export class ListarProdutosComponent {
           genero: 'Masculino',
           tamanho: '44m',
           preco: 14999,
+          descricao: " O Rolex Marine é um modelo de relógio de luxo conhecido por sua robustez e precisão. Com uma estética que combina elegância e funcionalidade, este modelo é frequentemente escolhido por profissionais e entusiastas de atividades marítimas. Sua caixa resistente à água e materiais de alta qualidade asseguram durabilidade mesmo nas condições mais adversas. O design do Rolex Marine é atemporal, com um mostrador de fácil leitura e uma luneta que pode ser utilizada para medir períodos de tempo. Além disso, sua mecânica sofisticada garante um desempenho excepcional, refletindo o compromisso da marca com a excelência em relojoaria."
         },
         {
           imagens: [
@@ -42,6 +43,7 @@ export class ListarProdutosComponent {
           genero: 'Masculino',
           tamanho: '44m',
           preco: 14999,
+          descricao: " O Rolex Marine é um modelo de relógio de luxo conhecido por sua robustez e precisão. Com uma estética que combina elegância e funcionalidade, este modelo é frequentemente escolhido por profissionais e entusiastas de atividades marítimas. Sua caixa resistente à água e materiais de alta qualidade asseguram durabilidade mesmo nas condições mais adversas. O design do Rolex Marine é atemporal, com um mostrador de fácil leitura e uma luneta que pode ser utilizada para medir períodos de tempo. Além disso, sua mecânica sofisticada garante um desempenho excepcional, refletindo o compromisso da marca com a excelência em relojoaria."
         },
         {
           imagens: [
@@ -57,6 +59,7 @@ export class ListarProdutosComponent {
           genero: 'Masculino',
           tamanho: '44m',
           preco: 14999,
+          descricao: " O Rolex Marine é um modelo de relógio de luxo conhecido por sua robustez e precisão. Com uma estética que combina elegância e funcionalidade, este modelo é frequentemente escolhido por profissionais e entusiastas de atividades marítimas. Sua caixa resistente à água e materiais de alta qualidade asseguram durabilidade mesmo nas condições mais adversas. O design do Rolex Marine é atemporal, com um mostrador de fácil leitura e uma luneta que pode ser utilizada para medir períodos de tempo. Além disso, sua mecânica sofisticada garante um desempenho excepcional, refletindo o compromisso da marca com a excelência em relojoaria."
         },
         {
           imagens: [
@@ -72,6 +75,7 @@ export class ListarProdutosComponent {
           genero: 'Masculino',
           tamanho: '44m',
           preco: 14999,
+          descricao: " O Rolex Marine é um modelo de relógio de luxo conhecido por sua robustez e precisão. Com uma estética que combina elegância e funcionalidade, este modelo é frequentemente escolhido por profissionais e entusiastas de atividades marítimas. Sua caixa resistente à água e materiais de alta qualidade asseguram durabilidade mesmo nas condições mais adversas. O design do Rolex Marine é atemporal, com um mostrador de fácil leitura e uma luneta que pode ser utilizada para medir períodos de tempo. Além disso, sua mecânica sofisticada garante um desempenho excepcional, refletindo o compromisso da marca com a excelência em relojoaria."
         },
       ],
     };

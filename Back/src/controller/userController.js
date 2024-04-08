@@ -14,7 +14,7 @@ class UserController {
             request.body.senha,
             request.body.email,
             request.body.enderecos,
-            request.body.cartoes,
+            request.body.cartoes
         );
         const valida = new Validacoes();
         const result = await valida.validarEntradaUsuario(user);
@@ -45,71 +45,98 @@ class UserController {
 
     async handleAlteraSenhaUser(request, response) {
         const valida = new Validacoes();
-        const result = await valida.validarTrocaDeSenha(request.body.id, request.body.senha);
+        const result = await valida.validarTrocaDeSenha(
+            request.body.id,
+            request.body.senha
+        );
 
         return response.json(result);
     }
 
-    async handleAlteraCliente(request, response){
+    async handleAlteraCliente(request, response) {
         const userService = new UserService();
         const result = await userService.alterarCliente(request.body);
         return response.json(result);
     }
 
-    async handleFiltrar(request, response){
+    async handleFiltrar(request, response) {
         const userService = new UserService();
-        const { cpf, email, nome } = request.body;
-        const result = await userService.buscarUsuariosPorFiltro(cpf, email, nome);
+
+        // Desestruturação expandida para incluir os novos campos
+        const {
+            cpf,
+            email,
+            nome,
+            nascimento,
+            genero,
+            senha,
+            telefones,
+            enderecos,
+            cartoes,
+        } = request.body;
+
+        // Supondo que buscarUsuariosPorFiltro possa aceitar e processar os novos campos
+        const result = await userService.buscarUsuariosPorFiltro({
+            cpf,
+            email,
+            nome,
+            nascimento,
+            genero,
+            senha,
+            telefones,
+            enderecos,
+            cartoes,
+        });
 
         return response.json(result);
     }
 
-    async handleAlteraCartao(request, response){
+    async handleAlteraCartao(request, response) {
         const userService = new UserService();
         const result = await userService.alterarCartao(request.body);
         return response.json(result);
     }
 
-    async handleAlterarEndereco(request, response){
+    async handleAlterarEndereco(request, response) {
         const userService = new UserService();
         const result = await userService.alterarEndereco(request.body);
         return response.json(result);
     }
 
-    async handleAdicionarEndereco(request, response){
+    async handleAdicionarEndereco(request, response) {
         const userService = new UserService();
         const result = await userService.adicionarEndereco(request.body);
         return response.json(result);
     }
 
-    async handleAdicionarCartao(request, response){
+    async handleAdicionarCartao(request, response) {
         const userService = new UserService();
         const result = await userService.adicionarCartao(request.body);
         return response.json(result);
     }
 
-    async handleDeletarEndereco(request, response){
+    async handleDeletarEndereco(request, response) {
         const userService = new UserService();
         const result = await userService.deletarEndereco(request.body);
         return response.json(result);
     }
 
-    async handleDeletarCartao(request, response){
+    async handleDeletarCartao(request, response) {
         const userService = new UserService();
         const result = await userService.deletarCartao(request.body);
         return response.json(result);
     }
 
-    async handleBuscarUsuario(request, response){
+    async handleBuscarUsuario(request, response) {
         const userService = new UserService();
         const result = await userService.buscarUsuario(request.body.id);
         return response.json(result);
     }
 
-    async handleLogin(request, response){
+    async handleLogin(request, response) {
         const userService = new UserService();
         const valida = new Validacoes();
-        let senha = '';
+        let senha = "";
         senha = await valida.criptografaSenha(request.body.senha);
         const result = await userService.login(request.body.email, senha);
         return response.json(result);
