@@ -56,7 +56,6 @@
         <div class="resumoCarrinho">
           <div *ngFor="let item of carrinho">
             <p>{{item.product.marca}} - {{item.product.nome}} - {{item.product.modelo}}</p>
-            <p>{{item.product.descricao}}</p>
             <p>Quantidade: {{item.quantity}}</p>
             <p>Preço: R$ {{item.product.preco}}</p>
           </div>

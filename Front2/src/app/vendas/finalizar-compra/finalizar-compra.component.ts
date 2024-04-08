@@ -196,6 +196,8 @@ export class FinalizarCompraComponent {
     let elemento = document.querySelector('.infoPagamento');
     if (elemento && !id) {
       elemento.remove();
+      elemento = document.querySelector('#enderecoCobranca-container')!;
+      elemento.remove();
     } else if (elemento && id){
       elemento = document.querySelector('.doisCartoes')!;
       elemento.remove();

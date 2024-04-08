@@ -7,20 +7,13 @@ describe('template spec', () => {
         const n2 = rand(10, 99);
         const n3 = rand(10, 99);
         const d1 = rand(10, 99);
-
         return `${n1}${n2}${n3}${d1}`;
       };
-
       cy.visit('/cliente/listar');
-
       cy.get('.clientesList').contains('Detalhes').click();
-
       cy.url().should('include', '/cliente/detalhe');
-
       cy.get('#dadosPessoais').click();
-
       cy.url().should('include', '/cliente/alterarUsuario');
-
       cy.get('#nome').clear().type('Cesar Filho');
       cy.get('#nascimento').clear().type('2024-02-01');
       cy.get('input[type="radio"][value="masculino"]').check();
@@ -28,11 +21,8 @@ describe('template spec', () => {
       cy.get('#telefone').clear().type('40028922');
       cy.get('input[type="radio"][value="celular"]').check();
       cy.get('#email').clear().type('apppdomate@gmail.com');
-
       cy.get('form').submit();
-
       cy.url().should('include', '/cliente/listar');
-
       //endereço
       cy.get('.clientesList').contains('Detalhes').click();
       cy.url().should('include', '/cliente/detalhe');
@@ -48,9 +38,7 @@ describe('template spec', () => {
       cy.get('input[id="cep"]').clear().type('08730-330');
       cy.get('input[value="Casa"]').check();
       cy.get('input[id="identificacao"]').clear().type('A casa que moro');
-
       cy.get('form').submit();
-
       cy.url().should('include', '/cliente/listar');
       cy.get('.clientesList').contains('Detalhes').click();
       cy.url().should('include', '/cliente/detalhe');
@@ -61,7 +49,6 @@ describe('template spec', () => {
       cy.get('#bandeira').select('Visa');
       cy.get('#cvv').type('856');
       cy.get('form').submit();
-
       cy.url().should('include', '/cliente/listar');
       cy.get('.clientesList').contains('Detalhes').click();
       cy.url().should('include', '/cliente/detalhe');

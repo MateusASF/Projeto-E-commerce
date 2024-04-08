@@ -247,7 +247,7 @@ class UserService {
             // Consulta final para buscar informações dos usuários baseada nos IDs coletados ou filtros diretos
             let queryFinal = 'SELECT * FROM usuarios';
             let paramsFinal = {};
-            if (usuarioIds.size > 0) { 
+            if (usuarioIds.size > 0) {
                 queryFinal += ` WHERE id_usuario IN (${Array.from(usuarioIds).map((id, index) => `:id${index}`).join(', ')})`;
                 paramsFinal = Array.from(usuarioIds).reduce((params, id, index) => {
                     params[`id${index}`] = id;

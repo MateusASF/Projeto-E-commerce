@@ -9,6 +9,8 @@ export default defineConfig({
     baseUrl: 'http://localhost:4200',
     port: 4202,
   },
+  viewportWidth: 1920,
+  viewportHeight: 1080,
   port: 4202,
   component: {
     devServer: {
