@@ -9,7 +9,7 @@
     <div class="containerProdutos">
       <div *ngFor="let produto of produtosCarrinho" class="produtoCarrinho">
         <div class="containerImagem">
-          <img [src]="produto.product.imagens[0]" alt="Imagem do produto" class="imagemProduto">
+          <img [src]="produto.product.imagens[0].caminho" alt="Imagem do produto" class="imagemProduto">
         </div>
         <div class="containerInformacoes">
           <h2 class="tituloProduto">{{produto.product.marca}} - {{produto.product.modelo}} - {{produto.product.nome}}</h2>

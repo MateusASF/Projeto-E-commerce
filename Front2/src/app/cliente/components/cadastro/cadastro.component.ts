@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-cadastro',
@@ -28,7 +28,7 @@ export class CadastroComponent {
 
   onSubmit() {
     if (this.form.valid) {
-      if(this.form.value.senha !== this.form.value.confirmarSenha) {
+      if (this.form.value.senha !== this.form.value.confirmarSenha) {
         console.log(this.form.value.senha);
         console.log(this.form.value.confirmarSenha);
         alert('Senhas não conferem');
@@ -37,32 +37,46 @@ export class CadastroComponent {
       this.form.removeControl('confirmarSenha');
       const formData = this.form.value;
       formData.nascimento = this.formatDate(formData.nascimento);
-      formData.telefones = [{
-        tipoTelefone: formData.tipoTelefone,
-        numeroTelefone: formData.numeroTelefone
-      }];
+      formData.telefones = [
+        {
+          tipoTelefone: formData.tipoTelefone,
+          numeroTelefone: formData.numeroTelefone,
+        },
+      ];
       const json = JSON.stringify(formData);
 
+      let formInvalido = false;
+
+      for (let key in formData) {
+        if (!formData[key]) {
+          alert('Todos os campos devem ser preenchidos');
+          formInvalido = true;
+          break;
+        }
+      }
+
       console.log(json);
-      fetch('http://localhost:3009/cadastro', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: json
-      })
-      .then(response => response.json())
-      .then(data => {
-        alert('Cadastro realizado com sucesso!');
-        location.href = '/cliente/listar';
-        // Handle the response data here
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        // Handle any errors here
-      });
-    } else {
-      console.log('Formulário inválido');
+      if (!formInvalido) {
+        fetch('http://localhost:3009/cadastro', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: json,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            alert('Cadastro realizado com sucesso!');
+            location.href = '/cliente/listar';
+            // Handle the response data here
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+            // Handle any errors here
+          });
+      } else {
+        console.log('Formulário inválido');
+      }
     }
   }
 
@@ -86,7 +100,7 @@ export class CadastroComponent {
       cep: new FormControl(''),
       tipoResidencia: new FormControl(''),
       observacoes: new FormControl(''),
-      identificacao: new FormControl('')
+      identificacao: new FormControl(''),
     });
 
     (this.form.get('enderecos') as FormArray).push(enderecoFormGroup);
@@ -97,25 +111,29 @@ export class CadastroComponent {
       numeroCartao: new FormControl(''),
       nomeCliente: new FormControl(''),
       bandeira: new FormControl(''),
-      cvv: new FormControl('')
+      cvv: new FormControl(''),
     });
 
     (this.form.get('cartoes') as FormArray).push(cartaoFormGroup);
   }
 
   get cartoesControls() {
-    return this.form.get('cartoes') ? (this.form.get('cartoes') as FormArray).controls : [];
+    return this.form.get('cartoes')
+      ? (this.form.get('cartoes') as FormArray).controls
+      : [];
   }
 
   get enderecosControls() {
-    return this.form.get('enderecos') ? (this.form.get('enderecos') as FormArray).controls : [];
+    return this.form.get('enderecos')
+      ? (this.form.get('enderecos') as FormArray).controls
+      : [];
   }
 
   get enderecoLength() {
     return (this.form.get('enderecos') as FormArray).length;
   }
 
-  removerEndereco(){
+  removerEndereco() {
     const lengthArray = (this.form.get('enderecos') as FormArray).length;
     (this.form.get('enderecos') as FormArray).removeAt(lengthArray - 1);
   }
@@ -124,9 +142,8 @@ export class CadastroComponent {
     return (this.form.get('cartoes') as FormArray).length;
   }
 
-  removerCartao(){
+  removerCartao() {
     const lengthArray = (this.form.get('cartoes') as FormArray).length;
     (this.form.get('cartoes') as FormArray).removeAt(lengthArray - 1);
   }
-
 }

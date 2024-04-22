@@ -17,12 +17,12 @@
           <th>Genero</th>
           <th>Tamanho</th>
           <th>Preco</th>
-          <th>Categoria</th>
+          <!-- <th>Categoria</th> -->
           <th>Ações</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let produto of produtos.relogios">
+        <tr *ngFor="let produto of produtos">
           <td>{{produto.marca}}</td>
           <td>{{produto.ano}}</td>
           <td>{{produto.nome}}</td>
@@ -30,11 +30,11 @@
           <td>{{produto.codRelogio}}</td>
           <td>{{produto.genero}}</td>
           <td>{{produto.tamanho}}</td>
-          <td>{{produto.preco}}</td>
-          <td>{{produto.categoria}}</td>
+          <td>{{produto.preco | currency}}</td>
+          <!-- <td>{{produto.categoria}}</td> -->
           <td class="acoes">
-            <a (click)="inativarProduto(produto)" *ngIf="produto.ativo == '1'"> | Inativar | </a>
-            <a (click)="ativarProduto(produto)" *ngIf="produto.ativo == '0'"> | Ativar | </a>
+            <a (click)="inativarProduto(produto.id)" *ngIf="produto.ativo == '1'"> | Inativar | </a>
+            <a (click)="ativarProduto(produto.id)" *ngIf="produto.ativo == '0'"> | Ativar | </a>
             <a (click)="editarProduto(produto)">Detalhes</a>
           </td>
         </tr>

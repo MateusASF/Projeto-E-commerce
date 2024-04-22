@@ -6,15 +6,32 @@
     </div>
 
     <hr>
-    <p id="buscar">Buscar</p>
-    <input type="text" id="searchInput" placeholder="Buscar produto">
-    <button onclick="search()">Buscar</button>
+    <div class="elementoBusca">
+      <input type="text" id="searchMarca" placeholder="Marca">
+      <input type="text" id="searchNome" placeholder="Nome produto">
+      <input type="number" id="searchAno" placeholder="Ano">
+      <input type="text" id="searchModelo" placeholder="Modelo">
+      <input type="number" id="searchCodRelogio" placeholder="Código do Relógio">
+      <input type="text" id="searchGenero" placeholder="Genero">
+      <input type="text" id="searchTamanho" placeholder="Tamanho">
+      <input type="number" id="searchPrecoMin" placeholder="Preço Mínimo">
+      <input type="number" id="searchPrecoMax" placeholder="Preço Máximo">
+      <input type="text" id="searchDescricao" placeholder="Descricao">
+      <div>
+        <p>Categorias dos relógios</p>
+        <div *ngFor="let category of categories" class="categoryProduct">
+          <input type="checkbox" id="searchCategoria{{category.id}}" [value]="category.id">
+          <label for="searchCategoria{{category.id}}">{{category.nome}}</label>
+        </div>
+      </div>
+    </div>
+    <button (click)="search()">Buscar</button>
   </div>
 
   <div id="productList">
-    <div class="card" *ngFor="let product of products.relogios">
+    <div class="card" *ngFor="let product of products">
       <div (click)="infoProduto(product)">
-        <img src="../../../../assets/modeloRelogio.png" alt="Product 1">
+        <img src="{{product.imagens[0].caminho}}" alt="Product 1">
         <h3>{{product.marca}}</h3>
         <p>{{product.nome}} - {{product.modelo}}</p>
         <p>{{product.preco | currency}}</p>

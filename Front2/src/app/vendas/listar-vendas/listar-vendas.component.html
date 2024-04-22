@@ -18,11 +18,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let venda of vendas">
-          <td>{{venda.cliente}}</td>
-          <td>{{venda.valor}}</td>
-          <td>{{venda.qtdItens}}</td>
+          <td>{{venda.cliente.nome}}</td>
+          <td>{{venda.total}}</td>
+          <td>{{venda.totalItens}}</td>
           <td>{{venda.status}}</td>
           <td class="acoes">
+            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'EM PROCESSAMENTO'"> | Aprovar Pagamento | </a>
             <a (click)="moverStatus(venda)" *ngIf="venda.status == 'APROVADA'"> | Iniciar Entrega | </a>
             <a (click)="moverStatus(venda)" *ngIf="venda.status == 'EM TRÂNSITO'"> | Finalizar Entrega | </a>
             <a (click)="moverStatus(venda)" *ngIf="venda.status == 'EM TROCA'"> | Autorizar Troca | </a>

@@ -12,50 +12,27 @@ export class ListarVendasComponent {
   constructor() { }
 
   ngOnInit(): void {
-    this.vendas = [
-      {
-        status: 'APROVADA',
-        valor: 100.00,
-        cliente: 'Cliente 1',
-        qtdItens: 1,
-        produtos: [
-          {
-            nome: 'Produto 1',
-            quantidade: 1,
-            valor: 100.00
-          }
-        ]
-      },
-      {
-        status: 'EM TRÂNSITO',
-        valor: 200.00,
-        cliente: 'Cliente 2',
-        qtdItens: 1,
-        produtos: [
-          {
-            nome: 'Produto 2',
-            quantidade: 2,
-            valor: 100.00
-          }
-        ]
-      },
-      {
-        status: 'EM TROCA',
-        valor: 300.00,
-        cliente: 'Cliente 3',
-        qtdItens: 1,
-        produtos: [
-          {
-            nome: 'Produto 3',
-            quantidade: 3,
-            valor: 100.00
-          }
-        ]
-      }
-    ];
+    try {
+      fetch('http://localhost:3009/listarVendasCompras', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.vendas = data;
+          this.vendas.forEach((venda:any) => {
+            venda.totalItens = venda.itens.length;
+          });
+          console.log(this.vendas);
+        });
+    } catch (error) {
+      
+    }
   }
 
-  moverStatus(venda:any){
+  async moverStatus(venda:any){
     switch(venda.status){
       case 'APROVADA':
         venda.status = 'EM TRÂNSITO';
@@ -66,6 +43,28 @@ export class ListarVendasComponent {
       case 'EM TROCA':
         venda.status = 'TROCA AUTORIZADA';
         break;
+      case 'EM PROCESSAMENTO':
+        venda.status = 'APROVADA';
+        break;
+    }
+
+    try {
+      await fetch('http://localhost:3009/atualizarStatusVendaCompra', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: venda.id,
+          status: venda.status
+        })
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        });
+    } catch (error) {
+      
     }
   }
 

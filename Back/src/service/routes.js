@@ -1,8 +1,12 @@
 const express = require('express');
 const UserController = require('../controller/userController').UserController;
+const ProdutoController = require('../controller/produtoController').ProdutoController;
+const CompraController = require('../controller/compraController').CompraController;
 
 const router = express.Router();
 const userController = new UserController();
+const produtoController = new ProdutoController();
+const compraController = new CompraController();
 
 router.post('/cadastro', userController.handlePost);
 router.get('/listar', userController.handleListar);
@@ -19,4 +23,19 @@ router.post('/excluirEndereco', userController.handleDeletarEndereco);
 router.post('/excluirCartao', userController.handleDeletarCartao);
 router.post('/buscarUsuario', userController.handleBuscarUsuario);
 router.post('/login', userController.handleLogin);
+
+
+
+
+router.get('/relogios', produtoController.handleListar);
+router.put('/inativarProduto', produtoController.handleInativaProduto);
+router.put('/ativarProduto', produtoController.handleAtivaProduto);
+
+
+
+router.post('/finalizarCompra', compraController.registrarCompra);
+router.get('/listarVendasCompras', compraController.listarCompras);
+router.post('/listarVendasComprasPorId', compraController.listarComprasPorId);
+router.post('/atualizarStatusVendaCompra', compraController.atualizarStatusVendaCompra);
+
 module.exports = { router };

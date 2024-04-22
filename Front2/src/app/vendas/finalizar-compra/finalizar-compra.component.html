@@ -7,7 +7,7 @@
 
   <div class="containerCheckout">
     <div class="infos">
-      <div class="cartaoUser">
+      <div class="cartaoUser" >
         <div class="infoUser">
           <h3>Informações do Usuário</h3>
           <div>
@@ -20,8 +20,9 @@
           <h3>Informações de Pagamento</h3>
           <div class="cartoesPagamento">
             <p>Cartão de crédito</p>
-            <select>
-              <option *ngFor="let cartao of cliente.cartoes" value="cartao.numeroCartao">{{cartao.numeroCartao}}</option>
+            <select (change)="selecionarCartao($event)">
+              <option value="selecionarCartao">Selecionar Cartão</option>
+              <option *ngFor="let cartao of cliente.cartoes" [value]="cartao.numeroCartao">{{cartao.numeroCartao}}</option>
             </select>
             <button (click)="adicionarCartao()">Adicionar Cartão</button>
             <label>Pagar com um cartão</label>
@@ -32,18 +33,11 @@
         </div>
       </div>
       <div class="containerEnderecos">
-        <div class="enderecoCobranca" id="enderecoCobranca-container">
-          <h3>Endereço de Cobrança</h3>
-          <select>
-            <option *ngFor="let endereco of enderecosCobranca" value="endereco.identificacao">{{endereco.identificacao}}
-            </option>
-          </select>
-          <button (click)="adcionarEndereco('entrega')">Adicionar Endereço</button>
-        </div>
         <div class="enderecoEntrega" id="enderecoEntrega-container">
           <h3>Endereço de Entrega</h3>
-          <select>
-            <option *ngFor="let endereco of enderecosEntrega" value="endereco.identificacao">{{endereco.identificacao}}
+          <select (change)="selecionarEndereco($event)">
+            <option value="selecionarEndereco">Selecionar Endereço</option>
+            <option *ngFor="let endereco of enderecosEntrega" [value]="endereco.id">{{endereco.identificacao}}
             </option>
           </select>
           <button (click)="adcionarEndereco('cobranca')">Adicionar Endereço</button>

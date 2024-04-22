@@ -5,99 +5,100 @@
     <hr>
   </div>
 
-  <div class="containerPesquisa">
-    <div class="containerBtPesquisa">
-      <!-- Campos básicos -->
-      <input type="text" placeholder="Nome" [(ngModel)]="nome">
-      <input type="text" placeholder="Data de Nascimento" [(ngModel)]="nascimento">
-      <select [(ngModel)]="genero">
-        <option value="" disabled selected>Gênero</option>
-        <option value="masculino">Masculino</option>
-        <option value="feminino">Feminino</option>
-      </select>
-      <input type="text" placeholder="CPF" [(ngModel)]="cpf">
-      <input type="email" placeholder="Email" [(ngModel)]="email">
-
-      <!-- Telefone -->
-      <input type="text" placeholder="Número do Telefone" [(ngModel)]="telefone.numeroTelefone">
-      <select [(ngModel)]="telefone.tipoTelefone">
-        <option value="" disabled selected>Tipo de Telefone</option>
-        <option value="celular">Celular</option>
-        <option value="residencial">Residencial</option>
-        <option value="comercial">Comercial</option>
-      </select>
-
-      <!-- Endereço -->
-      <input type="text" placeholder="Logradouro" [(ngModel)]="endereco.logradouro">
-      <input type="text" placeholder="Número" [(ngModel)]="endereco.numero">
-      <input type="text" placeholder="Bairro" [(ngModel)]="endereco.bairro">
-      <input type="text" placeholder="Cidade" [(ngModel)]="endereco.cidade">
-      <input type="text" placeholder="Estado" [(ngModel)]="endereco.estado">
-      <input type="text" placeholder="País" [(ngModel)]="endereco.pais">
-      <input type="text" placeholder="CEP" [(ngModel)]="endereco.cep">
-      <input type="text" placeholder="Observações" [(ngModel)]="endereco.observacoes">
-      <select [(ngModel)]="endereco.tipoResidencia">
-        <option value="" disabled selected>Tipo de Residência</option>
-        <option value="Casa">Casa</option>
-        <option value="Apartamento">Apartamento</option>
-      </select>
-      <select [(ngModel)]="endereco.tipoLogradouro">
-        <option value="" disabled selected>Tipo de Logradouro</option>
-        <option value="Entrega">Entrega</option>
-        <option value="Cobranca">Cobranca</option>
-      </select>
-      <input type="text" placeholder="Identificação do Endereço" [(ngModel)]="endereco.identificacao">
-      <select [(ngModel)]="endereco.tipoEndereco">
-        <option value="" disabled selected>Tipo de Endereço</option>
-        <option value="Entrega">Entrega</option>
-        <option value="Cobrança">Cobrança</option>
-        <option value="Ambos">Ambos</option>
-      </select>
-
-      <!-- Cartão -->
-      <input type="text" placeholder="Número do Cartão" [(ngModel)]="cartao.numeroCartao">
-      <input type="text" placeholder="Nome no Cartão" [(ngModel)]="cartao.nomeCliente">
-      <select [(ngModel)]="cartao.bandeira">
-        <option value="" disabled selected>Bandeira</option>
-        <option value="VISA">VISA</option>
-        <option value="MasterCard">MasterCard</option>
-        <option value="Elo">Elo</option>
-      </select>
-      <input type="text" placeholder="CVV" [(ngModel)]="cartao.cvv">
+  <div class="telaListagemClientes">
+    <div class="containerPesquisa">
+      <div class="containerBtPesquisa">
+        <!-- Campos básicos -->
+        <div class="elementSearch">
+          <input type="text" placeholder="Nome" [(ngModel)]="nome">
+          <input type="text" placeholder="Data de Nascimento" [(ngModel)]="nascimento">
+          <select [(ngModel)]="genero">
+            <option value="" disabled selected>Gênero</option>
+            <option value="masculino">Masculino</option>
+            <option value="feminino">Feminino</option>
+          </select>
+          <input type="text" placeholder="CPF" [(ngModel)]="cpf">
+          <input type="email" placeholder="Email" [(ngModel)]="email">
+          <!-- Telefone -->
+          <input type="text" placeholder="Número do Telefone" [(ngModel)]="telefone.numeroTelefone">
+          <select [(ngModel)]="telefone.tipoTelefone">
+            <option value="" disabled selected>Tipo de Telefone</option>
+            <option value="celular">Celular</option>
+            <option value="residencial">Residencial</option>
+            <option value="comercial">Comercial</option>
+          </select>
+          <!-- Endereço -->
+          <input type="text" placeholder="Logradouro" [(ngModel)]="endereco.logradouro">
+          <input type="text" placeholder="Número" [(ngModel)]="endereco.numero">
+          <input type="text" placeholder="Bairro" [(ngModel)]="endereco.bairro">
+          <input type="text" placeholder="Cidade" [(ngModel)]="endereco.cidade">
+          <input type="text" placeholder="Estado" [(ngModel)]="endereco.estado">
+        </div>
+        <div class="elementSearch">
+          <input type="text" placeholder="País" [(ngModel)]="endereco.pais">
+          <input type="text" placeholder="CEP" [(ngModel)]="endereco.cep">
+          <input type="text" placeholder="Observações" [(ngModel)]="endereco.observacoes">
+          <select [(ngModel)]="endereco.tipoResidencia">
+            <option value="" disabled selected>Tipo de Residência</option>
+            <option value="Casa">Casa</option>
+            <option value="Apartamento">Apartamento</option>
+          </select>
+          <select [(ngModel)]="endereco.tipoLogradouro">
+            <option value="" disabled selected>Tipo de Logradouro</option>
+            <option value="Entrega">Entrega</option>
+            <option value="Cobranca">Cobranca</option>
+          </select>
+          <input type="text" placeholder="Identificação do Endereço" [(ngModel)]="endereco.identificacao">
+          <select [(ngModel)]="endereco.tipoEndereco">
+            <option value="" disabled selected>Tipo de Endereço</option>
+            <option value="Entrega">Entrega</option>
+            <option value="Cobrança">Cobrança</option>
+            <option value="Ambos">Ambos</option>
+          </select>
+          <!-- Cartão -->
+          <input type="text" placeholder="Número do Cartão" [(ngModel)]="cartao.numeroCartao">
+          <input type="text" placeholder="Nome no Cartão" [(ngModel)]="cartao.nomeCliente">
+          <select [(ngModel)]="cartao.bandeira">
+            <option value="" disabled selected>Bandeira</option>
+            <option value="VISA">VISA</option>
+            <option value="MasterCard">MasterCard</option>
+            <option value="Elo">Elo</option>
+          </select>
+          <input type="text" placeholder="CVV" [(ngModel)]="cartao.cvv">
+        </div>
+      </div>
+      <button (click)="filtrarClientes()">Pesquisar</button>
     </div>
-    <button (click)="filtrarClientes()">Pesquisar</button>
-  </div>
-
-
-  <div class="containerTabela">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Telefone</th>
-          <th>Gênero</th>
-          <th>Email</th>
-          <th>Nascimento</th>
-          <th>Cpf</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let cliente of clientes" class="clientesList">
-          <td>{{cliente.nome}}</td>
-          <td>{{cliente.telefones[0].numeroTelefone}}</td>
-          <td>{{cliente.genero}}</td>
-          <td>{{cliente.email}}</td>
-            <td>{{cliente.nascimento | date:'dd/MM/yyyy'}}</td>
-          <td>{{cliente.cpf}}</td>
-          <td class="acoes">
-            <a (click)="trocarSenha(cliente.id, cliente.senha)">Trocar Senha</a>
-            <a (click)="inativarCliente(cliente.id)" *ngIf="cliente.ativo == '1'"> | Inativar | </a>
-            <a (click)="ativarCliente(cliente.id)" *ngIf="cliente.ativo == '0'"> | Ativar | </a>
-            <a (click)="detalheCliente(cliente)">Detalhes</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="containerTabela">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Gênero</th>
+            <th>Email</th>
+            <th>Nascimento</th>
+            <th>Cpf</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of clientes" class="clientesList">
+            <td>{{cliente.nome}}</td>
+            <td>{{cliente.telefones[0].numeroTelefone}}</td>
+            <td>{{cliente.genero}}</td>
+            <td>{{cliente.email}}</td>
+              <td>{{cliente.nascimento | date:'dd/MM/yyyy'}}</td>
+            <td>{{cliente.cpf}}</td>
+            <td class="acoes">
+              <a (click)="trocarSenha(cliente.id, cliente.senha)">Trocar Senha</a>
+              <a (click)="inativarCliente(cliente.id)" *ngIf="cliente.ativo == '1'"> | Inativar | </a>
+              <a (click)="ativarCliente(cliente.id)" *ngIf="cliente.ativo == '0'"> | Ativar | </a>
+              <a (click)="detalheCliente(cliente)">Detalhes</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

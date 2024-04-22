@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./info-produto.component.css']
 })
 export class InfoProdutoComponent implements OnInit{
-  productImages = ["../../../../../assets/modeloRelogio.png", "../../../../../assets/modeloRelogio2.png"];
   product: any;
   quantity = 1;
   currentImageIndex = 0;
@@ -33,7 +32,7 @@ export class InfoProdutoComponent implements OnInit{
   }
 
   nextImage(): void {
-    this.currentImageIndex = (this.currentImageIndex + 1) % this.productImages.length;
+    this.currentImageIndex = (this.currentImageIndex + 1) % this.product.imagens.length;
   }
 
   selectImage(index: number): void {
@@ -70,5 +69,16 @@ export class InfoProdutoComponent implements OnInit{
     localStorage.setItem('cart', JSON.stringify(cartItems));
 
     alert('Produto adicionado ao carrinho!');
+  }
+
+  finalizarCompra() {
+    var carrinhoImediato = [];
+    carrinhoImediato.push({
+      product: this.product,
+      quantity: this.quantity,
+    })
+    sessionStorage.setItem('carrinhoImediato', JSON.stringify(carrinhoImediato));
+
+    location.href = '/login';
   }
 }

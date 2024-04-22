@@ -155,10 +155,11 @@
 
 .form-group select {
   padding: 5px;
-  background: black;
-  border: 2px solid white;
+  background: var(--primary-color);;
+  border: 2px solid var(--secondary-color);;
   border-radius: 3px;
-  color: white;
+  color: var(--secondary-color);
   margin-top: 5px;
+  font-family: var(--font-primary);
 }
 

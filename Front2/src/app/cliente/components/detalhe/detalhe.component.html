@@ -83,4 +83,35 @@
       </tbody>
       <button class="btEditar" style="position: relative;left: 23vw;" (click)="adicionarCartao()" id="dadosCartao">Adicionar Cartão</button>
     </table>
+
+    <h2>Compras</h2>
+    <div class="containerTabela">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Cliente</th>
+            <th>Valor</th>
+            <th>Quantidade de Itens</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let compra of compras">
+            <td>{{compra.cliente.nome}}</td>
+            <td>{{compra.total}}</td>
+            <td>{{compra.totalItens}}</td>
+            <td>{{compra.status}}</td>
+            <td class="acoes">
+              <a *ngIf="compra.status == 'EM PROCESSAMENTO'"> | Aprovar Pagamento | </a>
+              <a *ngIf="compra.status == 'APROVADA'"> | Iniciar Entrega | </a>
+              <a *ngIf="compra.status == 'EM TRÂNSITO'"> | Finalizar Entrega | </a>
+              <a *ngIf="compra.status == 'EM TROCA'"> | Autorizar Troca | </a>
+              <a *ngIf="compra.status == 'TROCA AUTORIZADA'"> | Pedido Recebido | </a>
+              <a (click)="detalhesVenda(compra)">Detalhes</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 </div>

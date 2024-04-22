@@ -86,6 +86,8 @@
   border-radius: 10px;
   padding: 10px 10px 20px 10px;
   text-align: center;
+  max-height: 388px;
+  min-width: 158px;
 }
 
 .card:hover {
@@ -99,4 +101,28 @@
 .card img {
   width: 200px;
   height: 200px;
+}
+
+.elementoBusca {
+  display: flex;
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.elementoBusca input {
+  margin: 2px 0px;
+}
+
+.elementoBusca .categoryProduct {
+  display: flex;
+  justify-content: start;
+  flex-direction: row;
+  align-items: start;
+  align-content: start;
+}
+
+.elementoBusca .categoryProduct input {
+  width: fit-content;
 }

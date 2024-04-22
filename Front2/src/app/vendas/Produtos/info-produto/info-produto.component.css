@@ -100,7 +100,7 @@
   color: var(--auxilary-color);
 }
 
-#addToCart {
+#addToCart, #finalizarCompra {
   font-family: var(--font-primary);
   background-color: var(--secondary-color);
   color: var(--primary-color);
@@ -111,7 +111,7 @@
   border-radius: 10px;
 }
 
-#addToCart:hover {
+#addToCart:hover, #finalizarCompra:hover {
   transition: 0.5s all;
   background-color: var(--auxilary-color);
   color: var(--primary-color);

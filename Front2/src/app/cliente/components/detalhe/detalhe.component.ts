@@ -9,11 +9,34 @@ export class DetalheComponent {
   cliente: any = {}
   enderecos: any[] = [];
   cartoes: any[] = [];
+  compras: any[] = [];
 
-  ngOnInit() {
+  async ngOnInit() {
     this.cliente = JSON.parse(localStorage.getItem('cliente')!);
     this.enderecos = this.cliente.enderecos;
     this.cartoes = this.cliente.cartoes;
+
+    try {
+      await fetch('http://localhost:3009/listarVendasComprasPorId', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({id: this.cliente.id})
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.compras = data;
+          this.compras.forEach((compra:any) => {
+            compra.totalItens = compra.itens.length;
+          });
+          console.log(this.compras);
+        });
+    } catch (error) {
+      
+    }
+
+
   }
 
   editarEndereco(endereco: any, id: any) {
@@ -70,5 +93,9 @@ export class DetalheComponent {
 
   editarDadosPessoais(){
     location.href = 'cliente/alterarUsuario';
+  }
+
+  detalhesVenda(compra: any){
+
   }
 }

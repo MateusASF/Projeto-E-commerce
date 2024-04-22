@@ -1,13 +1,13 @@
 <div class="containerInfo">
   <div class="carrouselImages">
     <div id="carousel" class="carousel">
-      <div *ngFor="let image of productImages; let i = index" class="carousel-image-container"
+      <div *ngFor="let image of product.imagens; let i = index" class="carousel-image-container"
         [class.active]="i === currentImageIndex">
-        <img [src]="image">
+        <img [src]="image.caminho">
       </div>
     </div>
     <div class="carousel-selectors">
-      <span *ngFor="let image of productImages; let i = index" (click)="selectImage(i)" class="carousel-selector"
+      <span *ngFor="let image of product.imagens[0]; let i = index" (click)="selectImage(i)" class="carousel-selector"
         [class.active]="i === currentImageIndex">&#9679;</span>
     </div>
   </div>
@@ -23,6 +23,9 @@
       <input [(ngModel)]="quantity" type="number" min="1">
       <button (click)="increaseQuantity()" type="button">+</button>
     </div>
-    <button (click)="addToCart()" id="addToCart">Adicionar ao Carrinho</button>
+    <div style="display: flex; flex-direction: row;">
+      <button (click)="addToCart()" id="addToCart">Adicionar ao Carrinho</button>
+      <button (click)="finalizarCompra()" id="finalizarCompra">Comprar Agora</button>
+    </div>
   </div>
 </div>
