@@ -54,5 +54,38 @@ class CompraController {
             res.status(500).json({ mensagem: 'Erro ao atualizar status da compra.' });
         }
     }
+
+    async listarComprasPorCodCompra(req, res) {
+        const compraService = new CompraService();
+        try {
+            const compras = await compraService.listarComprasPorCodCompra(req.body.codCompra);
+            res.status(200).json(compras);
+        } catch (error) {
+            console.error('Erro ao listar compras:', error.message);
+            res.status(500).json({ mensagem: 'Erro ao listar compras.' });
+        }
+    }
+
+    async inserirTroca(req, res) {
+        const compraService = new CompraService();
+        try {
+            await compraService.inserirTroca(req.body);
+            res.status(201).json({ mensagem: 'Troca registrada com sucesso.' });
+        } catch (error) {
+            console.error('Erro ao registrar troca:', error.message);
+            res.status(500).json({ mensagem: 'Erro ao registrar troca.' });
+        }
+    }
+
+    async listarTrocas(req, res) {
+        const compraService = new CompraService();
+        try {
+            const trocas = await compraService.listarTrocas();
+            res.status(200).json(trocas);
+        } catch (error) {
+            console.error('Erro ao listar trocas:', error.message);
+            res.status(500).json({ mensagem: 'Erro ao listar trocas.' });
+        }
+    }
 }
 module.exports = { CompraController };

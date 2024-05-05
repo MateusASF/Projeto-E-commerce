@@ -33,9 +33,12 @@ router.put('/ativarProduto', produtoController.handleAtivaProduto);
 
 
 
-router.post('/finalizarCompra', compraController.registrarCompra);
+router.post('/finalizarCompra', compraController.registrarCompra); 
 router.get('/listarVendasCompras', compraController.listarCompras);
 router.post('/listarVendasComprasPorId', compraController.listarComprasPorId);
 router.post('/atualizarStatusVendaCompra', compraController.atualizarStatusVendaCompra);
+router.post('/listarVendasComprasComCod', compraController.listarComprasPorCodCompra);
+router.post('/inserirTroca', compraController.inserirTroca);
+router.get('/listarTrocas', compraController.listarTrocas);
 
 module.exports = { router };

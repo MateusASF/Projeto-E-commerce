@@ -18,6 +18,7 @@ import { VendasRoutingModule } from './vendas-routing.module';
 import { VendasComponent } from './vendas.component';
 import { StatusPedidoComponent } from './pedidos/status-pedido/status-pedido.component';
 import { ListarVendasComponent } from './listar-vendas/listar-vendas.component';
+import { TrocaDevolucaoComponent } from './troca-devolucao/troca-devolucao.component';
 
 
 
@@ -38,7 +39,8 @@ import { ListarVendasComponent } from './listar-vendas/listar-vendas.component';
     ListarCuponsComponent,
     GraficoVendasComponent,
     StatusPedidoComponent,
-    ListarVendasComponent
+    ListarVendasComponent,
+    TrocaDevolucaoComponent
   ],
   imports: [
     CommonModule,

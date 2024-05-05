@@ -1,0 +1,38 @@
+<div class="containerPage trocaDevolucao">
+    <div class="containerTitulo">
+      <hr>
+      <h1 class="tituloPagina">Troca / Devolução</h1>
+      <hr>
+    </div>
+  
+    <div class="containerTabela">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Selecionar</th>
+                    <th>Nome</th>
+                    <th>Valor</th>
+                    <th>Marca</th>
+                    <th>Código</th>
+                    <th>Quantidade</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of products; let i = index" name="${product.id}">
+                    <td><input type="checkbox" name="selectedProduct{{i}}"></td>
+                    <td>{{ product.nome }}</td>
+                    <td>{{ product.preco }}</td>
+                    <td>{{ product.marca }}</td>
+                    <td>{{ product.codRelogio }}</td>
+                    <td>
+                        <button (click)="decreaseQuantity(product.id)">-</button>
+                        <input type="number" name="quantity{{i}}" value="{{ product.quantidade }}">
+                        <button (click)="increaseQuantity(product.id)">+</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button (click)="finalizeReturn()">Finalizar Devolução</button>
+  </div>
+  

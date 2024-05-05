@@ -17,6 +17,7 @@ import { GraficoVendasComponent } from './grafico-vendas/grafico-vendas.componen
 import { ListarCuponsComponent } from './cupons/listar-cupons/listar-cupons.component';
 import { StatusPedidoComponent } from './pedidos/status-pedido/status-pedido.component';
 import { ListarVendasComponent } from './listar-vendas/listar-vendas.component';
+import { TrocaDevolucaoComponent } from './troca-devolucao/troca-devolucao.component';
 
 
 const routes: Routes = [
@@ -81,6 +82,10 @@ const routes: Routes = [
       {
         path: 'listar-vendas',
         component: ListarVendasComponent
+      },
+      {
+        path: 'troca-devolucao',
+        component: TrocaDevolucaoComponent
       }
     ]
   }

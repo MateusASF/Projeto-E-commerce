@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class ListarVendasComponent {
 
   vendas: any[] = [];
+  trocas: any[] = [];
 
   constructor() { }
 
@@ -28,8 +29,28 @@ export class ListarVendasComponent {
           console.log(this.vendas);
         });
     } catch (error) {
-      
+      console.log(error);
     }
+
+    try {
+      fetch('http://localhost:3009/listarTrocas', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.trocas = data;
+          this.trocas.forEach((troca:any) => {
+            troca.totalItens = troca.itens.length;
+          });
+          console.log(this.trocas);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+
   }
 
   async moverStatus(venda:any){
@@ -41,7 +62,7 @@ export class ListarVendasComponent {
         venda.status = 'ENTREGUE';
         break;
       case 'EM TROCA':
-        venda.status = 'TROCA AUTORIZADA';
+        venda.status = 'TROCADO';
         break;
       case 'EM PROCESSAMENTO':
         venda.status = 'APROVADA';
