@@ -26,8 +26,11 @@
             <a (click)="moverStatus(venda)" *ngIf="venda.status == 'EM PROCESSAMENTO'"> | Aprovar Pagamento | </a>
             <a (click)="moverStatus(venda)" *ngIf="venda.status == 'APROVADA'"> | Iniciar Entrega | </a>
             <a (click)="moverStatus(venda)" *ngIf="venda.status == 'EM TRÂNSITO'"> | Finalizar Entrega | </a>
-            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'EM TROCA'"> | Autorizar Troca | </a>
-            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'TROCA AUTORIZADA'"> | Pedido Recebido | </a>
+            <a (click)="trocarDevolver(venda, true)" *ngIf="venda.status == 'EM TROCA'"> | Autorizar Troca | </a>
+            <a (click)="trocarDevolver(venda, false)" *ngIf="venda.status == 'EM TROCA'"> | Negar Troca | </a>
+            <!-- <a (click)="moverStatus(venda)" *ngIf="venda.status == 'TROCA AUTORIZADA'"> | Pedido Recebido | </a> -->
+            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'PRODUTOS POSTADOS'"> | Pedido Recebido | </a>
+            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'PRODUTOS RECEBIDOS'"> | Pedido Recebido | </a>
             <a (click)="detalhesVenda(venda)">Detalhes</a>
           </td>
         </tr>
@@ -61,8 +64,11 @@
             <a (click)="moverStatus(troca)" *ngIf="troca.status == 'EM PROCESSAMENTO'"> | Aprovar Pagamento | </a>
             <a (click)="moverStatus(troca)" *ngIf="troca.status == 'APROVADA'"> | Iniciar Entrega | </a>
             <a (click)="moverStatus(troca)" *ngIf="troca.status == 'EM TRÂNSITO'"> | Finalizar Entrega | </a>
-            <a (click)="moverStatus(troca)" *ngIf="troca.status == 'EM TROCA'"> | Autorizar Troca | </a>
-            <a (click)="moverStatus(troca)" *ngIf="troca.status == 'TROCA ENTREGUE'"> | Pedido Recebido | </a>
+            <a (click)="trocarDevolver(troca, true)" *ngIf="troca.status == 'EM TROCA'"> | Autorizar Troca | </a>
+            <a (click)="trocarDevolver(troca, false)" *ngIf="troca.status == 'EM TROCA'"> | Negar Troca | </a>
+            <!-- <a (click)="moverStatus(troca)" *ngIf="troca.status == 'TROCA ENTREGUE'"> | Pedido Recebido | </a> -->
+            <a (click)="moverStatus(troca)" *ngIf="troca.status == 'PRODUTOS POSTADOS'"> | Pedido Recebido | </a>
+            <a (click)="moverStatus(troca)" *ngIf="troca.status == 'PRODUTOS RECEBIDOS'"> | Pedido Recebido | </a>
             <a (click)="detalhesVenda(troca)">Detalhes</a>
           </td>
         </tr>

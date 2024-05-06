@@ -96,6 +96,67 @@ export class DetalheComponent {
   }
 
   detalhesVenda(compra: any){
-
+    console.log(compra);
   }
+
+  trocar(codCompra : any){
+    localStorage.setItem('tipo-troca-devolucao', JSON.stringify({
+      codCompra: codCompra,
+      tipo: 'troca'
+    }));
+    location.href = 'produtos/troca';   
+  }
+
+  devolver(codCompra : any){
+    localStorage.setItem('tipo-troca-devolucao', JSON.stringify({
+      codCompra: codCompra,
+      tipo: 'troca'
+    }));
+    location.href = 'produtos/devolucao';   
+  }
+
+  cancelar(compra : any){
+    if (window.confirm('Você realmente deseja cancelar?')) {
+      try {
+        fetch('http://localhost:3009/atualizarStatusVendaCompra', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: compra.id,
+            status: 'CANCELADA'
+          })
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            location.reload();
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  postarProdutos(compra: any){
+    try {
+      fetch('http://localhost:3009/atualizarStatusVendaCompra', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: compra.id,
+          status: 'PRODUTOS POSTADOS'
+        })
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          location.reload();
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 }

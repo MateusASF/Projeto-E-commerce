@@ -13,8 +13,10 @@ export class DevolucaoComponent {
   constructor() { }
 
   ngOnInit(): void {
+    const telaCliente = localStorage.getItem('tipo-troca-devolucao');
+
     this.form = new FormGroup({
-      codPedido: new FormControl(''),
+      codPedido: new FormControl(telaCliente ? JSON.parse(telaCliente).codCompra : ''),
       motivo: new FormControl(''),
     });
   }

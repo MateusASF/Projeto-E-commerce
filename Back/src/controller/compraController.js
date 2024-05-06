@@ -87,5 +87,27 @@ class CompraController {
             res.status(500).json({ mensagem: 'Erro ao listar trocas.' });
         }
     }
+
+    async validarCupom(req, res) {
+        const compraService = new CompraService();
+        try {
+            const cupom = await compraService.validarCupom(req.body.cupom);
+            res.status(200).json(cupom);
+        } catch (error) {
+            console.error('Erro ao validar cupom:', error.message);
+            res.status(500).json({ mensagem: 'Erro ao validar cupom.' });
+        }
+    }
+
+    async gerarCupom(req, res) {
+        const compraService = new CompraService();
+        try {
+            const cupom = await compraService.gerarCupom(req.body);
+            res.status(201).json(cupom);
+        } catch (error) {
+            console.error('Erro ao gerar cupom:', error.message);
+            res.status(500).json({ mensagem: 'Erro ao gerar cupom.' });
+        }
+    }
 }
 module.exports = { CompraController };

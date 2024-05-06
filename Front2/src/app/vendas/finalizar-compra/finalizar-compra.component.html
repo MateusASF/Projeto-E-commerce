@@ -61,6 +61,9 @@
           <input type="text" id="cupom" formControlName="cupom" >
           <button type="submit">Aplicar Cupom</button>
           <button (click)="limparCupom()">Limpar Cupom</button>
+          <div class="cuponsUsados">
+            <p *ngFor="let cupom of cuponsUsados">{{cupom.codCupom }}</p>
+          </div>
         </form>
       </div>
       <h3>Valor Frete: R$ {{frete}}</h3>

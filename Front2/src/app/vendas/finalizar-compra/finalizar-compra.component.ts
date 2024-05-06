@@ -16,6 +16,7 @@ export class FinalizarCompraComponent {
   frete: number = 0;
   numeroCartaoSelecionado: any = {};
   idEnderecoSelecionado: any = {};
+  cuponsUsados: any = [];
 
   formCupom!: FormGroup;
 
@@ -241,21 +242,54 @@ export class FinalizarCompraComponent {
 
   inserirCupom() {
     let cupom = this.formCupom.value.cupom;
-    switch (cupom) {
-      case 'TROCATUDO':
-        this.calcularTotalDesconto(this.total);
-        this.removerPagamento(null);
-        break;
-      case 'BEMVINDO':
-        this.calcularTotalDesconto(this.total * 0.1);
-        break;
-      case 'SECRET':
-        this.calcularTotalDesconto(this.total * 0.9999);
-        break;
-      default:+
-      
-        alert('Cumpom Inváido');
-        break;
+    try {
+      fetch(`http://localhost:3009/validarCupom`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({cupom: cupom})
+      }).then(async response => {
+        if (response.ok) {
+          let data = await response.json();
+          data = data[0];
+
+          if (data.status == 'USADO') {
+            alert('Cupom já utilizado!');
+          } else {
+            const cupomUsado = await this.cuponsUsados.find((cupom: any) => cupom.codCupom == data.codCupom);
+            const cupomDesconto = await this.cuponsUsados.find((cupom: any) => cupom.tipo == 'DESCONTO');
+            console.log(cupomUsado);
+            if (data.tipo == 'TROCA' && cupomUsado == undefined) {
+              this.cuponsUsados.push(data);
+              let desconto = 0;
+              if (data.porcentagem) {
+                desconto = this.total * (data.porcentagem / 100);
+              } else {
+                desconto = data.valor;
+              }
+              this.calcularTotalDesconto(desconto);
+            } else if (data.tipo == 'DESCONTO' && cupomUsado == undefined && cupomDesconto == undefined) {
+              this.cuponsUsados.push(data);
+              let desconto = 0;
+              if (data.porcentagem) {
+                desconto = this.total * (data.porcentagem / 100);
+              } else {
+                desconto = data.valor;
+              }
+              this.calcularTotalDesconto(desconto);
+            } else if (cupomUsado != undefined) {
+              alert('Cupom já utilizado!');
+            } else if (data.tipo == 'DESCONTO' && cupomDesconto.tipo == 'DESCONTO') {
+              alert('Somente um cupom de desconto pode ser utilizado por compra!');
+            } else {
+              alert('Cupom inválido!');
+            }
+          }
+        }
+      });
+    } catch (error) {
+      console.error('Erro ao validar cupom:', error);
     }
   }
 

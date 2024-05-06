@@ -597,6 +597,60 @@ class CompraService {
             console.error('Erro ao listar trocas:', error.message);
         }
     }
+
+    async validarCupom(cupom) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+    
+            const query = `SELECT * FROM Cupom WHERE codCupom = :cupom`;
+            const result = await connection.execute(query, { cupom });
+
+            if (result.rows.length === 0) {
+                return "Cupom inválido.";
+            }
+    
+            await connection.close();
+
+
+            const cupomValido = result.rows.map(row => {
+                return {
+                    id: row[0],
+                    codCupom: row[1],
+                    valor: row[2],
+                    porcentagem: row[3],
+                    status: row[4],
+                    tipo: row[5]
+                };
+            });
+
+            return cupomValido;
+        } catch (error) {
+            console.error('Erro ao validar cupom:', error.message);
+        }
+    }
+
+    async gerarCupom(cupom) { 
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+    
+            const query = `INSERT INTO Cupom (idCupom, codCupom, valor, porcentagem, status, tipo) VALUES (cupom_seq.nextval, :codCupom, :valor, :porcentagem, :status, :tipo)`;
+            await connection.execute(query, cupom);
+    
+            await connection.commit();
+    
+            console.log('Cupom gerado com sucesso.');
+    
+            await connection.close();
+        } catch (error) {
+            console.error('Erro ao gerar cupom:', error.message);
+    
+            await connection.rollback();
+    
+            await connection.close();
+        }
+    }
 }
 
 

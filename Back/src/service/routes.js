@@ -40,5 +40,7 @@ router.post('/atualizarStatusVendaCompra', compraController.atualizarStatusVenda
 router.post('/listarVendasComprasComCod', compraController.listarComprasPorCodCompra);
 router.post('/inserirTroca', compraController.inserirTroca);
 router.get('/listarTrocas', compraController.listarTrocas);
+router.post('/validarCupom', compraController.validarCupom);
+router.post('/gerarCupom', compraController.gerarCupom);
 
 module.exports = { router };
