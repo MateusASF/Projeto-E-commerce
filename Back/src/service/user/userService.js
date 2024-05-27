@@ -375,6 +375,12 @@ class UserService {
                 { autoCommit: true }
             );
 
+            await connection.execute(
+                `SELECT log_endereco_seq.nextval from dual`,
+                [], // Sem parâmetros adicionais
+                { outFormat: db.OBJECT }
+            );
+
             result = await connection.execute(
                 `SELECT log_endereco_seq.currval from dual`,
                 [], // Sem parâmetros adicionais

@@ -8,16 +8,14 @@ import { ListarProdutosComponent } from './Produtos/listar-produtos/listar-produ
 import { AcompanharVendasComponent } from './acompanhar-vendas/acompanhar-vendas.component';
 import { CarrinhoComponent } from './carrinho/carrinho.component';
 import { GerarCupomComponent } from './cupons/gerar-cupom/gerar-cupom.component';
-import { DevolucaoComponent } from './pedidos/devolucao/devolucao.component';
-import { AcompanharPedidosComponent } from './pedidos/acompanhar-pedidos/acompanhar-pedidos.component';
-import { TrocaComponent } from './pedidos/troca/troca.component';
-import { VendasComponent } from './vendas.component';
+import { ListarCuponsComponent } from './cupons/listar-cupons/listar-cupons.component';
 import { FinalizarCompraComponent } from './finalizar-compra/finalizar-compra.component';
 import { GraficoVendasComponent } from './grafico-vendas/grafico-vendas.component';
-import { ListarCuponsComponent } from './cupons/listar-cupons/listar-cupons.component';
-import { StatusPedidoComponent } from './pedidos/status-pedido/status-pedido.component';
 import { ListarVendasComponent } from './listar-vendas/listar-vendas.component';
-import { TrocaDevolucaoComponent } from './troca-devolucao/troca-devolucao.component';
+import { InitTrocaDevolucaoComponent } from './pedidos/init-troca-devolucao/init-troca-devolucao.component';
+import { StatusPedidoComponent } from './pedidos/status-pedido/status-pedido.component';
+import { TrocaDevolucaoComponent } from './pedidos/troca-devolucao/troca-devolucao.component';
+import { VendasComponent } from './vendas.component';
 
 
 const routes: Routes = [
@@ -52,20 +50,12 @@ const routes: Routes = [
         component: AcompanharVendasComponent
       },
       {
-        path: 'devolucao',
-        component: DevolucaoComponent
-      },
-      {
-        path: 'troca',
-        component: TrocaComponent
+        path: 'troca/devolucao',
+        component: InitTrocaDevolucaoComponent
       },
       {
         path: 'gerar-cupom',
         component: GerarCupomComponent
-      },
-      {
-        path: 'pedidos',
-        component: AcompanharPedidosComponent
       },
       {
         path: 'grafico-vendas',

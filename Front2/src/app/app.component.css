@@ -11,8 +11,9 @@
     flex-direction: row;
     align-items: center;
     align-content: center;
+    max-height: fit-content;
   }
-  
+
   .containerTitulo hr {
     width: 23.2vw;
     height: 0px;
@@ -25,34 +26,32 @@
     font-family: var(--font-secondary);
     font-size: 50px;
     font-weight: 400;
+    margin: 0px;
   }
 
   .table {
-    width: 70vw;
-    border: 2px solid var(--secondary-color);
-    border-radius: 10px;
-    padding: 10px 10px 20px 10px;
-    margin: 12px
+    max-width: 83%;
+    min-width: 83%;
+    border-radius: 3px;
   }
   
   
   .table thead {
-    background-color: var(--secondary-color);
+    background-color: rgb(204, 178, 126);
     color: var(--primary-color);
     font-family: var(--font-secondary);
     font-size: 30px;
   }
   
-  .table th {
+  .table th { 
     padding: 5px;
     text-align: start;
-    border-radius: 5px;
+    border-radius: 3px;
   }
   
   .table td {
     padding: 5px;
     text-align: start;
-    margin: 5px;
     font-family: var(--font-primary);
   }
   
@@ -73,5 +72,4 @@
     align-items: center;
     align-content: center;
   }
-  
   

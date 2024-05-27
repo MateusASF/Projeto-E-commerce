@@ -9,12 +9,16 @@
     <div class="form">
       <form [formGroup]="formGerarCupom" (ngSubmit)="gerarCupom()">
         <div class="form-group">
-          <label for="codigoCupom">Código do Cupom</label>
-          <input type="text" class="form-control" id="codigoCupom" formControlName="codigoCupom">
+          <label for="codCupom">Código do Cupom</label>
+          <input type="text" class="form-control" id="codCupom" formControlName="codCupom">
         </div>
         <div class="form-group">
-          <label for="valorCupom">Valor do Cupom</label>
-          <input type="text" class="form-control" id="valorCupom" formControlName="valorCupom">
+          <label for="valor">Valor do Cupom</label>
+          <input type="text" class="form-control" id="valor" formControlName="valor">
+        </div>
+        <div class="form-group">
+          <label for="porcentagem">Porcentagem do Cupom</label>
+          <input type="text" class="form-control" id="porcentagem" formControlName="porcentagem">
         </div>
         <button type="submit" class="btForm">Gerar Cupom</button>
       </form>

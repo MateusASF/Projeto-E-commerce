@@ -101,32 +101,30 @@
   align-content: center;
 }
 
+
 .table {
-  width: 80%;
-  border: 2px solid var(--secondary-color);
-  border-radius: 10px;
-  padding: 10px 10px 20px 10px;
+  max-width: 83%;
+  min-width: 83%;
+  border-radius: 3px;
 }
 
 
 .table thead {
-  background-color: var(--secondary-color);
+  background-color: rgb(204, 178, 126);
   color: var(--primary-color);
   font-family: var(--font-secondary);
   font-size: 30px;
-  font-weight: 400;
 }
 
-.table th {
+.table th { 
   padding: 5px;
   text-align: start;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 .table td {
   padding: 5px;
   text-align: start;
-  margin: 5px;
   font-family: var(--font-primary);
 }
 
@@ -147,6 +145,7 @@
   align-items: center;
   align-content: center;
 }
+
 
 .btForm{
   margin-top: 20px;

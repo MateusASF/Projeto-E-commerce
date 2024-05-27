@@ -34,7 +34,20 @@
   font-weight: 400;
 }
 
-.infoPagamento, .enderecoEntrega, .infoUser, .resumoCarrinho, .cupomContainer{
+.infoUser {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-primary);
+  text-align: start;
+}
+
+.infoPagamento {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.enderecoEntrega, .resumoCarrinho, .cupomContainer{
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -69,14 +82,15 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  align-items: center;
-  align-content: center;
+  align-items: start;
+  align-content: start;
 }
 
 .containerCheckout {
   display: flex;
-  justify-content: space-evenly;
-
+  justify-content: space-between;
+  max-width: 67%;
+  min-width: 67%;
 }
 
 .cartaoUser {
@@ -84,15 +98,15 @@
   align-items: start;
 }
 
-.infoUser, .infoPagamento {
+/* .infoPagamento {
   margin: 0px 40px;
-}
+} */
 
 .cartoesPagamento {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+  justify-content: start;
+  align-items: start;
+  align-content: start;
   flex-direction: column;
 }
 
@@ -132,4 +146,43 @@
   background-color: var(--auxilary-color);
   color: var(--primary-color);
   transition: 1s all;
+}
+
+.enderecoEntrega .blockForm, .cartoesPagamento .blockForm{
+  display: flex; flex-direction: row; justify-content: start; align-items: start; align-content: start; margin: 0; padding: 0;
+}
+
+.enderecoEntrega .blockForm .form-group label, .cartoesPagamento .blockForm .form-group label{
+  color: var(--secondary-color);
+}
+.enderecoEntrega .blockForm .form-group-ch label, .cartoesPagamento .blockForm .form-group-ch label{
+  color: var(--secondary-color);
+}
+
+.enderecoEntrega .blockForm .form-group input, .cartoesPagamento .blockForm .form-group  input {
+  color: var(--secondary-color);
+  font-family: var(--font-primary);
+  background-color: var(--primary-color);
+  border: none;
+  border: 1px solid var(--secondary-color);
+  border-radius: 5px;
+  padding: 5px 1.5px;
+}
+
+.enderecoEntrega .blockForm .form-group, .cartoesPagamento .blockForm .form-group {
+display:flex; justify-content: space-between; flex-direction: column; margin: 2px;
+}
+
+.enderecoEntrega .blockForm .form-group-ch, .cartoesPagamento .blockForm .form-group-ch{
+display:flex; justify-content: space-between; flex-direction: column; margin: 7px;
+}
+
+.infosPessoais {
+  display: flex;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+}
+
+.infosPessoais label span {
+  font-weight: 600;
 }

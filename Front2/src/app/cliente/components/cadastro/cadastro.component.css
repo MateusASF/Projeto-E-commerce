@@ -72,7 +72,7 @@
 .form-group input, .form-group-td-10 input{
   color: var(--secondary-color);
   font-family: var(--font-primary);
-  background-color: var(--primary-color);
+  background-color: transparent;
   border: none;
   border-bottom: 2px solid var(--secondary-color);
   padding: 10px 3px;

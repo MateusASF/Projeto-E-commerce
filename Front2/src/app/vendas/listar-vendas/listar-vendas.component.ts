@@ -14,10 +14,10 @@ export class ListarVendasComponent {
 
   constructor() { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.appComponent = new AppComponent();
     try {
-      fetch('http://localhost:3009/listarVendasCompras', {
+      await fetch('http://localhost:3009/listarVendasCompras', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -27,7 +27,10 @@ export class ListarVendasComponent {
         .then((data) => {
           this.vendas = data;
           this.vendas.forEach((venda:any) => {
-            venda.totalItens = venda.itens.length;
+            venda.totalItens = 0;
+            for (let i = 0; i < venda.itens.length; i++) {
+              venda.totalItens += venda.itens[i].quantidade;
+            }
           });
           console.log(this.vendas);
         });
@@ -36,7 +39,7 @@ export class ListarVendasComponent {
     }
 
     try {
-      fetch('http://localhost:3009/listarTrocas', {
+      await fetch('http://localhost:3009/listarTrocas', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +49,10 @@ export class ListarVendasComponent {
         .then((data) => {
           this.trocas = data;
           this.trocas.forEach((troca:any) => {
-            troca.totalItens = troca.itens.length;
+            troca.totalItens = 0;
+            for (let i = 0; i < troca.itens.length; i++) {
+              troca.totalItens += troca.itens[i].quantidade;
+            }
           });
           console.log(this.trocas);
         });
@@ -96,17 +102,64 @@ export class ListarVendasComponent {
     } catch (error) {
       
     }
+    // location.reload();
+  }
 
-    if (venda.status == 'TROCA FINALIZADA') {
+  async moverStatusTroca(troca:any){
+    switch(troca.status){
+      case 'APROVADA':
+        troca.status = 'EM TRÂNSITO';
+        break;
+      case 'EM TRÂNSITO':
+        troca.status = 'ENTREGUE';
+        break;
+      case 'EM TROCA':
+        troca.status = 'TROCADO';
+        break;
+      case 'PRODUTOS POSTADOS':
+        troca.status = 'PRODUTOS RECEBIDOS';
+        break;
+      case 'PRODUTOS RECEBIDOS':
+        troca.status = 'TROCA FINALIZADA';
+        break;
+      case 'EM PROCESSAMENTO':
+        troca.status = 'APROVADA';
+        break;
+    }
+
+    try {
+      await fetch('http://localhost:3009/atualizarStatusTrocaDevolucao', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: troca.id,
+          status: troca.status
+        })
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          if(troca.status != 'TROCA FINALIZADA'){
+            location.reload();
+          }
+        });
+    } catch (error) {
+      
+    }
+
+    if (troca.status == 'TROCA FINALIZADA') {
+      let cupomCode = await this.appComponent.gerarCodigoAleatorio();
       try {
-        fetch('http://localhost:3009/gerarCupom', {
+        await fetch('http://localhost:3009/gerarCupom', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            codCupom: this.appComponent.gerarCodigoAleatorio(),
-            valor: venda.total,
+            codCupom: cupomCode,
+            valor: troca.valor,
             porcentagem: null,
             status: 'Não Usado',
             tipo: 'TROCA'
@@ -115,6 +168,8 @@ export class ListarVendasComponent {
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
+            alert('Cupom gerado com sucesso, use o código ' + cupomCode + ' para obter desconto na próxima compra!');
+            //location.reload();
           }); 
       } catch (error) {
         console.log(error);
@@ -126,10 +181,10 @@ export class ListarVendasComponent {
     console.log(venda);
   }
 
-  trocarDevolver(venda:any, escolha: any){
+  async trocarDevolver(venda:any, escolha: any){
     if (escolha) {
       try {
-        fetch('http://localhost:3009/atualizarStatusVendaCompra', {
+        await fetch('http://localhost:3009/atualizarStatusTrocaDevolucao', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -144,11 +199,11 @@ export class ListarVendasComponent {
             console.log(data);
           });
       } catch (error) {
-        
+        console.log(error);
       }
     } else {
       try {
-        fetch('http://localhost:3009/atualizarStatusVendaCompra', {
+        await fetch('http://localhost:3009/atualizarStatusTrocaDevolucao', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -163,11 +218,55 @@ export class ListarVendasComponent {
             console.log(data);
           });
       } catch (error) {
-        
+        console.log(error);
       }
     }
-
     location.reload();
+  }
+
+  async trocarDevolverCompra(venda:any, escolha: any){
+    if (escolha) {
+      try {
+        await fetch('http://localhost:3009/atualizarStatusVendaCompra', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: venda.id,
+            status: 'TROCA AUTORIZADA'
+          })
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        await fetch('http://localhost:3009/atualizarStatusVendaCompra', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id: venda.id,
+            status: 'TROCA NEGADA'
+          })
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+          });
+      } catch (error) {
+        console.log(error);
+      }
+      location.reload();
+    }
+
+    // location.reload();
   }
 
   

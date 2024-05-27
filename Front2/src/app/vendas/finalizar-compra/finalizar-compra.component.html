@@ -6,41 +6,141 @@
   </div>
 
   <div class="containerCheckout">
-    <div class="infos">
-      <div class="cartaoUser" >
-        <div class="infoUser">
-          <h3>Informações do Usuário</h3>
-          <div>
-            <label for="nomeUsuario">Nome: {{cliente.nome}}</label>
-            <label for="emailUsuario">Email: {{cliente.email}}</label>
-            <label for="telefoneUsuario">Telefone: {{cliente.telefones[0].numeroTelefone}}</label>
-          </div>
-        </div>
-        <div class="infoPagamento" id="cartao-container">
-          <h3>Informações de Pagamento</h3>
-          <div class="cartoesPagamento">
-            <p>Cartão de crédito</p>
-            <select (change)="selecionarCartao($event)">
-              <option value="selecionarCartao">Selecionar Cartão</option>
-              <option *ngFor="let cartao of cliente.cartoes" [value]="cartao.numeroCartao">{{cartao.numeroCartao}}</option>
-            </select>
-            <button (click)="adicionarCartao()">Adicionar Cartão</button>
-            <label>Pagar com um cartão</label>
-            <input type="radio" name="opcaoCartao" value="umCartao" checked (click)="pagarComDoisCartoes(false)">
-            <label>Pagar com dois cartão</label>
-            <input type="radio" name="opcaoCartao" value="doisCartoes" (click)="pagarComDoisCartoes(true)">
-          </div>
-        </div>
+    <div class="infoUser">
+      <h3>Informações do Usuário</h3>
+      <div class="infosPessoais">
+        <label for="nomeUsuario"><span>Nome: </span>{{cliente.nome}}</label>
+        <label for="emailUsuario"><span>Email: </span>{{cliente.email}}</label>
+        <label for="telefoneUsuario"><span>Telefone: </span>{{cliente.telefones[0].numeroTelefone}}</label>
       </div>
       <div class="containerEnderecos">
         <div class="enderecoEntrega" id="enderecoEntrega-container">
           <h3>Endereço de Entrega</h3>
-          <select (change)="selecionarEndereco($event)">
+          <select (change)="selecionarEndereco($event)" style="margin-bottom: 6px;" class="select-endereco">
             <option value="selecionarEndereco">Selecionar Endereço</option>
-            <option *ngFor="let endereco of enderecosEntrega" [value]="endereco.id">{{endereco.identificacao}}
-            </option>
+            <option *ngFor="let endereco of enderecosEntrega" [value]="endereco.id">{{endereco.identificacao}}</option>
           </select>
-          <button (click)="adcionarEndereco('cobranca')">Adicionar Endereço</button>
+          <div class="blockForm">
+            <div class="form-group">
+              <label for="logradouro">Logradouro:</label>
+              <input type="text" id="logradouro" name="logradouro">
+            </div>
+            <div class="form-group">
+              <label for="tipoLogradouro">Tipo de Logradouro:</label>
+              <input type="text" id="tipoLogradouro" name="tipoLogradouro">
+            </div>
+            <div class="form-group">
+              <label for="numero">Número:</label>
+              <input type="text" id="numero" name="numero">
+            </div>
+            <div class="form-group">
+              <label for="bairro">Bairro:</label>
+              <input type="text" id="bairro" name="bairro">
+            </div>
+          </div>
+          <div class="blockForm">
+            <div class="form-group">
+              <label for="cidade">Cidade:</label>
+              <input type="text" id="cidade" name="cidade">
+            </div>
+            <div class="form-group">
+              <label for="estado">Estado:</label>
+              <input type="text" id="estado" name="estado">
+            </div>
+            <div class="form-group">
+              <label for="pais">País:</label>
+              <input type="text" id="pais" name="pais">
+            </div>
+            <div class="form-group">
+              <label for="cep">CEP:</label>
+              <input type="text" id="cep" name="cep" (blur)="calcularFrete()">
+            </div>
+          </div>
+          <div class="blockForm">
+            <div class="form-group">
+              <label for="tipoResidencia">Tipo de Residência:</label>
+              <input type="text" id="tipoResidencia" name="tipoResidencia">
+            </div>
+            <div class="form-group">
+              <label for="observacoes">Observações:</label>
+              <input type="text" id="observacoes" name="observacoes">
+            </div>
+            <div class="form-group">
+              <label for="identificacao">Identificação:</label>
+              <input type="text" id="identificacao" name="identificacao">
+            </div>
+            <div class="form-group-ch">
+              <label for="adicionarPerfil">Adicionar ao Perfil:</label>
+              <div style="display: flex; flex-direction: row;">
+                <label>Sim</label>
+                <input type="radio" name="opcao" value="Sim">
+                <label>Não</label>
+                <input type="radio" name="opcao" value="Não" checked>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="cartaoUser">
+        <div class="infoPagamento" id="cartao-container">
+          <h3>Informações de Pagamento</h3>
+          <div style="display: flex; flex-direction: row;">
+            <div class="cartoesPagamento">
+              <p>Cartão de crédito</p>
+              <select (change)="selecionarCartao($event)" style="margin-bottom: 6px;">
+                <option value="selecionarCartao">Selecionar Cartão</option>
+                <option *ngFor="let cartao of cliente.cartoes" [value]="cartao.numeroCartao">{{cartao.numeroCartao}}</option>
+              </select>
+              <div class="blockForm">
+                <div class="form-group">
+                  <label for="numeroCartao">Número</label>
+                  <input type="text" id="numeroCartao" name="numeroCartao">
+                </div>
+                <div class="form-group">
+                  <label for="nomeCartao">Nome</label>
+                  <input type="text" id="nomeCartao" name="nomeCartao">
+                </div>
+                <div class="form-group">
+                  <label for="bandeira">Bandeira</label>
+                  <select id="bandeira" name="bandeira">
+                    <option value="selecionarBanceira">Selecionar Bandeira</option>
+                    <option value="visa">Visa</option>
+                    <option value="mastercard">Mastercard</option>
+                    <option value="amex">American Express</option>
+                    <option value="discover">Discover</option>
+                  </select>
+                </div>
+              </div>
+              <div class="blockForm">
+                <div class="form-group">
+                  <label for="cvv">CVV</label>
+                  <input type="text" id="cvv" name="cvv">
+                </div>
+                <div class="form-group" *ngIf="qtdCartoes != 1">
+                  <label for="valor">Valor</label>
+                  <input type="text" id="valor" name="valor">
+                </div>
+                <div class="form-group-ch adicionarCartao">
+                  <label for="adicionarPerfil">Adicionar ao Perfil:</label>
+                  <div style="display: flex; flex-direction: row;">
+                    <label>Sim</label>
+                    <input type="radio" name="opcao" value="Sim" name="adicionarCartao">
+                    <label>Não</label>
+                    <input type="radio" name="opcao" value="Não" checked  name="adicionarCartao">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: center; align-items: center; align-content: center; height: 130%; margin-left: 25px;">
+              <label>Pagar com 1 cartão</label>
+              <input type="radio" name="opcaoCartao" value="umCartao" checked (click)="atualizarNumeroCartoes(1)">
+              <label>Pagar com 2 cartões</label>
+              <input type="radio" name="opcaoCartao" value="doisCartoes" (click)="atualizarNumeroCartoes(2)">
+              <label>Pagar com 3 cartões</label>
+              <input type="radio" name="opcaoCartao" value="tresCartoes" (click)="atualizarNumeroCartoes(3)">
+            </div>
+          </div>
+          <div id="cartoes-adicionais"></div>
         </div>
       </div>
     </div>
@@ -57,12 +157,12 @@
       </div>
       <div class="cupomContainer">
         <h3>Inserir Cupom</h3>
-        <form (ngSubmit)="inserirCupom()" [formGroup]="formCupom">
-          <input type="text" id="cupom" formControlName="cupom" >
-          <button type="submit">Aplicar Cupom</button>
+        <form [formGroup]="formCupom">
+          <input type="text" id="cupom" formControlName="cupom" name="cupom">
+          <button type="submit" (click)="inserirCupom()">Aplicar Cupom</button>
           <button (click)="limparCupom()">Limpar Cupom</button>
           <div class="cuponsUsados">
-            <p *ngFor="let cupom of cuponsUsados">{{cupom.codCupom }}</p>
+            <p *ngFor="let cupom of cuponsUsados">{{cupom.codCupom}}</p>
           </div>
         </form>
       </div>

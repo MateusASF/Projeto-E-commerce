@@ -14,42 +14,48 @@ export class LoginComponent {
       email: new FormControl(''),
       password: new FormControl(''),
     });
+    // if (sessionStorage.getItem('admin') === 'true') {
+    //   location.href = '/produtos/listar-vendas';
+    // } else if (localStorage.getItem('cliente') !== null) {
+    //   location.href = '/produtos/finalizar-compra';
+    // }
   }
 
   logar() {
     let cliente;
-    if (
-      this.form.get('email')?.value === 'admin@example.com' &&
-      this.form.get('password')?.value === 'admin123'
-    ) {
-      location.href = '/produtos/listar-vendas';
-    } else {
-      try {
-        fetch('http://localhost:3009/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            email: this.form.get('email')?.value,
-            senha: this.form.get('password')?.value,
-          }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            cliente = data;
-            console.log(cliente);
-            if (cliente.length === 0) {
-              alert('Usuário ou senha inválidos');
-              return;
-            }
-            localStorage.setItem('cliente', JSON.stringify(cliente));
-            alert('Login efetuado com sucesso');
-            location.href = '/produtos/finalizar-compra';
-          });
-      } catch (error) {
-        alert(error);
-      }
+      if (
+        this.form.get('email')?.value === 'admin@example.com' &&
+        this.form.get('password')?.value === 'admin123'
+      ) {
+        sessionStorage.setItem('admin', 'true');
+        location.href = '/produtos/listar-vendas';
+      } else {
+        try {
+          fetch('http://localhost:3009/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: this.form.get('email')?.value,
+              senha: this.form.get('password')?.value,
+            }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              cliente = data;
+              console.log(cliente);
+              if (cliente.length === 0) {
+                alert('Usuário ou senha inválidos');
+                return;
+              }
+              localStorage.setItem('cliente', JSON.stringify(cliente));
+              alert('Login efetuado com sucesso');
+              location.href = '/produtos/finalizar-compra';
+            });
+        } catch (error) {
+          alert(error);
+        }
     }
   }
 }

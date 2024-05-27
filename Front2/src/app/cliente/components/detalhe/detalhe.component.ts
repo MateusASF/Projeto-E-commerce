@@ -10,11 +10,14 @@ export class DetalheComponent {
   enderecos: any[] = [];
   cartoes: any[] = [];
   compras: any[] = [];
+  trocas: any[] = [];
 
   async ngOnInit() {
     this.cliente = JSON.parse(localStorage.getItem('cliente')!);
     this.enderecos = this.cliente.enderecos;
     this.cartoes = this.cliente.cartoes;
+
+    this.showSection('dadosPessoais');
 
     try {
       await fetch('http://localhost:3009/listarVendasComprasPorId', {
@@ -28,7 +31,10 @@ export class DetalheComponent {
         .then((data) => {
           this.compras = data;
           this.compras.forEach((compra:any) => {
-            compra.totalItens = compra.itens.length;
+            compra.totalItens = 0;
+            for (let i = 0; i < compra.itens.length; i++) {
+              compra.totalItens += compra.itens[i].quantidade;
+            }
           });
           console.log(this.compras);
         });
@@ -36,6 +42,31 @@ export class DetalheComponent {
       
     }
 
+    try {
+      await fetch('http://localhost:3009/listarTrocasPorId', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({id: this.cliente.id})
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          this.trocas = data;
+          this.trocas.forEach((troca:any) => {
+            troca.totalItens = 0;
+            for (let i = 0; i < troca.itens.length; i++) {
+              troca.totalItens += troca.itens[i].quantidade;
+              if (troca.status != 'TROCA FINALIZADA') {
+                troca.cupom = "";
+              }
+            }
+          });
+          console.log(this.trocas);
+        });
+    } catch (error) {
+      
+    }
 
   }
 
@@ -102,17 +133,17 @@ export class DetalheComponent {
   trocar(codCompra : any){
     localStorage.setItem('tipo-troca-devolucao', JSON.stringify({
       codCompra: codCompra,
-      tipo: 'troca'
+      tipo: 'Troca'
     }));
-    location.href = 'produtos/troca';   
+    location.href = 'produtos/troca/devolucao';   
   }
 
   devolver(codCompra : any){
     localStorage.setItem('tipo-troca-devolucao', JSON.stringify({
       codCompra: codCompra,
-      tipo: 'troca'
+      tipo: 'Devolução'
     }));
-    location.href = 'produtos/devolucao';   
+    location.href = 'produtos/troca/devolucao';   
   }
 
   cancelar(compra : any){
@@ -138,20 +169,21 @@ export class DetalheComponent {
     }
   }
 
-  postarProdutos(compra: any){
+  postarProdutos(id: any){
     try {
-      fetch('http://localhost:3009/atualizarStatusVendaCompra', {
+      fetch('http://localhost:3009/atualizarStatusTrocaDevolucao', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          id: compra.id,
+          id: id,
           status: 'PRODUTOS POSTADOS'
         })
       })
         .then((response) => response.json())
         .then((data) => {
+          alert('Produtos postados com sucesso');
           location.reload();
         });
     } catch (error) {
@@ -159,4 +191,35 @@ export class DetalheComponent {
     }
   }
 
+  postarProdutosCompra(id: any){
+    try {
+      fetch('http://localhost:3009/atualizarStatusVendaCompra', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          id: id,
+          status: 'PRODUTOS POSTADOS'
+        })
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          alert('Produtos postados com sucesso');
+          location.reload();
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+  showSection(sectionId: any) {
+    var sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+      (section as HTMLElement).style.display = 'none'; // Esconde todas as seções
+    });
+    document.getElementById(sectionId)!.style.display = 'block'; // Mostra a seção solicitada
+  }
+  
 }

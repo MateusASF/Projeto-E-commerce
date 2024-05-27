@@ -4,8 +4,8 @@ const CompraService = require('../service/compra/compraService');
 
 class CompraController {
     async registrarCompra(req, res) {
-        // const { carrinho, cartoes, enderecoEntrega, total, frete, cupom, status } = req.body;
-        // const compra = { carrinho, cartoes, enderecoEntrega, total, frete, cupom, status, codCompra };
+        // const { carrinho, cartoes, enderecoEntrega, total, frete, status } = req.body;
+        // const compra = { carrinho, cartoes, enderecoEntrega, total, frete, status, codCompra };
         
         const compraService = new CompraService();
         // const validacoes = new Validacoes();
@@ -54,6 +54,16 @@ class CompraController {
             res.status(500).json({ mensagem: 'Erro ao atualizar status da compra.' });
         }
     }
+    async atualizarStatusTrocaDevolucao(req, res) {
+        const compraService = new CompraService();
+        try {
+            await compraService.atualizarStatusTrocaDevolucao(req.body.id, req.body.status);
+            res.status(200).json({ mensagem: 'Status da troca atualizado com sucesso.' });
+        } catch (error) {
+            console.error('Erro ao atualizar status da troca:', error.message);
+            res.status(500).json({ mensagem: 'Erro ao atualizar status da compra.' });
+        }
+    }
 
     async listarComprasPorCodCompra(req, res) {
         const compraService = new CompraService();
@@ -88,6 +98,17 @@ class CompraController {
         }
     }
 
+    async listarTrocasPorId(req, res) {
+        const compraService = new CompraService();
+        try {
+            const trocas = await compraService.listarTrocasPorId(req.body.id);
+            res.status(200).json(trocas);
+        } catch (error) {
+            console.error('Erro ao listar trocas:', error.message);
+            res.status(500).json({ mensagem: 'Erro ao listar trocas.' });
+        }
+    }
+
     async validarCupom(req, res) {
         const compraService = new CompraService();
         try {
@@ -107,6 +128,17 @@ class CompraController {
         } catch (error) {
             console.error('Erro ao gerar cupom:', error.message);
             res.status(500).json({ mensagem: 'Erro ao gerar cupom.' });
+        }
+    }
+
+    async listarCupons(req, res) {
+        const compraService = new CompraService();
+        try {
+            const cupons = await compraService.listarCupons();
+            res.status(200).json(cupons);
+        } catch (error) {
+            console.error('Erro ao listar cupons:', error.message);
+            res.status(500).json({ mensagem: 'Erro ao listar cupons.' });
         }
     }
 }

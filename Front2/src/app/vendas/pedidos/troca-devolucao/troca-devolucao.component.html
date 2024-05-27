@@ -24,7 +24,7 @@
                     <td>{{ product.preco }}</td>
                     <td>{{ product.marca }}</td>
                     <td>{{ product.codRelogio }}</td>
-                    <td>
+                    <td style="display: flex;">
                         <button (click)="decreaseQuantity(product.id)">-</button>
                         <input type="number" name="quantity{{i}}" value="{{ product.quantidade }}">
                         <button (click)="increaseQuantity(product.id)">+</button>

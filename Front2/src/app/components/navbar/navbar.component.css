@@ -1,31 +1,47 @@
-.navbar{
-  padding: 10px;
-}
-
-.navbar ul {
+.dropdown {
   display: flex;
-  list-style: none;
-  padding: 0;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
-  margin: 0;
 }
 
-.navbar ul li a {
-  color: var(--secondary-color);
+.dropdown-item a {
   text-decoration: none;
   font-family: var(--font-primary);
-  font-size: 25px;
-  padding: 8px;
+  color: var(--secundary-color);
+  font-size: 30px;
+  cursor: default;
 }
 
-.navbar ul li .august {
+.dropdown-item {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  z-index: 1;
+}
+
+.dropdown-item:hover .dropdown-content {
+  display: block;
+  color: var(--auxilary-color);
+  transition: 0.5s all;
+}
+
+.dropdown-content a{
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.dropdown-item img{
+  cursor: pointer;
+}
+
+.august {
   font-family: var(--font-secondary);
-  font-size: 50px;
-}
-
-.navbar ul li a:hover, .navbar ul li .august:hover {
-  transition: 1s all;
+  font-size: 60px;
+  text-decoration: none;
   color: var(--auxilary-color);
 }
-

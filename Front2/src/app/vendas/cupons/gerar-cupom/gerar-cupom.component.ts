@@ -13,17 +13,32 @@ export class GerarCupomComponent {
 
   ngOnInit(): void {
     this.formGerarCupom = new FormGroup({
-      codigoCupom: new FormControl(''),
-      valorCupom: new FormControl(''),
+      codCupom: new FormControl(''),
+      valor: new FormControl(null),
+      porcentagem: new FormControl(null),
     });
   }
 
 
   gerarCupom() {
-    alert('Cupom gerado com sucesso!');
-    const codigoCupom = this.formGerarCupom.get('codigoCupom').value;
-    const valorCupom = this.formGerarCupom.get('valorCupom').value;
-    const cupom = { codigo: codigoCupom, valor: valorCupom };
-    localStorage.setItem('cupom', JSON.stringify(cupom));
+    let cupom = this.formGerarCupom.value;
+    cupom.status = "Não Usado";
+    cupom.tipo = "DESCONTO";
+    try {
+      fetch('http://localhost:3009/gerarCupom', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.formGerarCupom.value)
+      })
+        .then((data) => {
+          console.log(data);
+          alert("Cupom gerado com sucesso");
+          location.href = "http://localhost:4200/produtos/listar-cupons";
+        });
+    } catch (error) {
+      
+    }
   }
 }

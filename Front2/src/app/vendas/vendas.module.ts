@@ -11,14 +11,12 @@ import { GerarCupomComponent } from './cupons/gerar-cupom/gerar-cupom.component'
 import { ListarCuponsComponent } from './cupons/listar-cupons/listar-cupons.component';
 import { FinalizarCompraComponent } from './finalizar-compra/finalizar-compra.component';
 import { GraficoVendasComponent } from './grafico-vendas/grafico-vendas.component';
-import { AcompanharPedidosComponent } from './pedidos/acompanhar-pedidos/acompanhar-pedidos.component';
-import { DevolucaoComponent } from './pedidos/devolucao/devolucao.component';
-import { TrocaComponent } from './pedidos/troca/troca.component';
+import { ListarVendasComponent } from './listar-vendas/listar-vendas.component';
+import { InitTrocaDevolucaoComponent } from './pedidos/init-troca-devolucao/init-troca-devolucao.component';
+import { StatusPedidoComponent } from './pedidos/status-pedido/status-pedido.component';
+import { TrocaDevolucaoComponent } from './pedidos/troca-devolucao/troca-devolucao.component';
 import { VendasRoutingModule } from './vendas-routing.module';
 import { VendasComponent } from './vendas.component';
-import { StatusPedidoComponent } from './pedidos/status-pedido/status-pedido.component';
-import { ListarVendasComponent } from './listar-vendas/listar-vendas.component';
-import { TrocaDevolucaoComponent } from './troca-devolucao/troca-devolucao.component';
 
 
 
@@ -31,11 +29,9 @@ import { TrocaDevolucaoComponent } from './troca-devolucao/troca-devolucao.compo
     InfoProdutoComponent,
     CarrinhoComponent,
     FinalizarCompraComponent,
-    DevolucaoComponent,
-    TrocaComponent,
+    InitTrocaDevolucaoComponent,
     GerarCupomComponent,
     AcompanharVendasComponent,
-    AcompanharPedidosComponent,
     ListarCuponsComponent,
     GraficoVendasComponent,
     StatusPedidoComponent,

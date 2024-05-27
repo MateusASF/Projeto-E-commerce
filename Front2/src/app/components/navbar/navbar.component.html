@@ -1,11 +1,44 @@
-<nav class="navbar">
-  <ul>
-    <li></li>
-    <li><a routerLink="/cliente">Clientes</a></li>
-    <li><a routerLink="/produtos">Relógios</a></li>
-    <li><a routerLink="" class="august">August</a></li>
-    <li><a routerLink="/produtos/pedidos">Pedidos</a></li>
-    <li><a routerLink="/produtos/vendas">Vendas</a></li>
-    <li><a routerLink="/produtos/carrinho">Carrinho</a></li>
-  </ul>
-</nav>
+<div class="dropdown">    
+  <div class="dropdown-item">
+    <a routerLink="/login"><img src="../../../assets/admin.svg"></a>
+    <div class="dropdown-content">
+    </div>
+  </div>
+
+  <div class="dropdown-item">
+    <a>Clientes</a>
+    <div class="dropdown-content">
+      <a routerLink="/cliente">Cadastrar Cliente</a><br>
+      <a routerLink="/cliente/listar">Listar Clientes</a><br>
+    </div>
+  </div>
+
+  <div class="dropdown-item">
+    <a>Relógios</a>
+    <div class="dropdown-content">
+      <a routerLink="/produtos">Ver produtos</a><br>
+    </div>
+  </div>
+
+  <a routerLink="" class="august">August</a>
+
+  <div class="dropdown-item">
+    <a>Pedidos</a>
+    <div class="dropdown-content">
+      <a routerLink="/produtos/troca/devolucao">Troca / Devolução</a><br>
+      <a routerLink="/produtos/status-pedido">Status pedido</a><br>
+    </div>
+  </div>
+
+  <div class="dropdown-item">
+    <a routerLink="">Cupons</a>
+    <div class="dropdown-content">
+      <a routerLink="/produtos/gerar-cupom">Gerar Cupom</a><br>
+      <a routerLink="/produtos/listar-cupons">Listar Cupons</a><br>
+    </div>
+  </div>
+
+  <div class="dropdown-item">
+    <a routerLink="/produtos/carrinho"><img src="../../../assets/cart.svg"></a>
+  </div>
+</div>

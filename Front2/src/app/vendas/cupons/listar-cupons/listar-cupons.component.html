@@ -11,20 +11,26 @@
         <tr>
           <th>Cliente</th>
           <th>Valor</th>
+          <th>Porcentagem</th>
           <th>Status</th>
-          <th>Ações</th>
+          <th>Tipo</th>
+          <!-- <th>Ações</th> -->
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let cupom of cupons">
-          <td>{{cupom.codCupom}}</td>
-          <td>{{cupom.valor}}</td>
-          <td>{{cupom.status}}</td>
-          <td class="acoes">
-            <a (click)="inativarCupom(cupom)" *ngIf="cupom.status == '1'"> | Inativar Cupom | </a>
-            <a (click)="inativarCupom(cupom)" *ngIf="cupom.status == '0'"> | Ativar Cupom | </a>
-          </td>
-        </tr>
+        <ng-container *ngFor="let cupom of cupons">
+          <tr *ngIf="!(cupom.valor == null && cupom.porcentagem == null)">
+            <td>{{cupom.codCupom}}</td>
+            <td>{{cupom.valor}}</td>
+            <td>{{cupom.porcentagem}}</td>
+            <td>{{cupom.status}}</td>
+            <td>{{cupom.tipo}}</td>
+            <!-- <td class="acoes">
+              <a (click)="inativarCupom(cupom)" *ngIf="cupom.status == '1'"> | Inativar Cupom | </a>
+              <a (click)="inativarCupom(cupom)" *ngIf="cupom.status == '0'"> | Ativar Cupom | </a>
+            </td> -->
+          </tr>
+        </ng-container>
       </tbody>
     </table>
   </div>

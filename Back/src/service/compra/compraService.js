@@ -8,14 +8,13 @@ class CompraService {
             const connection = db.getConnection(); 
     
             // Inserir dados na tabela de compras
-            const compraQuery = `INSERT INTO Compra (id_compra, codCompra, id_usuario, enderecoEntrega, total, frete, cupom, status) VALUES (compra_seq.nextval, :codCompra, :id_usuario, :enderecoEntrega, :total, :frete, :cupom, :status)`;
+            const compraQuery = `INSERT INTO Compra (id_compra, codCompra, id_usuario, enderecoEntrega, total, frete, status) VALUES (compra_seq.nextval, :codCompra, :id_usuario, :enderecoEntrega, :total, :frete, :status)`;
             const compraParams = {
                 codCompra: compra.codCompra,
                 id_usuario: compra.cliente,
                 enderecoEntrega: compra.enderecoEntrega,
                 total: compra.total,
                 frete: compra.frete,
-                cupom: compra.cupom,
                 status: compra.status
             };
             await connection.execute(compraQuery, compraParams);
@@ -46,6 +45,15 @@ class CompraService {
                     valor: cartao.valor
                 };
                 await connection.execute(cartaoQuery, cartaoParams);
+            }
+
+            for (const cupom of compra.cupons) {
+                const cupomQuery = `INSERT INTO Cupom_Compra (compra_id, cupom_id) VALUES (:compra_id, :cupom_id)`;
+                const cupomParams = {
+                    compra_id: compraId,
+                    cupom_id: cupom.id
+                };
+                await connection.execute(cupomQuery, cupomParams);
             }
     
             // Commit da transação
@@ -156,32 +164,64 @@ class CompraService {
                     )
                 )
             ) AS "itens",
+            (
+                SELECT JSON_ARRAYAGG(
+                    JSON_OBJECT(
+                        'id' VALUE cu.idCupom,
+                        'codCupom' VALUE cu.codCupom,
+                        'valor' VALUE cu.valor,
+                        'porcentagem' VALUE cu.porcentagem,
+                        'status' VALUE cu.status,
+                        'tipo' VALUE cu.tipo
+                    )
+                )
+                FROM Cupom cu
+                JOIN Cupom_Compra cc ON cu.idCupom = cc.cupom_id
+                WHERE cc.compra_id = c.id_compra
+            ) AS "Cupons",
             c.total AS "total",
             c.frete AS "frete",
-            c.cupom AS "cupom",
             c.status AS "status",
             TO_CHAR(c.dataCompra, 'YYYY-MM-DD"T"HH24:MI:SS".000Z"') AS "data"
-        FROM Compra c
-        JOIN usuarios u ON c.id_usuario = u.id_usuario
-        JOIN ItensCompra ic ON c.id_compra = ic.id_compra
-        JOIN Produto p ON ic.id_produto = p.id
-        GROUP BY c.id_compra, c.codCompra, u.id_usuario, u.ativo, u.nome, u.data_nascimento, u.genero, u.cpf, u.senha, u.email, c.total, c.frete, c.cupom, c.status, c.dataCompra`;
+        FROM 
+            Compra c
+        JOIN 
+            usuarios u ON c.id_usuario = u.id_usuario
+        JOIN 
+            ItensCompra ic ON c.id_compra = ic.id_compra
+        JOIN 
+            Produto p ON ic.id_produto = p.id
+        GROUP BY 
+            c.id_compra, 
+            c.codCompra, 
+            u.id_usuario, 
+            u.ativo, 
+            u.nome, 
+            u.data_nascimento, 
+            u.genero, 
+            u.cpf, 
+            u.senha, 
+            u.email, 
+            c.total, 
+            c.frete, 
+            c.status, 
+            c.dataCompra`;
             const result = await connection.execute(query);
     
             // Fechar conexão com o banco de dados
             await connection.close();
+            console.log(result.rows);
             const compras = result.rows.map(row => {
                 return {
                     id: row[0],
                     codCompra: row[1],
                     cliente: JSON.parse(row[2]),
                     itens: JSON.parse(row[3]),
-                    total: row[4],
-                    frete: row[5],
-                    cupom: row[6],
+                    cupons: JSON.parse(row[4]),
+                    total: row[5],
+                    frete: row[6],
                     status: row[7],
                     data: row[8]
-                
                 };   
             });
             return compras;
@@ -195,103 +235,138 @@ class CompraService {
             await db.initialize();
             const connection = db.getConnection();
     
-            const query = `SELECT 
-            c.id_compra AS "id",
-            c.codCompra AS "codCompra",
-            JSON_OBJECT(
-                'id' VALUE u.id_usuario,
-                'ativo' VALUE u.ativo,
-                'nome' VALUE u.nome,
-                'nascimento' VALUE TO_CHAR(u.data_nascimento, 'YYYY-MM-DD"T"HH24:MI:SS".000Z"'),
-                'genero' VALUE u.genero,
-                'cpf' VALUE u.cpf,
-                'telefones' VALUE (
-                    SELECT JSON_ARRAYAGG(
-                        JSON_OBJECT(
-                            'idTelefone' VALUE t.id_telefone,
-                            'numeroTelefone' VALUE t.numero_telefone,
-                            'tipoTelefone' VALUE t.tipo_telefone
-                        )
-                    )
-                    FROM telefones t
-                    WHERE t.id_usuario = u.id_usuario
-                ),
-                'senha' VALUE u.senha,
-                'email' VALUE u.email,
-                'enderecosEntrega' VALUE (
-                    SELECT JSON_OBJECT(
-                        'id' VALUE e.id_endereco,
-                        'logradouro' VALUE e.logradouro,
-                        'tipoLogradouro' VALUE e.tipo_logradouro,
-                        'numero' VALUE e.numero,
-                        'bairro' VALUE e.bairro,
-                        'cidade' VALUE e.cidade,
-                        'estado' VALUE e.estado,
-                        'pais' VALUE e.pais,
-                        'cep' VALUE e.cep,
-                        'tipoResidencia' VALUE e.tipo_residencia,
-                        'observacoes' VALUE e.observacoes,
-                        'identificacao' VALUE e.identificacao,
-                        'tipoEndereco' VALUE e.tipo_endereco
-                    )
-                    FROM enderecos e
-                    WHERE e.id_usuario = u.id_usuario AND e.tipo_endereco = 'Entrega'
-                    FETCH FIRST 1 ROW ONLY
-                ),
-                'cartoesUsados' VALUE (
-                    SELECT JSON_ARRAYAGG(
-                        JSON_OBJECT(
-                            'numeroCartao' VALUE ca.numero_cartao,
-                            'nomeCliente' VALUE ca.nome_cliente,
-                            'bandeira' VALUE ca.bandeira,
-                            'cvv' VALUE ca.cvv,
-                            'valor' VALUE cc.valor
-                        )
-                    )
-                    FROM cartoes ca
-                    JOIN CartoesCompra cc ON ca.id_cartao = cc.id_cartao
-                    WHERE cc.id_compra = c.id_compra
-                )
-            ) AS "cliente",
-            JSON_ARRAYAGG(
+            const query = `
+            SELECT 
+                c.id_compra AS "id",
+                c.codCompra AS "codCompra",
                 JSON_OBJECT(
-                    'id' VALUE p.id,
-                    'nome' VALUE p.nome,
-                    'marca' VALUE p.marca,
-                    'ano' VALUE p.ano,
-                    'modelo' VALUE p.modelo,
-                    'codRelogio' VALUE p.codRelogio,
-                    'genero' VALUE p.genero,
-                    'tamanho' VALUE p.tamanho,
-                    'faixaPreco' VALUE p.faixaPreco,
-                    'preco' VALUE p.preco,
-                    'descricao' VALUE p.descricao,
-                    'quantidade' VALUE ic.quantidade,
-                    'Categorias' VALUE (
+                    'id' VALUE u.id_usuario,
+                    'ativo' VALUE u.ativo,
+                    'nome' VALUE u.nome,
+                    'nascimento' VALUE TO_CHAR(u.data_nascimento, 'YYYY-MM-DD"T"HH24:MI:SS".000Z"'),
+                    'genero' VALUE u.genero,
+                    'cpf' VALUE u.cpf,
+                    'telefones' VALUE (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
-                                'id' VALUE cat.id,
-                                'nome' VALUE cat.nome
+                                'idTelefone' VALUE t.id_telefone,
+                                'numeroTelefone' VALUE t.numero_telefone,
+                                'tipoTelefone' VALUE t.tipo_telefone
                             )
                         )
-                        FROM Categoria cat
-                        JOIN Produto_Categoria pc ON cat.id = pc.categoria_id
-                        WHERE pc.produto_id = p.id
+                        FROM telefones t
+                        WHERE t.id_usuario = u.id_usuario
+                    ),
+                    'senha' VALUE u.senha,
+                    'email' VALUE u.email,
+                    'enderecosEntrega' VALUE (
+                        SELECT JSON_OBJECT(
+                            'id' VALUE e.id_endereco,
+                            'logradouro' VALUE e.logradouro,
+                            'tipoLogradouro' VALUE e.tipo_logradouro,
+                            'numero' VALUE e.numero,
+                            'bairro' VALUE e.bairro,
+                            'cidade' VALUE e.cidade,
+                            'estado' VALUE e.estado,
+                            'pais' VALUE e.pais,
+                            'cep' VALUE e.cep,
+                            'tipoResidencia' VALUE e.tipo_residencia,
+                            'observacoes' VALUE e.observacoes,
+                            'identificacao' VALUE e.identificacao,
+                            'tipoEndereco' VALUE e.tipo_endereco
+                        )
+                        FROM enderecos e
+                        WHERE e.id_usuario = u.id_usuario AND e.tipo_endereco = 'Entrega'
+                        FETCH FIRST 1 ROW ONLY
+                    ),
+                    'cartoesUsados' VALUE (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'numeroCartao' VALUE ca.numero_cartao,
+                                'nomeCliente' VALUE ca.nome_cliente,
+                                'bandeira' VALUE ca.bandeira,
+                                'cvv' VALUE ca.cvv,
+                                'valor' VALUE cc.valor
+                            )
+                        )
+                        FROM cartoes ca
+                        JOIN CartoesCompra cc ON ca.id_cartao = cc.id_cartao
+                        WHERE cc.id_compra = c.id_compra
                     )
-                )
-            ) AS "itens",
-            c.total AS "total",
-            c.frete AS "frete",
-            c.cupom AS "cupom",
-            c.status AS "status",
-            TO_CHAR(c.dataCompra, 'YYYY-MM-DD"T"HH24:MI:SS".000Z"') AS "data"
-        FROM Compra c
-        JOIN usuarios u ON c.id_usuario = u.id_usuario
-        JOIN ItensCompra ic ON c.id_compra = ic.id_compra
-        JOIN Produto p ON ic.id_produto = p.id
-        WHERE c.id_usuario = :id_usuario
-        GROUP BY c.id_compra, c.codCompra, u.id_usuario, u.ativo, u.nome, u.data_nascimento, u.genero, u.cpf, u.senha, u.email, c.total, c.frete, c.cupom, c.status, c.dataCompra`;
-            const result = await connection.execute(query, { id_usuario: id_usuario });
+                ) AS "cliente",
+                JSON_ARRAYAGG(
+                    JSON_OBJECT(
+                        'id' VALUE p.id,
+                        'nome' VALUE p.nome,
+                        'marca' VALUE p.marca,
+                        'ano' VALUE p.ano,
+                        'modelo' VALUE p.modelo,
+                        'codRelogio' VALUE p.codRelogio,
+                        'genero' VALUE p.genero,
+                        'tamanho' VALUE p.tamanho,
+                        'faixaPreco' VALUE p.faixaPreco,
+                        'preco' VALUE p.preco,
+                        'descricao' VALUE p.descricao,
+                        'quantidade' VALUE ic.quantidade,
+                        'Categorias' VALUE (
+                            SELECT JSON_ARRAYAGG(
+                                JSON_OBJECT(
+                                    'id' VALUE cat.id,
+                                    'nome' VALUE cat.nome
+                                )
+                            )
+                            FROM Categoria cat
+                            JOIN Produto_Categoria pc ON cat.id = pc.categoria_id
+                            WHERE pc.produto_id = p.id
+                        )
+                    )
+                ) AS "itens",
+                (
+                    SELECT JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                            'id' VALUE cu.idCupom,
+                            'codCupom' VALUE cu.codCupom,
+                            'valor' VALUE cu.valor,
+                            'porcentagem' VALUE cu.porcentagem,
+                            'status' VALUE cu.status,
+                            'tipo' VALUE cu.tipo
+                        )
+                    )
+                    FROM Cupom cu
+                    JOIN Cupom_Compra cc ON cu.idCupom = cc.cupom_id
+                    WHERE cc.compra_id = c.id_compra
+                ) AS "Cupons",
+                c.total AS "total",
+                c.frete AS "frete",
+                c.status AS "status",
+                TO_CHAR(c.dataCompra, 'YYYY-MM-DD"T"HH24:MI:SS".000Z"') AS "data"
+            FROM 
+                Compra c
+            JOIN 
+                usuarios u ON c.id_usuario = u.id_usuario
+            JOIN 
+                ItensCompra ic ON c.id_compra = ic.id_compra
+            JOIN 
+                Produto p ON ic.id_produto = p.id
+            WHERE 
+                c.id_usuario = :id_usuario
+            GROUP BY 
+                c.id_compra, 
+                c.codCompra, 
+                u.id_usuario, 
+                u.ativo, 
+                u.nome, 
+                u.data_nascimento, 
+                u.genero, 
+                u.cpf, 
+                u.senha, 
+                u.email, 
+                c.total, 
+                c.frete, 
+                c.status, 
+                c.dataCompra`;
+        const result = await connection.execute(query, { id_usuario: id_usuario });
+        
     
             // Fechar conexão com o banco de dados
             await connection.close();
@@ -301,12 +376,11 @@ class CompraService {
                     codCompra: row[1],
                     cliente: JSON.parse(row[2]),
                     itens: JSON.parse(row[3]),
-                    total: row[4],
-                    frete: row[5],
-                    cupom: row[6],
+                    cupons: JSON.parse(row[4]),
+                    total: row[5],
+                    frete: row[6],
                     status: row[7],
                     data: row[8]
-                
                 };   
             });
             return compras;
@@ -321,7 +395,7 @@ class CompraService {
             const connection = db.getConnection();
     
             const query = `UPDATE Compra SET status = :status WHERE id_compra = :id_compra`;
-            await connection.execute(query, { status, id_compra });
+            await connection.execute(query, { status, id_compra: id_compra.id || id_compra});
     
             await connection.commit();
     
@@ -336,123 +410,160 @@ class CompraService {
             await connection.close();
         }
     }
+    async atualizarStatusTrocaDevolucao(id_troca, status) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+    
+            const query = `UPDATE Trocas SET status = :status WHERE id_troca = :id_troca`;
+            await connection.execute(query, { status, id_troca: id_troca.id || id_troca});
+    
+            await connection.commit();
+    
+            console.log('Status da troca atualizado com sucesso.');
+    
+            await connection.close();
+        } catch (error) {
+            console.error('Erro ao atualizar status da troca:', error.message);
+    
+            await connection.rollback();
+    
+            await connection.close();
+        }
+    }
 
     async listarComprasPorCodCompra(codCompra) {
         try {
             await db.initialize();
             const connection = db.getConnection();
     
-            const query = `SELECT 
-            c.id_compra AS "id",
-            c.codCompra AS "codCompra",
+            const query = `
+    SELECT 
+        c.id_compra AS "id",
+        c.codCompra AS "codCompra",
+        JSON_OBJECT(
+            'id' VALUE u.id_usuario,
+            'ativo' VALUE u.ativo,
+            'nome' VALUE u.nome,
+            'nascimento' VALUE TO_CHAR(u.data_nascimento, 'YYYY-MM-DD"T"HH24:MI:SS".000Z"'),
+            'genero' VALUE u.genero,
+            'cpf' VALUE u.cpf,
+            'telefones' VALUE (
+                SELECT JSON_ARRAYAGG(
+                    JSON_OBJECT(
+                        'idTelefone' VALUE t.id_telefone,
+                        'numeroTelefone' VALUE t.numero_telefone,
+                        'tipoTelefone' VALUE t.tipo_telefone
+                    )
+                )
+                FROM telefones t
+                WHERE t.id_usuario = u.id_usuario
+            ),
+            'senha' VALUE u.senha,
+            'email' VALUE u.email,
+            'enderecosEntrega' VALUE (
+                SELECT JSON_OBJECT(
+                    'id' VALUE e.id_endereco,
+                    'logradouro' VALUE e.logradouro,
+                    'tipoLogradouro' VALUE e.tipo_logradouro,
+                    'numero' VALUE e.numero,
+                    'bairro' VALUE e.bairro,
+                    'cidade' VALUE e.cidade,
+                    'estado' VALUE e.estado,
+                    'pais' VALUE e.pais,
+                    'cep' VALUE e.cep,
+                    'tipoResidencia' VALUE e.tipo_residencia,
+                    'observacoes' VALUE e.observacoes,
+                    'identificacao' VALUE e.identificacao,
+                    'tipoEndereco' VALUE e.tipo_endereco
+                )
+                FROM enderecos e
+                WHERE e.id_usuario = u.id_usuario AND e.tipo_endereco = 'Entrega'
+                FETCH FIRST 1 ROW ONLY
+            ),
+            'cartoesUsados' VALUE (
+                SELECT JSON_ARRAYAGG(
+                    JSON_OBJECT(
+                        'numeroCartao' VALUE ca.numero_cartao,
+                        'nomeCliente' VALUE ca.nome_cliente,
+                        'bandeira' VALUE ca.bandeira,
+                        'cvv' VALUE ca.cvv,
+                        'valor' VALUE cc.valor
+                    )
+                )
+                FROM cartoes ca
+                JOIN CartoesCompra cc ON ca.id_cartao = cc.id_cartao
+                WHERE cc.id_compra = c.id_compra
+            )
+        ) AS "cliente",
+        JSON_ARRAYAGG(
             JSON_OBJECT(
-                'id' VALUE u.id_usuario,
-                'ativo' VALUE u.ativo,
-                'nome' VALUE u.nome,
-                'nascimento' VALUE TO_CHAR(u.data_nascimento, 'YYYY-MM-DD"T"HH24:MI:SS".000Z"'),
-                'genero' VALUE u.genero,
-                'cpf' VALUE u.cpf,
-                'telefones' VALUE (
+                'id' VALUE p.id,
+                'nome' VALUE p.nome,
+                'marca' VALUE p.marca,
+                'ano' VALUE p.ano,
+                'modelo' VALUE p.modelo,
+                'codRelogio' VALUE p.codRelogio,
+                'genero' VALUE p.genero,
+                'tamanho' VALUE p.tamanho,
+                'faixaPreco' VALUE p.faixaPreco,
+                'preco' VALUE p.preco,
+                'descricao' VALUE p.descricao,
+                'quantidade' VALUE ic.quantidade,
+                'Categorias' VALUE (
                     SELECT JSON_ARRAYAGG(
                         JSON_OBJECT(
-                            'idTelefone' VALUE t.id_telefone,
-                            'numeroTelefone' VALUE t.numero_telefone,
-                            'tipoTelefone' VALUE t.tipo_telefone
+                            'id' VALUE cat.id,
+                            'nome' VALUE cat.nome
                         )
                     )
-                    FROM telefones t
-                    WHERE t.id_usuario = u.id_usuario
-                ),
-                'senha' VALUE u.senha,
-                'email' VALUE u.email,
-                'enderecosEntrega' VALUE (
-                    SELECT JSON_OBJECT(
-                        'id' VALUE e.id_endereco,
-                        'logradouro' VALUE e.logradouro,
-                        'tipoLogradouro' VALUE e.tipo_logradouro,
-                        'numero' VALUE e.numero,
-                        'bairro' VALUE e.bairro,
-                        'cidade' VALUE e.cidade,
-                        'estado' VALUE e.estado,
-                        'pais' VALUE e.pais,
-                        'cep' VALUE e.cep,
-                        'tipoResidencia' VALUE e.tipo_residencia,
-                        'observacoes' VALUE e.observacoes,
-                        'identificacao' VALUE e.identificacao,
-                        'tipoEndereco' VALUE e.tipo_endereco
-                    )
-                    FROM enderecos e
-                    WHERE e.id_usuario = u.id_usuario AND e.tipo_endereco = 'Entrega'
-                    FETCH FIRST 1 ROW ONLY
-                ),
-                'cartoesUsados' VALUE (
-                    SELECT JSON_ARRAYAGG(
-                        JSON_OBJECT(
-                            'numeroCartao' VALUE ca.numero_cartao,
-                            'nomeCliente' VALUE ca.nome_cliente,
-                            'bandeira' VALUE ca.bandeira,
-                            'cvv' VALUE ca.cvv,
-                            'valor' VALUE cc.valor
-                        )
-                    )
-                    FROM cartoes ca
-                    JOIN CartoesCompra cc ON ca.id_cartao = cc.id_cartao
-                    WHERE cc.id_compra = c.id_compra
+                    FROM Categoria cat
+                    JOIN Produto_Categoria pc ON cat.id = pc.categoria_id
+                    WHERE pc.produto_id = p.id
                 )
-            ) AS "cliente",
-            JSON_ARRAYAGG(
+            )
+        ) AS "itens",
+        (
+            SELECT JSON_ARRAYAGG(
                 JSON_OBJECT(
-                    'id' VALUE p.id,
-                    'nome' VALUE p.nome,
-                    'marca' VALUE p.marca,
-                    'ano' VALUE p.ano,
-                    'modelo' VALUE p.modelo,
-                    'codRelogio' VALUE p.codRelogio,
-                    'genero' VALUE p.genero,
-                    'tamanho' VALUE p.tamanho,
-                    'faixaPreco' VALUE p.faixaPreco,
-                    'preco' VALUE p.preco,
-                    'descricao' VALUE p.descricao,
-                    'quantidade' VALUE ic.quantidade,
-                    'Categorias' VALUE (
-                        SELECT JSON_ARRAYAGG(
-                            JSON_OBJECT(
-                                'id' VALUE cat.id,
-                                'nome' VALUE cat.nome
-                            )
-                        )
-                        FROM Categoria cat
-                        JOIN Produto_Categoria pc ON cat.id = pc.categoria_id
-                        WHERE pc.produto_id = p.id
-                    )
+                    'id' VALUE cu.idCupom,
+                    'codCupom' VALUE cu.codCupom,
+                    'valor' VALUE cu.valor,
+                    'porcentagem' VALUE cu.porcentagem,
+                    'status' VALUE cu.status,
+                    'tipo' VALUE cu.tipo
                 )
-            ) AS "itens",
-            c.total AS "total",
-            c.frete AS "frete",
-            c.cupom AS "cupom",
-            c.status AS "status",
-            TO_CHAR(c.dataCompra, 'YYYY-MM-DD"T"HH24:MI:SS".000Z"') AS "data"
-        FROM Compra c
-        JOIN usuarios u ON c.id_usuario = u.id_usuario
-        JOIN ItensCompra ic ON c.id_compra = ic.id_compra
-        JOIN Produto p ON ic.id_produto = p.id
-        WHERE c.codCompra = :codCompra
-        GROUP BY c.id_compra, c.codCompra, u.id_usuario, u.ativo, u.nome, u.data_nascimento, u.genero, u.cpf, u.senha, u.email, c.total, c.frete, c.cupom, c.status, c.dataCompra`;
-            const result = await connection.execute(query, { codCompra });
+            )
+            FROM Cupom cu
+            JOIN Cupom_Compra cc ON cu.idCupom = cc.cupom_id
+            WHERE cc.compra_id = c.id_compra
+        ) AS "Cupons",
+        c.total AS "total",
+        c.frete AS "frete",
+        c.status AS "status",
+        TO_CHAR(c.dataCompra, 'YYYY-MM-DD"T"HH24:MI:SS".000Z"') AS "data"
+    FROM Compra c
+    JOIN usuarios u ON c.id_usuario = u.id_usuario
+    JOIN ItensCompra ic ON c.id_compra = ic.id_compra
+    JOIN Produto p ON ic.id_produto = p.id
+    WHERE c.codCompra = :codCompra
+    GROUP BY c.id_compra, c.codCompra, u.id_usuario, u.ativo, u.nome, u.data_nascimento, u.genero, u.cpf, u.senha, u.email, c.total, c.frete, c.status, c.dataCompra`;
+const result = await connection.execute(query, { codCompra });
+
     
             await connection.close();
+            console.log(result.rows);
             const compras = result.rows.map(row => {
                 return {
                     id: row[0],
                     codCompra: row[1],
                     cliente: JSON.parse(row[2]),
                     itens: JSON.parse(row[3]),
-                    total: row[4],
-                    frete: row[5],
-                    cupom: row[6],
+                    cupons: JSON.parse(row[4]),
+                    total: row[5],
+                    frete: row[6],
                     status: row[7],
                     data: row[8]
-                
                 };   
             });
             return compras;
@@ -598,6 +709,102 @@ class CompraService {
         }
     }
 
+    async listarTrocasPorId(id_usuario) {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+    
+            const query = `
+            SELECT 
+                t.id_troca AS "id", 
+                t.codTroca AS "codTroca", 
+                t.motivo AS "motivo", 
+                t.status AS "status",
+                t.cupom AS "cupom",
+                JSON_OBJECT(
+                    'id' VALUE u.id_usuario,
+                    'ativo' VALUE u.ativo,
+                    'nome' VALUE u.nome,
+                    'nascimento' VALUE TO_CHAR(u.data_nascimento, 'YYYY-MM-DD"T"HH24:MI:SS'),
+                    'genero' VALUE u.genero,
+                    'cpf' VALUE u.cpf,
+                    'telefones' VALUE (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'idTelefone' VALUE t.id_telefone,
+                                'numeroTelefone' VALUE t.numero_telefone,
+                                'tipoTelefone' VALUE t.tipo_telefone
+                            )
+                        )
+                        FROM telefones t
+                        WHERE t.id_usuario = u.id_usuario
+                    ),
+                    'senha' VALUE u.senha,
+                    'email' VALUE u.email
+                ) AS "cliente",
+                JSON_ARRAYAGG(
+                    JSON_OBJECT(
+                        'id' VALUE p.id,
+                        'nome' VALUE p.nome,
+                        'marca' VALUE p.marca,
+                        'ano' VALUE p.ano,
+                        'modelo' VALUE p.modelo,
+                        'codRelogio' VALUE p.codRelogio,
+                        'genero' VALUE p.genero,
+                        'tamanho' VALUE p.tamanho,
+                        'faixaPreco' VALUE p.faixaPreco,
+                        'preco' VALUE p.preco,
+                        'descricao' VALUE p.descricao,
+                        'quantidade' VALUE it.quantidade,
+                        'Categorias' VALUE (
+                            SELECT JSON_ARRAYAGG(
+                                JSON_OBJECT(
+                                    'id' VALUE cat.id,
+                                    'nome' VALUE cat.nome
+                                )
+                            )
+                            FROM Categoria cat
+                            JOIN Produto_Categoria pc ON cat.id = pc.categoria_id
+                            WHERE pc.produto_id = p.id
+                        )
+                    )
+                ) AS "itens",
+                c.valor AS "valor",
+                c.porcentagem AS "porcentagem",
+                c.status AS "statusCupom",
+                c.tipo AS "tipo"
+            FROM Trocas t
+            JOIN usuarios u ON t.id_usuario = u.id_usuario
+            JOIN ItensTroca it ON t.id_troca = it.id_troca
+            JOIN Produto p ON it.id_produto = p.id
+            JOIN Cupom c ON t.cupom = c.codCupom
+            WHERE t.id_usuario = :id_usuario
+            GROUP BY t.id_troca, t.codTroca, t.motivo, t.status, t.cupom, u.id_usuario, u.ativo, u.nome, u.data_nascimento, u.genero, u.cpf, u.senha, u.email, c.valor, c.porcentagem, c.status, c.tipo`;
+    
+            const result = await connection.execute(query, { id_usuario: id_usuario });
+    
+            await connection.close();
+            const trocas = result.rows.map(row => {
+                return {
+                    id: row[0],
+                    codTroca: row[1],
+                    motivo: row[2],
+                    status: row[3],
+                    cupom: row[4],
+                    cliente: JSON.parse(row[5]),
+                    itens: JSON.parse(row[6]),
+                    valor: row[7]
+                };
+            });
+            return trocas;
+    
+        }
+        catch (error) {
+            console.error('Erro ao listar trocas:', error.message);
+        }
+    }
+    
+
     async validarCupom(cupom) {
         try {
             await db.initialize();
@@ -632,7 +839,7 @@ class CompraService {
 
     async gerarCupom(cupom) { 
         try {
-            await db.initialize();
+            await db.initialize(); 
             const connection = db.getConnection();
     
             const query = `INSERT INTO Cupom (idCupom, codCupom, valor, porcentagem, status, tipo) VALUES (cupom_seq.nextval, :codCupom, :valor, :porcentagem, :status, :tipo)`;
@@ -649,6 +856,32 @@ class CompraService {
             await connection.rollback();
     
             await connection.close();
+        }
+    }
+
+    async listarCupons() {
+        try {
+            await db.initialize();
+            const connection = db.getConnection();
+    
+            const query = `SELECT * FROM Cupom`;
+            const result = await connection.execute(query);
+    
+            await connection.close();
+            const cupons = result.rows.map(row => {
+                return {
+                    id: row[0],
+                    codCupom: row[1],
+                    valor: row[2],
+                    porcentagem: row[3],
+                    status: row[4],
+                    tipo: row[5]
+                };
+            });
+            return cupons;
+    
+        } catch (error) {
+            console.error('Erro ao listar cupons:', error.message);
         }
     }
 }

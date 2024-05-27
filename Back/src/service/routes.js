@@ -40,7 +40,11 @@ router.post('/atualizarStatusVendaCompra', compraController.atualizarStatusVenda
 router.post('/listarVendasComprasComCod', compraController.listarComprasPorCodCompra);
 router.post('/inserirTroca', compraController.inserirTroca);
 router.get('/listarTrocas', compraController.listarTrocas);
+router.post('/listarTrocasPorId', compraController.listarTrocasPorId);
 router.post('/validarCupom', compraController.validarCupom);
 router.post('/gerarCupom', compraController.gerarCupom);
+router.post('/atualizarStatusTrocaDevolucao', compraController.atualizarStatusTrocaDevolucao);
+router.get('/listarCupons', compraController.listarCupons);
+
 
 module.exports = { router };

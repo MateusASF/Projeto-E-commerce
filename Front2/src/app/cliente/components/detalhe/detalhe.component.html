@@ -1,116 +1,175 @@
 <div class="containerDetalhes">
-  <div class="containerTitulo">
+  <div class="containerTitulo" style="margin-top:30px;">
     <hr>
-    <h1 class="tituloPagina">Detalhe do Cliente</h1>
+    <h1 class="tituloPagina">Detalhes do Cliente</h1>
     <hr>
   </div>
 
-  <h2>Dados Pessoais</h2>
-  <div class="dados">
-    <div class="dadosPessoais">
-      <p>Nome: <span id="nome">{{cliente.nome}}</span></p>
-      <p>Data de Nascimento: <span id="nascimento">{{cliente.nascimento | date:"dd/MM/YYYY"}}</span></p>
-      <p>Gênero: <span id="genero"></span>{{cliente.genero}}</p>
-      <p>CPF: <span id="cpf"></span>{{cliente.cpf}}</p>
-      <p>E-mail: <span id="email"></span>{{cliente.email}}</p>
-      <p>Telefone: <span id="telefone"></span>{{cliente.telefones[0].numeroTelefone}}</p>
+  <div class="sidebar">
+    <ul>
+      <li (click)="showSection('dadosPessoais')">Dados Pessoais</li>
+      <li (click)="showSection('enderecos')">Endereços</li>
+      <li (click)="showSection('cartoes')">Cartões</li>
+      <li (click)="showSection('compras')">Compras</li>
+      <li (click)="showSection('trocas')">Trocas</li>
+    </ul>
+  </div>
+
+  <div class="content">
+    <div id="dadosPessoais" class="section">
+      <h2>Dados Pessoais</h2>
+      <div class="dados">
+        <div class="dadosPessoais">
+          <p>Nome: <span id="nome">{{cliente.nome}}</span></p>
+          <p>Data de Nascimento: <span id="nascimento">{{cliente.nascimento | date:"dd/MM/YYYY"}}</span></p>
+          <p>Gênero: <span id="genero">{{cliente.genero}}</span></p>
+          <p>CPF: <span id="cpf">{{cliente.cpf}}</span></p>
+          <p>E-mail: <span id="email">{{cliente.email}}</span></p>
+          <p>Telefone: <span id="telefone">{{cliente.telefones[0].numeroTelefone}}</span></p>
+        </div>
+        <button (click)="editarDadosPessoais()" class="btEditar" id="dadosPessoais">Editar Dados Pessoais</button>
+      </div>
     </div>
-    <button (click)="editarDadosPessoais()" class="btEditar" id="dadosPessoais">Editar Dados Pessoais</button>
-  </div>
 
-  <h2>Endereços</h2>
-  <div class="containerTabela">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Logradouro</th>
-          <th>Tipo Logradouro</th>
-          <th>Numero</th>
-          <th>Bairro</th>
-          <th>Cidade</th>
-          <th>Estado</th>
-          <th>Pais</th>
-          <th>CEP</th>
-          <th>Tipo Residencia</th>
-          <th>Identificação</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let endereco of enderecos" id="enderecoId">
-          <td>{{endereco.logradouro}}</td>
-          <td>{{endereco.tipoLogradouro}}</td>
-          <td>{{endereco.numero}}</td>
-          <td>{{endereco.bairro}}</td>
-          <td>{{endereco.cidade}}</td>
-          <td>{{endereco.estado}}</td>
-          <td>{{endereco.pais}}</td>
-          <td>{{endereco.cep}}</td>
-          <td>{{endereco.tipoResidencia}}</td>
-          <td>{{endereco.identificacao}}</td>
-          <td class="acoes">
-            <a (click)="editarEndereco(endereco, cliente.id)">Editar Endereço</a>
-            <a (click)="excluirEndereco(endereco.idEndereco)">Excluir Endereço</a>
-          </td>
-        </tr>
-      </tbody>
-      <button class="btEditar" style="position: relative;left: 39vw;" (click)="adicionarEndereco()" id="dadosEndereco">Adicionar Endereço</button>
-    </table>
+    <div id="enderecos" class="section" style="display:none;">
+      <h2>Endereços</h2>
+      <div class="containerTabela">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Logradouro</th>
+              <th>Tipo Logradouro</th>
+              <th>Numero</th>
+              <th>Bairro</th>
+              <th>Cidade</th>
+              <!-- <th>Estado</th> -->
+              <!-- <th>Pais</th> -->
+              <th>CEP</th>
+              <th>Tipo Residencia</th>
+              <th>Identificação</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let endereco of enderecos" id="enderecoId">
+              <td>{{endereco.logradouro}}</td>
+              <td>{{endereco.tipoLogradouro}}</td>
+              <td>{{endereco.numero}}</td>
+              <td>{{endereco.bairro}}</td>
+              <td>{{endereco.cidade}}</td>
+              <!-- <td>{{endereco.estado}}</td> -->
+              <!-- <td>{{endereco.pais}}</td> -->
+              <td>{{endereco.cep}}</td>
+              <td>{{endereco.tipoResidencia}}</td>
+              <td>{{endereco.identificacao}}</td>
+              <td class="acoes">
+                <a (click)="editarEndereco(endereco, cliente.id)">Editar Endereço</a>
+                <a (click)="excluirEndereco(endereco.idEndereco)">Excluir Endereço</a>
+              </td>
+            </tr>
+          </tbody>
+          <button class="btEditar" style="position: relative;" (click)="adicionarEndereco()"
+            id="dadosEndereco">Adicionar Endereço</button>
+        </table>
+      </div>
+    </div>
 
-  <h2>Cartões</h2>
-  <div class="containerTabela" >
-    <table class="table" id="cartoes">
-      <thead>
-        <tr>
-          <th>Numero</th>
-          <th>Nome</th>
-          <th>Bandeira</th>
-          <th>Cvv</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let cartao of cartoes" id="cartaoId">
-          <td>{{cartao.numeroCartao}}</td>
-          <td>{{cartao.nomeCliente}}</td>
-          <td>{{cartao.bandeira}}</td>
-          <td>{{cartao.cvv}}</td>
-          <td class="acoes">
-            <a (click)="editarCartao(cartao, cliente.id)">Editar Cartão</a>
-            <a (click)="excluirCartao(cartao.idCartao)">Excluir Cartão</a>
-          </td>
-        </tr>
-      </tbody>
-      <button class="btEditar" style="position: relative;left: 23vw;" (click)="adicionarCartao()" id="dadosCartao">Adicionar Cartão</button>
-    </table>
+    <div id="cartoes" class="section" style="display:none;">
+      <h2>Cartões</h2>
+      <div class="containerTabela">
+        <table class="table" id="cartoes">
+          <thead>
+            <tr>
+              <th>Numero</th>
+              <th>Nome</th>
+              <th>Bandeira</th>
+              <th>Cvv</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cartao of cartoes" id="cartaoId">
+              <td>{{cartao.numeroCartao}}</td>
+              <td>{{cartao.nomeCliente}}</td>
+              <td>{{cartao.bandeira}}</td>
+              <td>{{cartao.cvv}}</td>
+              <td class="acoes">
+                <a (click)="editarCartao(cartao, cliente.id)">Editar Cartão</a>
+                <a (click)="excluirCartao(cartao.idCartao)">Excluir Cartão</a>
+              </td>
+            </tr>
+          </tbody>
+          <button class="btEditar" style="position: relative;" (click)="adicionarCartao()"
+            id="dadosCartao">Adicionar Cartão</button>
+        </table>
+      </div>
+    </div>
 
-    <h2>Compras</h2>
-    <div class="containerTabela" >
-      <table class="table" style="width: 800px;">
-        <thead>
-          <tr>
-            <th>Cliente</th>
-            <th>Valor</th>
-            <th>Quantidade de Itens</th>
-            <th>Status</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let compra of compras">
-            <td>{{compra.cliente.nome}}</td>
-            <td>{{compra.total}}</td>
-            <td>{{compra.totalItens}}</td>
-            <td>{{compra.status}}</td>
-            <td class="acoes">
-              <a *ngIf="compra.status == 'ENTREGUE'" (click)="trocar(compra.codCompra)">Trocar</a>
-              <a *ngIf="compra.status == 'ENTREGUE'" (click)="devolver(compra.codCompra)"> - Devolver - </a>
-              <a *ngIf="compra.status == 'TROCA AUTORIZADA'" (click)="postarProdutos(compra)"> Postar Produtos - </a>
-              <a *ngIf="compra.status == 'APROVADA'" (click)="cancelar(compra)">Cancelar</a>
-              <a (click)="detalhesVenda(compra)">Detalhes</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div id="compras" class="section" style="display:none;">
+        <h2>Compras</h2>
+        <div class="containerTabela">
+          <table class="table" style="width: 800px;">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Valor</th>
+                <th>Quantidade de Itens</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let compra of compras">
+                <td>{{compra.cliente.nome}}</td>
+                <td>{{compra.total}}</td>
+                <td>{{compra.totalItens}}</td>
+                <td>{{compra.status}}</td>
+                <td class="acoes">
+                  <a *ngIf="compra.status == 'ENTREGUE'" (click)="trocar(compra.codCompra)">Trocar</a>
+                  <a *ngIf="compra.status == 'ENTREGUE'" (click)="devolver(compra.codCompra)"> - Devolver - </a>
+                  <a *ngIf="compra.status == 'TROCA AUTORIZADA'" (click)="postarProdutosCompra(compra)"> Postar Produtos -
+                  </a>
+                  <a *ngIf="compra.status == 'APROVADA'" (click)="cancelar(compra)">Cancelar</a>
+                  <a (click)="detalhesVenda(compra)">Detalhes</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="trocas" class="section" style="display:none;">
+        <h2>Trocas</h2>
+        <div class="containerTabela">
+          <table class="table" style="width: 800px;">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Valor</th>
+                <th>Quantidade de Itens</th>
+                <th>Cupom</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let troca of trocas">
+                <td>{{troca.cliente.nome}}</td>
+                <td>{{troca.valor}}</td>
+                <td>{{troca.totalItens}}</td>
+                <td>{{troca.cupom}}</td>
+                <td>{{troca.status}}</td>
+                <td class="acoes">
+                  <!-- <a *ngIf="troca.status == 'ENTREGUE'" (click)="devolverTroca(troca.codCompra)">Devolver</a> -->
+                  <a *ngIf="troca.status == 'TROCA AUTORIZADA'" (click)="postarProdutos(troca.id)"> Postar Produtos -
+                  </a>
+                  <!-- <a *ngIf="troca.status == 'APROVADA'" (click)="cancelarTroca(troca)">Cancelar</a> -->
+                  <a (click)="detalhesVenda(troca)">Detalhes</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
 </div>

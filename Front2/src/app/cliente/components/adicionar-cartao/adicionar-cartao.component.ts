@@ -21,7 +21,7 @@ export class AdicionarCartaoComponent {
   onSubmit() {
     if (this.form.valid) {
       const formData = this.form.value;
-      formData.idCliente = JSON.parse(localStorage.getItem('cartao')!).id;
+      formData.idCliente = JSON.parse(localStorage.getItem('cliente')!).id;
       const json = JSON.stringify(formData);
 
       console.log(json);

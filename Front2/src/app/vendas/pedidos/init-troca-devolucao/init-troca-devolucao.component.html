@@ -1,7 +1,7 @@
 <div class="containerTroca">
   <div class="containerTitulo">
     <hr>
-    <h1 class="tituloPagina">Troca</h1>
+    <h1 class="tituloPagina">Troca / Devolução</h1>
     <hr>
   </div>
 
@@ -13,10 +13,17 @@
       </div>
       <div class="form-group">
         <label for="motivo">Motivo</label>
-        <select id="motivo" class="form-control">
-          <option value="defeito" formControlName="motivo" >Defeito</option>
-          <option value="insatisfação" formControlName="motivo" >Insatisfação</option>
-          <option value="outro" formControlName="motivo" >Outro</option>
+        <select id="motivo" class="form-control" formControlName="motivo">
+          <option value="Defeito">Defeito</option>
+          <option value="Insatisfação">Insatisfação</option>
+          <option value="Outro">Outro</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="motivo">Tipo</label>
+        <select id="tipo" class="form-control" formControlName="tipo">
+          <option value="Troca">Troca</option>
+          <option value="Devolução">Devolução</option>
         </select>
       </div>
       <button type="submit" class="btForm">Enviar</button>

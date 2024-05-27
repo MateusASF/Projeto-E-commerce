@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-troca',
-  templateUrl: './troca.component.html',
-  styleUrls: ['./troca.component.css', '../../vendas.component.css']
+  templateUrl: './init-troca-devolucao.component.html',
+  styleUrls: ['./init-troca-devolucao.component.css', '../../vendas.component.css']
 })
-export class TrocaComponent {
+export class InitTrocaDevolucaoComponent {
   form: any;
 
   constructor() { }
@@ -16,15 +16,19 @@ export class TrocaComponent {
 
     this.form = new FormGroup({
       codPedido: new FormControl(telaCliente ? JSON.parse(telaCliente).codCompra : ''),
-      motivo: new FormControl(''),
+      motivo: new FormControl('Defeito'),
+      tipo: new FormControl(telaCliente ? JSON.parse(telaCliente).tipo : ''),
     });
   }
 
   onSubmit() {
-    sessionStorage.setItem('tipo-troca-devolucao', JSON.stringify({
-      tipo: 'devolucao',
-      motivo: 'não gostei'
+    let formValues = this.form.value;
+    localStorage.setItem('tipo-troca-devolucao', JSON.stringify({
+      tipo: formValues.tipo,
+      motivo: formValues.motivo,
+      codCompra: formValues.codPedido
     }));
+    console.log(formValues);
     try {
       fetch('http://localhost:3009/listarVendasComprasComCod', {
         method: 'POST',

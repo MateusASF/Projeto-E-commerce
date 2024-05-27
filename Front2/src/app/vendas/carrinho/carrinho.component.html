@@ -23,9 +23,9 @@
         </div>
       </div>
       <div>
-        <p *ngIf="produtosCarrinho.length === 0" class="mensagemCarrinhoVazio">Seu carrinho está vazio</p>
+        <p *ngIf="total == 0" class="mensagemCarrinhoVazio">Seu carrinho está vazio</p>
       </div>
-      <div class="finalizarCompra">
+      <div class="finalizarCompra" *ngIf="total != 0">
         <p class="totalCarrinho">Total: R$ {{total | currency}}</p>
         <button *ngIf="produtosCarrinho.length > 0" (click)="finalizarCompra()" class="botaoFinalizarCompra">Finalizar Compra</button>
       </div>
