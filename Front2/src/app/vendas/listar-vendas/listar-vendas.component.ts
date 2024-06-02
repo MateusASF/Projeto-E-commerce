@@ -4,7 +4,7 @@ import { AppComponent } from 'src/app/app.component';
 @Component({
   selector: 'app-listar-vendas',
   templateUrl: './listar-vendas.component.html',
-  styleUrls: ['./listar-vendas.component.css', '../vendas.component.css']
+  styleUrls: ['./listar-vendas.component.css']
 })
 export class ListarVendasComponent {
 
@@ -60,6 +60,7 @@ export class ListarVendasComponent {
       console.log(error);
     }
 
+    this.showSection('vendas');
   }
 
   async moverStatus(venda:any){
@@ -81,6 +82,9 @@ export class ListarVendasComponent {
         break;
       case 'EM PROCESSAMENTO':
         venda.status = 'APROVADA';
+        break;
+      case 'EM DEVOLUÇÃO':
+        venda.status = 'PEDIDO FINALIZADO';
         break;
     }
 
@@ -265,8 +269,15 @@ export class ListarVendasComponent {
       }
       location.reload();
     }
-
     // location.reload();
+  }
+
+  showSection(sectionId: any) {
+    var sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+      (section as HTMLElement).style.display = 'none'; // Esconde todas as seções
+    });
+    document.getElementById(sectionId)!.style.display = 'block'; // Mostra a seção solicitada
   }
 
   

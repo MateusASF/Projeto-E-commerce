@@ -60,7 +60,7 @@ export class TrocaDevolucaoComponent {
     });
 
     if (this.selectedProducts.length == this.products.length) {
-      this.tipo = 'troca' ? 'EM TROCA' : 'DEVOLUÇÃO';
+      this.tipo = this.tipo == 'Troca' ? 'EM TROCA' : 'EM DEVOLUÇÃO';
       try {
         await fetch('http://localhost:3009/atualizarStatusVendaCompra', {
           method: 'POST',
@@ -74,7 +74,7 @@ export class TrocaDevolucaoComponent {
         })
           .then((response) => response.json())
           .then((data) => {
-            alert("Troca efetuada com sucesso")
+            alert(this.tipo + " efetuada com sucesso")
             location.href = "http://localhost:4200/cliente/detalhe";
           });
       } catch (error) {
@@ -86,14 +86,14 @@ export class TrocaDevolucaoComponent {
         id_usuario: this.venda.cliente.id,
         codTroca: 0,
         motivo: this.motivo,
-        status: 'EM TROCA',
+        status: this.tipo,
         itens: [] as any[],
         cupom: "",
         codCupom: "",
         valor: 0,
         porcentagem: null,
         statusCupom: "Não Usado",
-        tipo: 'TROCA'
+        tipo: this.tipo == "EM TROCA" ? "Troca" : "Devolução"
       };
       this.selectedProducts.forEach((product) => {
         const cod = this.appComponent.gerarCodigoAleatorio();
@@ -117,7 +117,7 @@ export class TrocaDevolucaoComponent {
             .then((response) => response.json())
             .then((data) => {
 
-              alert("Troca efetuada com sucesso");
+              alert(this.tipo + " efetuada com sucesso");
               // this.sendEmailTroca();
               location.href = "http://localhost:4200/cliente/detalhe";
               console.log(data);

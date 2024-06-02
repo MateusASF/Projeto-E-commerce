@@ -1,78 +1,99 @@
 <div class="containerListarVendas">
-  <div class="containerTitulo">
+
+  <div class="containerTitulo" style="margin-top:30px;">
     <hr>
-    <h1 class="tituloPagina">Listar Vendas</h1>
+    <h1 class="tituloPagina">Acompanhar vendas</h1>
     <hr>
   </div>
 
-  <div class="containerTabela">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Cliente</th>
-          <th>Valor</th>
-          <th>Quantidade de Itens</th>
-          <th>Status</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let venda of vendas">
-          <td>{{venda.cliente.nome}}</td>
-          <td>{{venda.total}}</td>
-          <td>{{venda.totalItens}}</td>
-          <td>{{venda.status}}</td>
-          <td class="acoes">
-            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'EM PROCESSAMENTO'"> | Aprovar Pagamento | </a>
-            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'APROVADA'"> | Iniciar Entrega | </a>
-            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'EM TRÂNSITO'"> | Finalizar Entrega | </a>
-            <a (click)="trocarDevolverCompra(venda, true)" *ngIf="venda.status == 'EM TROCA'"> | Autorizar Troca | </a>
-            <a (click)="trocarDevolverCompra(venda, false)" *ngIf="venda.status == 'EM TROCA'"> | Negar Troca | </a>
-            <!-- <a (click)="moverStatus(venda)" *ngIf="venda.status == 'TROCA AUTORIZADA'"> | Pedido Recebido | </a> -->
-            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'PRODUTOS POSTADOS'"> | Pedido Recebido | </a>
-            <a (click)="moverStatus(venda)" *ngIf="venda.status == 'PRODUTOS RECEBIDOS'"> | Finalizar Pedido | </a>
-            <a (click)="detalhesVenda(venda)">Detalhes</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="sidebar">
+    <ul>
+      <li (click)="showSection('vendas')">Vendas</li>
+      <li (click)="showSection('trocas')">Trocas</li>
+      <li (click)="showSection('grafico')">Gráfico</li>
+    </ul>
   </div>
 
-  <div class="containerTitulo">
-    <hr>
-    <h1 class="tituloPagina">Listar Trocas</h1>
-    <hr>
-  </div>
-  <div class="containerTabela">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Cliente</th>
-          <th>Valor</th>
-          <th>Quantidade de Itens</th>
-          <th>Status</th>
-          <th>Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let troca of trocas">
-          <td>{{troca.cliente.nome}}</td>
-          <td>{{troca.valor}}</td>
-          <td>{{troca.totalItens}}</td>
-          <td>{{troca.status}}</td>
-          <td class="acoes">
-            <a (click)="moverStatusTroca(troca)" *ngIf="troca.status == 'EM PROCESSAMENTO'"> | Aprovar Pagamento | </a>
-            <a (click)="moverStatusTroca(troca)" *ngIf="troca.status == 'APROVADA'"> | Iniciar Entrega | </a>
-            <a (click)="moverStatusTroca(troca)" *ngIf="troca.status == 'EM TRÂNSITO'"> | Finalizar Entrega | </a>
-            <a (click)="trocarDevolver(troca, true)" *ngIf="troca.status == 'EM TROCA'"> | Autorizar Troca | </a>
-            <a (click)="trocarDevolver(troca, false)" *ngIf="troca.status == 'EM TROCA'"> | Negar Troca | </a>
-            <!-- <a (click)="moverStatusTroca(troca)" *ngIf="troca.status == 'TROCA ENTREGUE'"> | Pedido Recebido | </a> -->
-            <a (click)="moverStatusTroca(troca)" *ngIf="troca.status == 'PRODUTOS POSTADOS'"> | Pedido Recebido | </a>
-            <a (click)="moverStatusTroca(troca)" *ngIf="troca.status == 'PRODUTOS RECEBIDOS'"> | Finalizar Troca | </a>
-            <a (click)="detalhesVenda(troca)">Detalhes</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="content">
+    <div id="vendas" class="section">
+      <h2>Vendas</h2>
+      <div class="containerTabela">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Valor</th>
+              <th>Quantidade de Itens</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let venda of vendas">
+              <td>{{venda.cliente.nome}}</td>
+              <td>{{venda.total}}</td>
+              <td>{{venda.totalItens}}</td>
+              <td>{{venda.status}}</td>
+              <td class="acoes">
+                <a (click)="moverStatus(venda)" *ngIf="venda.status == 'EM PROCESSAMENTO'"> | Aprovar Pagamento | </a>
+                <a (click)="moverStatus(venda)" *ngIf="venda.status == 'APROVADA'"> | Iniciar Entrega | </a>
+                <a (click)="moverStatus(venda)" *ngIf="venda.status == 'EM TRÂNSITO'"> | Finalizar Entrega | </a>
+                <a (click)="trocarDevolverCompra(venda, true)" *ngIf="venda.status == 'EM TROCA'"> | Autorizar Troca |
+                </a>
+                <a (click)="trocarDevolverCompra(venda, false)" *ngIf="venda.status == 'EM TROCA'"> | Negar Troca | </a>
+                <!-- <a (click)="moverStatus(venda)" *ngIf="venda.status == 'TROCA AUTORIZADA'"> | Pedido Recebido | </a> -->
+                <a (click)="moverStatus(venda)" *ngIf="venda.status == 'PRODUTOS POSTADOS'"> | Pedido Recebido | </a>
+                <a (click)="moverStatus(venda)" *ngIf="venda.status == 'EM DEVOLUÇÃO'"> | Pedido Recebido | </a>
+                <a (click)="moverStatus(venda)" *ngIf="venda.status == 'PRODUTOS RECEBIDOS'"> | Finalizar Pedido | </a>
+                <a (click)="detalhesVenda(venda)">Detalhes</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="trocas" class="section">
+      <h2>Trocas</h2>
+      <div class="containerTabela">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Cliente</th>
+              <th>Valor</th>
+              <th>Quantidade de Itens</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let troca of trocas">
+              <td>{{troca.cliente.nome}}</td>
+              <td>{{troca.valor}}</td>
+              <td>{{troca.totalItens}}</td>
+              <td>{{troca.status}}</td>
+              <td class="acoes">
+                <a (click)="moverStatusTroca(troca)" *ngIf="troca.status == 'EM PROCESSAMENTO'"> | Aprovar Pagamento |
+                </a>
+                <a (click)="moverStatusTroca(troca)" *ngIf="troca.status == 'APROVADA'"> | Iniciar Entrega | </a>
+                <a (click)="moverStatusTroca(troca)" *ngIf="troca.status == 'EM TRÂNSITO'"> | Finalizar Entrega | </a>
+                <a (click)="trocarDevolver(troca, true)" *ngIf="troca.status == 'EM TROCA'"> | Autorizar Troca | </a>
+                <a (click)="trocarDevolver(troca, false)" *ngIf="troca.status == 'EM TROCA'"> | Negar Troca | </a>
+                <!-- <a (click)="moverStatusTroca(troca)" *ngIf="troca.status == 'TROCA ENTREGUE'"> | Pedido Recebido | </a> -->
+                <a (click)="moverStatusTroca(troca)" *ngIf="troca.status == 'PRODUTOS POSTADOS'"> | Pedido Recebido |
+                </a>
+                <a (click)="moverStatusTroca(troca)" *ngIf="troca.status == 'PRODUTOS RECEBIDOS'"> | Finalizar Troca |
+                </a>
+                <a (click)="detalhesVenda(troca)">Detalhes</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="grafico" class="section">
+      <h2>Gráfico</h2>
+    </div>
   </div>
 </div>
