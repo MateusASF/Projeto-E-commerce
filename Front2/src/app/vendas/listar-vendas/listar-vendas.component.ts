@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Chart, Point, BubbleDataPoint } from 'chart.js/auto';
 import { AppComponent } from 'src/app/app.component';
 
 @Component({
@@ -6,15 +7,19 @@ import { AppComponent } from 'src/app/app.component';
   templateUrl: './listar-vendas.component.html',
   styleUrls: ['./listar-vendas.component.css']
 })
+
 export class ListarVendasComponent {
+
+  @ViewChild('lineChart') private chartRef!: ElementRef;
+  chart!: Chart;
+
 
   vendas: any[] = [];
   trocas: any[] = [];
   appComponent: any;
 
-  constructor() { }
-
   async ngOnInit() {
+
     this.appComponent = new AppComponent();
     try {
       await fetch('http://localhost:3009/listarVendasCompras', {
@@ -61,6 +66,7 @@ export class ListarVendasComponent {
     }
 
     this.showSection('vendas');
+    this.createChart();
   }
 
   async moverStatus(venda:any){
@@ -280,5 +286,127 @@ export class ListarVendasComponent {
     document.getElementById(sectionId)!.style.display = 'block'; // Mostra a seção solicitada
   }
 
+  createChart(): void {
+    // Extrair os dados relevantes
+    const vendasPorItemPorMesAno = this.vendas.reduce((acc, venda) => {
+      const data = new Date(venda.data);
+      const mesAno = `${data.getMonth() + 1}/${data.getFullYear()}`;
+      venda.itens.forEach((item: { nome: any; quantidade: any; }) => {
+        const chave = `${item.nome}`;
+        if (!acc[chave]) {
+          acc[chave] = {};
+        }
+        if (!acc[chave][mesAno]) {
+          acc[chave][mesAno] = 0;
+        }
+        acc[chave][mesAno] += item.quantidade; // Somar a quantidade vendida
+      });
+      return acc;
+    }, {} as { [key: string]: { [key: string]: number } });
+  
+    var allMesAno = Array.from(new Set(this.vendas.map(venda => {
+      const data = new Date(venda.data);
+      return `${data.getMonth() + 1}/${data.getFullYear()}`;
+    }))).sort((a, b) => new Date(parseInt(a.split('/')[1]), parseInt(a.split('/')[0]) - 1).getTime() - new Date(parseInt(b.split('/')[1]), parseInt(b.split('/')[0]) - 1).getTime())
+
+    const labels = Object.keys(vendasPorItemPorMesAno);
+    var datasets = Object.entries(vendasPorItemPorMesAno).map(([item, vendasPorMes]: [string, unknown]) => ({
+      label: item,
+      data: allMesAno.map(mesAno => (vendasPorMes as { [key: string]: number })[mesAno] || 0),
+      borderColor: this.getRandomColor(),
+      fill: false
+    }));
+  
+    // Criar o gráfico
+    this.chart = new Chart(this.chartRef.nativeElement, {
+      type: 'line',
+      data: {
+        labels: allMesAno,
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        scales: {
+          x: {
+            type: 'category',
+            title: {
+              display: true,
+              text: 'Períodos dos Meses'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Quantidade'
+            }
+          }
+        }
+      }
+    });
+  }
+  
+  getRandomColor(): string {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+  
+
+  updateChartData(startDate: Date, endDate: Date): void {
+    // Filtrar as vendas pelo período selecionado
+    const filteredVendas = this.vendas.filter(venda => {
+      const data = new Date(venda.data);
+      return data >= startDate && data <= endDate;
+    });
+  
+    // Extrair os dados relevantes para o período filtrado
+    const vendasPorItemPorMesAno = filteredVendas.reduce((acc, venda) => {
+      const data = new Date(venda.data);
+      const mesAno = `${data.getMonth() + 1}/${data.getFullYear()}`;
+      venda.itens.forEach((item: { nome: any; quantidade: any; }) => {
+        const chave = `${item.nome}`;
+        if (!acc[chave]) {
+          acc[chave] = {};
+        }
+        if (!acc[chave][mesAno]) {
+          acc[chave][mesAno] = 0;
+        }
+        acc[chave][mesAno] += item.quantidade; // Somar a quantidade vendida
+      });
+      return acc;
+    }, {} as { [key: string]: { [key: string]: number } });
+  
+    // Extrair todos os meses/anos únicos para as labels do eixo X
+    const allMesAno = Array.from(new Set(filteredVendas.map(venda => {
+      const data = new Date(venda.data);
+      return `${data.getMonth() + 1}/${data.getFullYear()}`;
+    }))).sort((a, b) => new Date(parseInt(a.split('/')[1]), parseInt(a.split('/')[0]) - 1).getTime() - new Date(parseInt(b.split('/')[1]), parseInt(b.split('/')[0]) - 1).getTime())
+  
+    // Construir os datasets
+    const datasets = Object.entries(vendasPorItemPorMesAno).map(([item, vendasPorMes]) => ({
+      label: item,
+      data: allMesAno.map(mesAno => (vendasPorMes as { [key: string]: number })[mesAno] || 0),
+      borderColor: this.getRandomColor(),
+      fill: false
+    }));
+  
+    // Atualizar o gráfico
+    this.chart.data.labels = allMesAno;
+    this.chart.data.datasets = datasets;
+    this.chart.update();
+  }
+  
+  onDateChange(event: any): void {
+    const startDate = new Date((document.getElementById('startDate') as HTMLInputElement).value);
+    const endDate = new Date((document.getElementById('endDate') as HTMLInputElement).value);
+  
+    if (startDate && endDate) {
+      this.updateChartData(startDate, endDate);
+    }
+  }
+  
   
 }

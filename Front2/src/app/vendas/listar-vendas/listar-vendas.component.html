@@ -94,6 +94,18 @@
 
     <div id="grafico" class="section">
       <h2>Gráfico</h2>
+
+      <div>
+        <div>
+          <label for="startDate">Data de Início:</label>
+          <input type="date" id="startDate" (change)="onDateChange($event)">
+          <label for="endDate">Data de Fim:</label>
+          <input type="date" id="endDate" (change)="onDateChange($event)">
+        </div>
+        <div>
+          <canvas #lineChart></canvas>
+        </div>
+      </div>
     </div>
   </div>
 </div>
