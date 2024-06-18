@@ -27,5 +27,30 @@
       <button (click)="addToCart()" id="addToCart">Adicionar ao Carrinho</button>
       <button (click)="finalizarCompra()" id="finalizarCompra">Comprar Agora</button>
     </div>
+    <button class="chat-toggle-button" (click)="toggleChat()">Chat</button>
+
+    <button class="chat-toggle-button" (click)="toggleChat()">Chat</button>
+
+    <div class="chat-container" *ngIf="isChatOpen">
+      <div class="chat-header">
+        <span>Chat com Mr. August</span>
+        <button (click)="toggleChat()">✖</button>
+      </div>
+      <div class="messages">
+        <span class="welcome-message">Olá! Estou a disposição para tirar suas dúvidas sobre este e outros modelos de relógios</span>
+        <div *ngFor="let message of messages" [ngClass]="{'user-message': message.user, 'bot-message': !message.user}" class="message" #lastMessage>
+          <span class="author">{{ message.user ? 'Usuário' : 'Mr. August' }}</span>
+          <div class="content">{{message.text}}</div>
+        </div>
+        <div id="scroll"></div>
+      </div>
+      <div class="input-container">
+        <input [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="Pergunte sobre o relógio">
+        <button (click)="sendMessage()">Enviar</button>
+      </div>
+    </div>
+    
+    
+    
   </div>
 </div>
